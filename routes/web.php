@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsensiToken;
 use App\Http\Controllers\AbsensiTokenController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,4 @@ Route::get('/', function () {
 });
 
 Route::get('/token', [AbsensiTokenController::class, 'index']);
+Route::get('/get-newtoken', [AbsensiToken::class, 'index']);

@@ -10,6 +10,9 @@ import "@popperjs/core";
 import jQuery from "jquery";
 window.$ = jQuery;
 
+import DataTables from "datatables.net";
+window.DataTables = DataTables;
+
 // window.$(document).ready(function () {
 //     setInterval(function () {
 //         cache_clear();
