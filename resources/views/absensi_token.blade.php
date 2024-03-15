@@ -5,13 +5,13 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Absensi</h1>
     <div class="row">
-        <div class="col">
+        <div class="col-4">
             <div class="d-flex align-items-center justify-content-center">
                 {{-- {!! QrCode::size(256)->generate($data->token) !!} --}}
                 <canvas id="canvas"></canvas>
             </div>
         </div>
-        <div class="col">
+        <div class="col-8">
             <table id="example" class="display" style="width:100%">
                 <thead>
                     <th>Nama</th>
