@@ -29,14 +29,14 @@
 @push('custom-script')
     <script type="module">
         new DataTables('#example', {
-            ajax:'http://localhost:8000/get-newtoken',
+            // ajax:`{{url('')}}/get-newtoken`,
         });
         var token = ""
         window.$(document).ready(function() {
             setInterval(function() {
                 axios({
                     method: "get",
-                    url: "http://localhost:8000/get-newtoken",
+                    url: `{{url('')}}/get-newtoken`,
                 }).then((response) => {
                     console.log(response.data.data['token']);
                     if (token != response.data.data['token']) {
