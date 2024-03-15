@@ -11,6 +11,7 @@ import jQuery from "jquery";
 window.$ = jQuery;
 
 import DataTables from "datatables.net";
+import 'datatables.net-plugins/dataRender/datetime.mjs';
 window.DataTables = DataTables;
 
 // window.$(document).ready(function () {

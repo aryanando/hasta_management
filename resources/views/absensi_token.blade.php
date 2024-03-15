@@ -14,7 +14,11 @@
         <div class="col">
             <table id="example" class="display" style="width:100%">
                 <thead>
-                    <th></th>
+                    <th>Nama</th>
+                    <th>Masuk</th>
+                    <th>Pulang</th>
+                    <th>Jam Masuk</th>
+                    <th>Jam Pulang</th>
                 </thead>
             </table>
         </div>
@@ -29,14 +33,34 @@
 @push('custom-script')
     <script type="module">
         new DataTables('#example', {
-            // ajax:`{{url('')}}/get-newtoken`,
+            ajax: `{{ url('') }}/get-absensi`,
+            columnDefs: [{
+                targets: 1,
+                render: DataTables.render.moment('Do MMM YYYY')
+            }],
+            columns: [{
+                    data: 'user_name'
+                },
+                {
+                    data: 'absen_check_in'
+                },
+                {
+                    data: 'absen_check_out'
+                },
+                {
+                    data: 'shift_check_in'
+                },
+                {
+                    data: 'shift_check_out'
+                },
+            ]
         });
         var token = ""
         window.$(document).ready(function() {
             setInterval(function() {
                 axios({
                     method: "get",
-                    url: `{{url('')}}/get-newtoken`,
+                    url: `{{ url('') }}/get-newtoken`,
                 }).then((response) => {
                     console.log(response.data.data['token']);
                     if (token != response.data.data['token']) {
