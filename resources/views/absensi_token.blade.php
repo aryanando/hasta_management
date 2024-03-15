@@ -34,10 +34,6 @@
     <script type="module">
         new DataTables('#example', {
             ajax: `{{ url('') }}/get-absensi`,
-            columnDefs: [{
-                targets: 1,
-                render: DataTables.render.moment('Do MMM YYYY')
-            }],
             columns: [{
                     data: 'user_name'
                 },
