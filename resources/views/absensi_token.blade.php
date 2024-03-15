@@ -32,7 +32,7 @@
 
 @push('custom-script')
     <script type="module">
-        new DataTables('#example', {
+        var DataTabless = new DataTables('#example', {
             ajax: `{{ url('') }}/get-absensi`,
             columns: [{
                     data: 'user_name'
@@ -54,12 +54,14 @@
         var token = ""
         window.$(document).ready(function() {
             setInterval(function() {
+
                 axios({
                     method: "get",
                     url: `{{ url('') }}/get-newtoken`,
                 }).then((response) => {
                     console.log(response.data.data['token']);
                     if (token != response.data.data['token']) {
+                        DataTabless.ajax.reload();
                         token = response.data.data['token'];
                         console.log(response.data.data['token']);
                         generateToken(response.data.data['token'])
