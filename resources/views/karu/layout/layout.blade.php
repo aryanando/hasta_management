@@ -21,7 +21,7 @@
         <!-- .. Main HTML -->
         <div id="wrapper">
 
-            <x-karu_sidebar />
+            <x-karu-sidebar />
 
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
@@ -29,7 +29,7 @@
                 <!-- Main Content -->
                 <div id="content">
 
-                    <x-karu_topbar />
+                    <x-karu-topbar />
 
                     <div class="container-fluid">
 
