@@ -36,7 +36,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Monitoring Absensi</h6>
-                <a class="collapse-item" href="buttons.html"><i class="fa-regular fa-calendar-check mr-2"></i><span>Hari Ini</span></a>
+                <a class="collapse-item" href="{{url('/karu/absensi-hari-ini')}}"><i class="fa-regular fa-calendar-check mr-2"></i><span>Hari Ini</span></a>
                 <a class="collapse-item" href="cards.html"><i class="fa-solid fa-users mr-2"></i><span>Log Karyawan</span></a>
                 <h6 class="collapse-header">Management Absensi</h6>
                 <a class="collapse-item" href="buttons.html"><i class="fa-regular fa-clock mr-2"></i><span>Shift</span></a>
