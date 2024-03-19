@@ -30,6 +30,7 @@ class AuthenticateToAPI
             ->withToken($token)
             ->get(env('API_URL') . '/api/v1/me');
         if ($response->successful()) {
+            session(['user_data' => json_decode($response)->data]);
             return true;
         } else {
             return false;
