@@ -11,9 +11,10 @@ class karu_sidebar extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public $data;
+    public function __construct($data)
     {
-        //
+        $this->data=$data;
     }
 
     /**
