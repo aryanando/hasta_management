@@ -27,6 +27,7 @@ Route::get('/get-newtoken', [AbsensiToken::class, 'index']);
 Route::get('/get-absensi', [AbsensiKaryawanController::class, 'index']);
 Route::get('/karu', [KaruController::class, 'index'])->middleware('authapi');
 Route::get('/karu/absensi-hari-ini', [KaruController::class, 'today'])->middleware('authapi');
+Route::get('/karu/log-karyawan', [KaruController::class, 'logKaryawan'])->middleware('authapi');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login-auth', [AuthController::class, 'authenticate']);
