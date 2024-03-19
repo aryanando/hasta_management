@@ -13,8 +13,8 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="index.html">
+    <li class="nav-item {{$data['active_page'] == 'dashboard' ? 'active' : ''}}">
+        <a class="nav-link" href="{{url('/karu')}}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -27,17 +27,17 @@
         Absensi
     </div>
 
-    <li class="nav-item">
+    <li class="nav-item {{$data['active_page'] == 'absensi' ? 'active' : ''}}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-calendar-days"></i>
             <span>Absensi</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse {{$data['active_page'] == 'absensi' ? 'show' : ''}}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Monitoring Absensi</h6>
-                <a class="collapse-item" href="{{url('/karu/absensi-hari-ini')}}"><i class="fa-regular fa-calendar-check mr-2"></i><span>Hari Ini</span></a>
-                <a class="collapse-item" href="cards.html"><i class="fa-solid fa-users mr-2"></i><span>Log Karyawan</span></a>
+                <a class="collapse-item {{$data['active_page_child'] == 'today' ? 'active' : ''}}" href="{{url('/karu/absensi-hari-ini')}}"><i class="fa-regular fa-calendar-check mr-2"></i><span>Hari Ini</span></a>
+                <a class="collapse-item {{$data['active_page_child'] == 'log_karyawan' ? 'active' : ''}}" href="{{url('/karu/log-karyawan')}}"><i class="fa-solid fa-users mr-2"></i><span>Log Karyawan</span></a>
                 <h6 class="collapse-header">Management Absensi</h6>
                 <a class="collapse-item" href="buttons.html"><i class="fa-regular fa-clock mr-2"></i><span>Shift</span></a>
                 <a class="collapse-item" href="cards.html"><i class="fa-regular fa-calendar-days mr-2"></i><span>Jadwal</span></a>

@@ -2,11 +2,10 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <!-- .. Other head code  -->
+    <title>{{ $page_info['title'] }}</title>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
-    <link rel="stylesheet" href="style.css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -24,7 +23,7 @@
         <!-- .. Main HTML -->
         <div id="wrapper">
 
-            <x-karu-sidebar />
+            <x-karu-sidebar :data="$page_info"/>
 
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
@@ -32,7 +31,7 @@
                 <!-- Main Content -->
                 <div id="content">
 
-                    <x-karu-topbar :data="$user_data"/>
+                    <x-karu-topbar :data="$user_data" />
 
                     <div class="container-fluid">
 
@@ -71,7 +70,7 @@
                     <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="{{url('/logout')}}">Logout</a>
+                        <a class="btn btn-primary" href="{{ url('/logout') }}">Logout</a>
                     </div>
                 </div>
             </div>
