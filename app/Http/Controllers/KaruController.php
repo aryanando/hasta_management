@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 class KaruController extends Controller
 {
     function index() {
-        return view('karu.index');
+        // dd(session('data_user'));
+        $data['user_data'] = session('user_data');
+        return view('karu.index', $data);
     }
 
     function today() {

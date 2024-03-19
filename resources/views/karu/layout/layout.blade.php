@@ -32,7 +32,7 @@
                 <!-- Main Content -->
                 <div id="content">
 
-                    <x-karu-topbar />
+                    <x-karu-topbar :data="$user_data"/>
 
                     <div class="container-fluid">
 
