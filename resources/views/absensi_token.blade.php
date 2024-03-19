@@ -5,16 +5,20 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Absensi</h1>
     <div class="row">
-        <div class="col">
+        <div class="col-4">
             <div class="d-flex align-items-center justify-content-center">
                 {{-- {!! QrCode::size(256)->generate($data->token) !!} --}}
                 <canvas id="canvas"></canvas>
             </div>
         </div>
-        <div class="col">
+        <div class="col-8">
             <table id="example" class="display" style="width:100%">
                 <thead>
-                    <th></th>
+                    <th>Nama</th>
+                    <th>Masuk</th>
+                    <th>Pulang</th>
+                    <th>Jam Masuk</th>
+                    <th>Jam Pulang</th>
                 </thead>
             </table>
         </div>
@@ -28,18 +32,36 @@
 
 @push('custom-script')
     <script type="module">
-        new DataTables('#example', {
-            ajax:'http://localhost:8000/get-newtoken',
+        var DataTabless = new DataTables('#example', {
+            ajax: `{{ url('') }}/get-absensi`,
+            columns: [{
+                    data: 'user_name'
+                },
+                {
+                    data: 'absen_check_in'
+                },
+                {
+                    data: 'absen_check_out'
+                },
+                {
+                    data: 'shift_check_in'
+                },
+                {
+                    data: 'shift_check_out'
+                },
+            ]
         });
         var token = ""
         window.$(document).ready(function() {
             setInterval(function() {
+
                 axios({
                     method: "get",
-                    url: "http://localhost:8000/get-newtoken",
+                    url: `{{ url('') }}/get-newtoken`,
                 }).then((response) => {
                     console.log(response.data.data['token']);
                     if (token != response.data.data['token']) {
+                        DataTabless.ajax.reload();
                         token = response.data.data['token'];
                         console.log(response.data.data['token']);
                         generateToken(response.data.data['token'])
