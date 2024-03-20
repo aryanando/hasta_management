@@ -39,8 +39,8 @@
                 <a class="collapse-item {{$data['active_page_child'] == 'today' ? 'active' : ''}}" href="{{url('/karu/absensi-hari-ini')}}"><i class="fa-regular fa-calendar-check mr-2"></i><span>Hari Ini</span></a>
                 <a class="collapse-item {{$data['active_page_child'] == 'log_karyawan' ? 'active' : ''}}" href="{{url('/karu/log-karyawan')}}"><i class="fa-solid fa-users mr-2"></i><span>Log Karyawan</span></a>
                 <h6 class="collapse-header">Management Absensi</h6>
-                <a class="collapse-item" href="buttons.html"><i class="fa-regular fa-clock mr-2"></i><span>Shift</span></a>
-                <a class="collapse-item" href="cards.html"><i class="fa-regular fa-calendar-days mr-2"></i><span>Jadwal</span></a>
+                <a class="collapse-item {{$data['active_page_child'] == 'shift' ? 'active' : ''}}" href="{{url('/karu/shift')}}"><i class="fa-regular fa-clock mr-2"></i><span>Shift</span></a>
+                <a class="collapse-item {{$data['active_page_child'] == 'jadwal' ? 'active' : ''}}" href="{{url('/karu/jadwal')}}"><i class="fa-regular fa-calendar-days mr-2"></i><span>Jadwal</span></a>
             </div>
         </div>
     </li>
