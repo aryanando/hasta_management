@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class KaruController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         // dd(session('data_user'));
         $data['user_data'] = session('user_data');
         $data['page_info'] = [
@@ -18,7 +20,8 @@ class KaruController extends Controller
         return view('karu.index', $data);
     }
 
-    public function today() {
+    public function today()
+    {
         $data['user_data'] = session('user_data');
         $data['page_info'] = [
             'title' => 'Karu - Absensi Hari Ini',
@@ -28,7 +31,8 @@ class KaruController extends Controller
         return view('karu.page.absensi-hari-ini', $data);
     }
 
-    public function logKaryawan() {
+    public function logKaryawan()
+    {
         $data['user_data'] = session('user_data');
         $data['page_info'] = [
             'title' => 'Karu - Log Karyawan',
@@ -38,9 +42,11 @@ class KaruController extends Controller
         return view('karu.page.log-karyawan', $data);
     }
 
-    public function shift() {
-        $response = Http::acceptJson()->withToken(session('token'))
-        ->get(env('API_URL').'/api/v1/shift');
+    public function shift()
+    {
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->get(env('API_URL') . '/api/v1/shift');
         $data['shift'] = (json_decode($response->body())->data->shift);
 
         $data['user_data'] = session('user_data');
@@ -52,7 +58,8 @@ class KaruController extends Controller
         return view('karu.page.shift', $data);
     }
 
-    public function jadwal() {
+    public function jadwal()
+    {
         $data['user_data'] = session('user_data');
         $data['page_info'] = [
             'title' => 'Karu - Jadwal Karyawan',
@@ -64,4 +71,27 @@ class KaruController extends Controller
 
     // Post Contoller For Karu
 
+    public function storeShift(Request $request)
+    {
+        // dd($request->post());
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->post(
+                env('API_URL') . '/api/v1/shift',
+                [
+                    'shift_name' => $request->post('name'),
+                    'check_in' => $request->post('check-in'),
+                    'check_out' => $request->post('check-out'),
+                    'next_day' => $request->post('next-day'),
+                    'unit_id' => session('user_data')->unit[0]->id,
+                ]
+            );
+        if ($response->successful()) {
+            Session::flash('message', "Data Created!!!");
+            return redirect('/karu/shift');
+        } else {
+            Session::flash('message', "Data Create Failed!!!");
+            return redirect('/karu/shift');
+        }
+    }
 }

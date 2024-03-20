@@ -28,7 +28,10 @@ Route::get('/get-absensi', [AbsensiKaryawanController::class, 'index']);
 Route::get('/karu', [KaruController::class, 'index'])->middleware('authapi');
 Route::get('/karu/absensi-hari-ini', [KaruController::class, 'today'])->middleware('authapi');
 Route::get('/karu/log-karyawan', [KaruController::class, 'logKaryawan'])->middleware('authapi');
+// Shift
 Route::get('/karu/shift', [KaruController::class, 'shift'])->middleware('authapi');
+Route::post('/karu/save-shift', [KaruController::class, 'storeShift'])->middleware('authapi');
+// Jadwal
 Route::get('/karu/jadwal', [KaruController::class, 'jadwal'])->middleware('authapi');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');

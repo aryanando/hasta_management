@@ -13,17 +13,37 @@
     <link rel="stylesheet" href="{{ asset('assets/css/sb-admin-2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}">
 
+    <style>
+        .form-control::placeholder {
+            color: #DDDDDD;
+        }
+    </style>
+
 </head>
 
 <body>
     @if (Session::has('message'))
-        <div class="alert alert-danger"><small>{{ Session::get('message') }}</small></div>
+        <div style="position: absolute; top: 5rem; right: 1rem;">
+            @if (Session::get('message') == 'Data Created!!!')
+                <div class="alert alert-success" id="myToast"><small>{{ Session::get('message') }}</small></div>
+            @else
+                <div class="alert alert-danger" id="myToast"><small>{{ Session::get('message') }}</small></div>
+            @endif
+        </div>
+        <script>
+            var delayInMilliseconds = 5000; //1 second
+
+            setTimeout(function() {
+                var element = document.getElementById("myToast");
+                element.classList.add("d-none");
+            }, delayInMilliseconds);
+        </script>
     @endif
     <main>
         <!-- .. Main HTML -->
         <div id="wrapper">
 
-            <x-karu-sidebar :data="$page_info"/>
+            <x-karu-sidebar :data="$page_info" />
 
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">

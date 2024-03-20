@@ -21,6 +21,7 @@
                                 <th>Masuk</th>
                                 <th>Pulang</th>
                                 <th>Beda Hari</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,6 +32,11 @@
                                         <td>{{ $shiftData->check_in }}</td>
                                         <td>{{ $shiftData->check_out }}</td>
                                         <td>{{ $shiftData->next_day == 0 ? 'Tidak' : 'Ya' }}</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm rounded" type="button"
+                                                data-toggle="tooltip" data-placement="top" title="Delete"><i
+                                                    class="fa fa-trash"></i></button>
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach
@@ -46,14 +52,16 @@
                     <h3>Buat Shift Baru</h3>
                 </div>
                 <hr />
-                <form action="">
+                <form action="{{ url('/karu/save-shift') }}" method="POST">
+                    @csrf
                     <div class="row">
                         <div class="col col-12 col-sm-12">
                             <div class="mb-3">
                                 <label for="shiftName">
                                     Shift
                                 </label>
-                                <input class="form-control" id="shiftName" type="text" />
+                                <input class="form-control" id="shiftName" type="text" name="name"
+                                    placeholder="Pagi/Siang/Sore/Middle" required />
                             </div>
                         </div>
                         <div class="col">
@@ -61,7 +69,7 @@
                                 <label for="shiftTimeStart">
                                     Jam Masuk
                                 </label>
-                                <input class="form-control" id="shiftTimeStart" type="time" />
+                                <input class="form-control" id="shiftTimeStart" type="time" name="check-in" required />
                             </div>
                         </div>
                         <div class="col">
@@ -69,7 +77,7 @@
                                 <label for="shiftTimeEnd">
                                     Jam Pulang
                                 </label>
-                                <input class="form-control" id="shiftTimeEnd" type="time" />
+                                <input class="form-control" id="shiftTimeEnd" type="time" name="check-out" required />
                             </div>
                         </div>
                         <div class="col">
@@ -78,7 +86,9 @@
                                     Next Day
                                 </label>
                                 <div class="form-check">
-                                    <input class="form-check-input" id="shiftNextDay" type="checkbox" value="">
+                                    <input type='hidden' value='0' name='next-day'>
+                                    <input class="form-check-input" id="shiftNextDay" type="checkbox" value="1"
+                                        name="next-day">
                                 </div>
                             </div>
                         </div>
@@ -95,6 +105,8 @@
 
 @push('custom-script')
     <script type="module">
-        var DataTabless = new DataTables('#shiftTable', {responsive : true});
+        var DataTabless = new DataTables('#shiftTable', {
+            responsive: true
+        });
     </script>
 @endpush
