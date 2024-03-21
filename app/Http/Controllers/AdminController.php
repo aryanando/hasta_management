@@ -50,4 +50,21 @@ class AdminController extends Controller
         ];
         return view('admin.page.unit-detail', $data);
     }
+
+
+    // API Autocomplete Select
+    public function karyawan($filter)
+    {
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->get(env('API_URL') . '/api/v1/karyawan/');
+        $dataKaryawan = json_decode($response->body())->data->karyawan;
+        // return $dataKaryawan;
+        if ($filter == 'noUnit') {
+            foreach ($dataKaryawan as $karyawan) {
+                $data[] = $karyawan->name;
+            }
+            return $data;
+        }
+    }
 }

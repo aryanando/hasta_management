@@ -21,8 +21,10 @@
                 </div>
 
                 <div class="bg-white p-2 rounded mb-2">
-                    <div class="row">
+                    <div class="d-flex justify-content-between">
                         <h3>Anggota Unit</h3>
+                        <button type="button" class="btn btn-success" data-toggle="modal"
+                            data-target="#addUnitModal">Tambah</button>
                     </div>
                     <hr />
                     <table id="unitTable">
@@ -36,15 +38,17 @@
                         </thead>
                         <tbody>
                             @foreach ($unit->unit_member as $unitMember)
-                            @php
-                                $url = url('');
-                            @endphp
+                                @php
+                                    $url = url('');
+                                @endphp
                                 <tr>
                                     <td>{{ $unitMember->id }}</td>
                                     <td>{{ $unitMember->name }}</td>
                                     <td>{{ $unitMember->email }}</td>
                                     <td>
-                                        <button onclick="window.location='{{$url}}/admin/unit/{{$unitMember->id}}'" class="btn btn-success btn-sm rounded" type="button" data-toggle="tooltip"
+                                        <button
+                                            onclick="window.location='{{ $url }}/admin/unit/{{ $unitMember->id }}'"
+                                            class="btn btn-success btn-sm rounded" type="button" data-toggle="tooltip"
                                             data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
                                         <button class="btn btn-danger btn-sm rounded" type="button" data-toggle="tooltip"
                                             data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
@@ -66,4 +70,29 @@
             responsive: true
         });
     </script>
+@endpush
+
+@push('custom-modal')
+    <div class="modal fade" id="addUnitModal" tabindex="-1" role="dialog" aria-labelledby="addUnitModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUnitModalLabel">Tambah Anggota Unit</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <input class="form-control" data-url="{{ url('') }}/admin/api/karyawan/noUnit" id="tags">
+                    <p>Select "Logout" below if you are ready to end your current session.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{{ url('/logout') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endpush

@@ -10,6 +10,7 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="{{ asset('assets/css/sb-admin-2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}">
 
@@ -82,26 +83,44 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Yakin Untuk Keluar?</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-body">Pilih "Keluar" dibawah jika anda yakin untuk mengakhiri sesi ini.</div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="{{ url('/logout') }}">Logout</a>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                        <a class="btn btn-primary" href="{{ url('/logout') }}">Keluar</a>
                     </div>
                 </div>
             </div>
         </div>
+
+        {{-- Custom Modal Place --}}
+        @stack('custom-modal')
     </main>
 
-    @stack('custom-script')
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="{{ asset('assets/js/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js">
+    </script>
+    <script>
+
+        $.ajax({
+            url: "{{ url('') }}/admin/api/karyawan/noUnit",
+            success: function(result) {
+                $("#tags").autocomplete({
+                    source: result
+                });
+                console.log(result);
+            }
+        });
+    </script>
+    @stack('custom-script')
 
 </body>
 
