@@ -85,7 +85,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <input class="form-control" data-url="{{ url('') }}/admin/api/karyawan/noUnit" id="tags">
+                    <input class="form-control" id="tags">
                     <p>Select "Logout" below if you are ready to end your current session.</p>
                 </div>
                 <div class="modal-footer">

@@ -18,6 +18,10 @@
         .form-control::placeholder {
             color: #DDDDDD;
         }
+
+        ul.ui-autocomplete {
+            z-index: 1100;
+        }
     </style>
 
 </head>
@@ -109,12 +113,11 @@
     <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js">
     </script>
     <script>
-
         $.ajax({
             url: "{{ url('') }}/admin/api/karyawan/noUnit",
             success: function(result) {
                 $("#tags").autocomplete({
-                    source: result
+                    source: result,
                 });
                 console.log(result);
             }
