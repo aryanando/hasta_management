@@ -84,13 +84,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
-                    <input class="form-control" id="tags">
-                    <p>Select "Logout" below if you are ready to end your current session.</p>
+                    <input class="form-control" id="tags" placeholder="masukkan nama!!!">
+                    <p>Silahkan masukkan nama pada form diatas</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ url('/logout') }}">Logout</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                    <a class="btn btn-primary" href="#">Simpan</a>
                 </div>
             </div>
         </div>

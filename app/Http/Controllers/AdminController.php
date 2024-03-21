@@ -62,7 +62,7 @@ class AdminController extends Controller
         // return $dataKaryawan;
         if ($filter == 'noUnit') {
             foreach ($dataKaryawan as $karyawan) {
-                $data[] = $karyawan->name;
+                $data[] = array("label" => $karyawan->name, "value"=> $karyawan->name, "id"=>$karyawan->id);
             }
             return $data;
         }

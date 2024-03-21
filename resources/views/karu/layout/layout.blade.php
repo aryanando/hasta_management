@@ -118,10 +118,24 @@
             success: function(result) {
                 $("#tags").autocomplete({
                     source: result,
+
+                    select: function(event, ui) {
+                        var label = ui.item.label;
+                        var value = ui.item.value;
+                        //store in session
+                        console.log(ui.item.id);
+                    }
                 });
-                console.log(result);
             }
         });
+
+        // $('#tags').on('pick.bs.autocomplete', function(el, item) {
+        //     2
+        //     let item = e.item
+        //     3
+        //     console.log('event', item)
+        //     4
+        // })
     </script>
     @stack('custom-script')
 
