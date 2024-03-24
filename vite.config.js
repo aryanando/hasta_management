@@ -8,6 +8,7 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/js/token.js',
             ],
             refresh: true,
         }),
