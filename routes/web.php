@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbsensiKaryawanController;
 use App\Http\Controllers\AbsensiToken;
 use App\Http\Controllers\AbsensiTokenController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KaruController;
 use Illuminate\Support\Facades\Route;
@@ -25,13 +26,29 @@ Route::get('/', function () {
 Route::get('/token', [AbsensiTokenController::class, 'index']);
 Route::get('/get-newtoken', [AbsensiToken::class, 'index']);
 Route::get('/get-absensi', [AbsensiKaryawanController::class, 'index']);
+
+// Karu -------------------------- Karu
 Route::get('/karu', [KaruController::class, 'index'])->middleware('authapi');
 Route::get('/karu/absensi-hari-ini', [KaruController::class, 'today'])->middleware('authapi');
 Route::get('/karu/log-karyawan', [KaruController::class, 'logKaryawan'])->middleware('authapi');
+// Shift
+Route::get('/karu/shift', [KaruController::class, 'shift'])->middleware('authapi');
+Route::post('/karu/save-shift', [KaruController::class, 'storeShift'])->middleware('authapi');
+// Jadwal
+Route::get('/karu/jadwal', [KaruController::class, 'jadwal'])->middleware('authapi');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login-auth', [AuthController::class, 'authenticate']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('authapi');
+
+// Admin --------------------------- Admin
+Route::get('/admin', [AdminController::class, 'index'])->middleware('authapi');
+Route::get('/admin/unit', [AdminController::class, 'unit'])->middleware('authapi');
+Route::get('/admin/unit/{id}', [AdminController::class, 'unitDetail'])->middleware('authapi');
+
+// Admin API
+Route::get('/admin/api/karyawan/{filter}', [AdminController::class, 'karyawan']);
+
 
 
 Route::get('/dev', function () {
