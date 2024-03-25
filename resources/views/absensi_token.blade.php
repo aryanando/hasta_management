@@ -5,40 +5,42 @@
     <!-- Page Heading -->
     <div class="row">
         <div class="col-4">
-            <h1 class="h3 mb-4 text-gray-800 text-center">Scan Me</h1>
+            <h1 class="h1 mb-4 text-gray-800 text-center">Scan Me</h1>
             <div id="MyClockDisplay" class="clock text-center" onload="showTime()"></div>
             <div class="row">
                 <canvas id="canvas" class="w-100 h-100"></canvas>
             </div>
         </div>
         <div class="col-8">
-            <div class="row rounded bg-white p-2 mb-2">
-                <h4>Data terbaru</h4>
-                <hr />
-                <div class="row">
-                    <div class="col text-success h3">Nando</div>
-                    <div class="col text-success h3">11:40:30</div>
-                    <div class="col text-success h3">-</div>
-                </div>
-                <div class="row">
-                    <div class="col h6">Agus</div>
-                    <div class="col h6">11:39:30</div>
-                    <div class="col h6">-</div>
-                </div>
-                <div class="row">
-                    <div class="col h6">Sugeng</div>
-                    <div class="col h6">11:35:30</div>
-                    <div class="col h6">-</div>
-                </div>
-                <div class="row">
-                    <div class="col h6">Supri</div>
-                    <div class="col h6">11:34:30</div>
-                    <div class="col h6">-</div>
-                </div>
-                <div class="row">
-                    <div class="col h6">Andi</div>
-                    <div class="col h6">11:33:30</div>
-                    <div class="col h6">-</div>
+            <div class="row p-3 mb-2">
+                <div class="rounded bg-white p-3">
+                    <h4>Data terbaru</h4>
+                    <hr />
+                    <div class="row">
+                        <div class="col text-success h3">Nando</div>
+                        <div class="col text-success h3">11:40:30</div>
+                        <div class="col text-success h3">-</div>
+                    </div>
+                    <div class="row">
+                        <div class="col h6">Agus</div>
+                        <div class="col h6">11:39:30</div>
+                        <div class="col h6">-</div>
+                    </div>
+                    <div class="row">
+                        <div class="col h6">Sugeng</div>
+                        <div class="col h6">11:35:30</div>
+                        <div class="col h6">-</div>
+                    </div>
+                    <div class="row">
+                        <div class="col h6">Supri</div>
+                        <div class="col h6">11:34:30</div>
+                        <div class="col h6">-</div>
+                    </div>
+                    <div class="row">
+                        <div class="col h6">Andi</div>
+                        <div class="col h6">11:33:30</div>
+                        <div class="col h6">-</div>
+                    </div>
                 </div>
 
             </div>
