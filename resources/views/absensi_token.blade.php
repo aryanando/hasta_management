@@ -5,7 +5,7 @@
     <!-- Page Heading -->
     <div class="row">
         <div class="col-4">
-            <h1 class="h1 mb-4 text-gray-800 text-center">Scan Me</h1>
+            <h1 class="h1 text-gray-800 text-center">Scan Me</h1>
             <div id="MyClockDisplay" class="clock text-center" onload="showTime()"></div>
             <div class="row">
                 <canvas id="canvas" class="w-100 h-100"></canvas>
