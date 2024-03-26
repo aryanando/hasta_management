@@ -3,6 +3,7 @@
 
 <head>
     <title>{{ $page_info['title'] }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
@@ -112,31 +113,7 @@
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js">
     </script>
-    <script>
-        $.ajax({
-            url: "{{ url('') }}/admin/api/karyawan/noUnit",
-            success: function(result) {
-                $("#tags").autocomplete({
-                    source: result,
 
-                    select: function(event, ui) {
-                        var label = ui.item.label;
-                        var value = ui.item.value;
-                        //store in session
-                        console.log(ui.item.id);
-                    }
-                });
-            }
-        });
-
-        // $('#tags').on('pick.bs.autocomplete', function(el, item) {
-        //     2
-        //     let item = e.item
-        //     3
-        //     console.log('event', item)
-        //     4
-        // })
-    </script>
     @stack('custom-script')
 
 </body>

@@ -20,26 +20,31 @@
                         <div class="col text-success h3">Nando</div>
                         <div class="col text-success h3">11:40:30</div>
                         <div class="col text-success h3">-</div>
+                        <div class="col text-success h3">Masuk</div>
                     </div>
                     <div class="row">
                         <div class="col h6">Agus</div>
                         <div class="col h6">11:39:30</div>
-                        <div class="col h6">-</div>
+                        <div class="col h6">15:39:30</div>
+                        <div class="col text-success">Pulang</div>
                     </div>
                     <div class="row">
                         <div class="col h6">Sugeng</div>
                         <div class="col h6">11:35:30</div>
                         <div class="col h6">-</div>
+                        <div class="col text-success">Masuk</div>
                     </div>
                     <div class="row">
                         <div class="col h6">Supri</div>
                         <div class="col h6">11:34:30</div>
                         <div class="col h6">-</div>
+                        <div class="col text-success">Masuk</div>
                     </div>
                     <div class="row">
                         <div class="col h6">Andi</div>
                         <div class="col h6">11:33:30</div>
                         <div class="col h6">-</div>
+                        <div class="col text-success">Masuk</div>
                     </div>
                 </div>
 
@@ -131,7 +136,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="rounded bg-white p-3">
+                    <div class="rounded bg-white p-3" style="min-height: 290px">
                         <h4>Data terlambat dalam satu bulan</h4>
                         <hr />
                         <div class="overflow-hidden mh-100">

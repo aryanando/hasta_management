@@ -45,6 +45,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->middleware('authapi');
 Route::get('/admin', [AdminController::class, 'index'])->middleware('authapi');
 Route::get('/admin/unit', [AdminController::class, 'unit'])->middleware('authapi');
 Route::get('/admin/unit/{id}', [AdminController::class, 'unitDetail'])->middleware('authapi');
+Route::post('/admin/unit/{id}', [AdminController::class, 'unitDetailAdd']);
 
 // Admin API
 Route::get('/admin/api/karyawan/{filter}', [AdminController::class, 'karyawan']);
