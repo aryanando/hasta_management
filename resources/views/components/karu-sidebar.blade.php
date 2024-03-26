@@ -72,9 +72,9 @@
                     <a class="collapse-item {{ $data['active_page_child'] == 'unit' ? 'active' : '' }}"
                         href="{{ url('/admin/unit') }}"><i
                             class="fa-regular fa-calendar-check mr-2"></i><span>Lihat Unit</span></a>
-                    <a class="collapse-item {{ $data['active_page_child'] == 'log_karyawan' ? 'active' : '' }}"
+                    {{-- <a class="collapse-item {{ $data['active_page_child'] == 'log_karyawan' ? 'active' : '' }}"
                         href="{{ url('/karu/log-karyawan') }}"><i class="fa-solid fa-users mr-2"></i><span>Log
-                            Karyawan</span></a>
+                            Karyawan</span></a> --}}
                 </div>
             </div>
         </li>

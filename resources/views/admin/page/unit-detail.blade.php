@@ -46,10 +46,10 @@
                                     <td>{{ $unitMember->name }}</td>
                                     <td>{{ $unitMember->email }}</td>
                                     <td>
-                                        <button
+                                        {{-- <button
                                             onclick="window.location='{{ $url }}/admin/unit/{{ $unitMember->id }}'"
                                             class="btn btn-success btn-sm rounded" type="button" data-toggle="tooltip"
-                                            data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                            data-placement="top" title="Edit"><i class="fa fa-edit"></i></button> --}}
                                         <button class="btn btn-danger btn-sm rounded" type="button" data-toggle="tooltip"
                                             data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
                                     </td>
