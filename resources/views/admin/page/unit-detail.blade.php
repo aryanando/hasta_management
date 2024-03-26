@@ -70,6 +70,51 @@
             responsive: true
         });
     </script>
+
+    <script>
+        let userId;
+        $.ajax({
+            url: "{{ url('') }}/admin/api/karyawan/noUnit",
+            success: function(result) {
+                $("#tags").autocomplete({
+                    source: result,
+
+                    select: function(event, ui) {
+                        var label = ui.item.label;
+                        var value = ui.item.value;
+                        userId = ui.item.id;
+                        //store in session
+                        console.log(ui.item.id);
+                    }
+                });
+            }
+        });
+
+        function addUnitMember() {
+            console.log('here');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.post("<?= Request::url() ?>", {
+                    user_id: userId
+                },
+                function(data, status, response) {
+                    console.log("Data: " + data + "\nStatus: " + status);
+                    if (status == "success") {
+                        window.location.href = "<?= Request::url() ?>";
+                    }else{
+                        alert("Gagal!!! Tolong Hubungi Admin")
+                    }
+                },
+                // function(response) {
+                //     console.log(response);
+                // }
+            );
+        }
+    </script>
 @endpush
 
 @push('custom-modal')
@@ -89,7 +134,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                    <a class="btn btn-primary" href="#">Simpan</a>
+                    <button class="btn btn-primary" type="button" onclick="addUnitMember()">Simpan</button>
                 </div>
             </div>
         </div>
