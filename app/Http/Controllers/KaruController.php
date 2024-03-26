@@ -66,11 +66,17 @@ class KaruController extends Controller
     public function jadwal()
     {
         $data['user_data'] = session('user_data');
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->get(env('API_URL') . '/api/v1/unit/'.$data['user_data']->unit[0]->id);
+        $data['unit'] = (json_decode($response->body())->data->unit);
+
         $data['page_info'] = [
             'title' => 'Karu - Jadwal Karyawan',
             'active_page' => 'absensi',
             'active_page_child' => 'jadwal',
         ];
+        dd($data);
         return view('karu.page.jadwal', $data);
     }
 
@@ -78,7 +84,6 @@ class KaruController extends Controller
 
     public function storeShift(Request $request)
     {
-        // dd($request->post());
         $response = Http::acceptJson()
             ->withToken(session('token'))
             ->post(
