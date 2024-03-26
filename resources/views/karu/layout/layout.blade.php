@@ -25,6 +25,8 @@
         }
     </style>
 
+    @stack('custom-style')
+
 </head>
 
 <body>

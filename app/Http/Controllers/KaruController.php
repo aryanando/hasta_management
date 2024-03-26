@@ -76,7 +76,7 @@ class KaruController extends Controller
             'active_page' => 'absensi',
             'active_page_child' => 'jadwal',
         ];
-        dd($data);
+        // dd($data);
         return view('karu.page.jadwal', $data);
     }
 
