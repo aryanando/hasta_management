@@ -3,6 +3,13 @@
 @section('content')
     @php
         $d = cal_days_in_month(CAL_GREGORIAN, $month, 2024);
+        function dName($date) {
+            if (\Carbon\Carbon::parse($date)->dayName == 'Saturday' || \Carbon\Carbon::parse($date)->dayName == 'Sunday') {
+                return '#DDDDDD';
+            }else{
+                return '';
+            }
+        }
     @endphp
 
     <!-- Page Heading -->
@@ -27,9 +34,15 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th style="min-width: 200px">Nama</th>
+                    <th style="min-width: 200px" class="p-0 py-1"></th>
                     @for ($i = 0; $i < $d; $i++)
-                        <th class="text-center" scope="col">{{ $i + 1 }}</th>
+                        <th class="text-center p-0 py-1" style='background-color: {{dName("2024-".$month."-".$i+1)}}; font-size:10px;' scope="col">{{ \Carbon\Carbon::parse("2024-".$month."-".$i+1)->locale('id')->dayName }} </th>
+                    @endfor
+                </tr>
+                <tr>
+                    <th style="min-width: 200px" class="p-0 py-1">Nama</th>
+                    @for ($i = 0; $i < $d; $i++)
+                        <th class="text-center p-0 py-1" style='background-color: {{dName("2024-".$month."-".$i+1)}};' scope="col">{{ $i + 1 }} </th>
                     @endfor
                 </tr>
             </thead>
@@ -51,13 +64,13 @@
                 @endphp
                 @foreach ($unit->unit_member as $member)
                     <tr>
-                        <td style="font-size: 12px">
+                        <td style="font-size: 12px" class="p-0 py-1">
                             <small>
                                 {{ $member->name }}
                             </small>
                         </td>
                         @for ($i = 0; $i < $d; $i++)
-                            <td style="font-size: 12px">
+                            <td style="font-size: 12px; background-color:{{dName("2024-".$month."-".$i+1)}}" class="p-0 py-1 text-center ">
                                 <button type="button" id="{{ $member->id }}-{{ $i + 1 }}" onclick=""
                                     class="box border rounded"
                                     style="background-color: {{ isset($shift_user[$member->id][$i + 1]) ? $shift_user[$member->id][$i + 1]->shift_color : 'grey' }}"
