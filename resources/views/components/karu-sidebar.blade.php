@@ -47,7 +47,7 @@
                 <a class="collapse-item {{ $data['active_page_child'] == 'shift' ? 'active' : '' }}"
                     href="{{ url('/karu/shift') }}"><i class="fa-regular fa-clock mr-2"></i><span>Shift</span></a>
                 <a class="collapse-item {{ $data['active_page_child'] == 'jadwal' ? 'active' : '' }}"
-                    href="{{ url('/karu/jadwal') }}"><i
+                    href="{{ url('/karu/jadwal/'.date('m')) }}"><i
                         class="fa-regular fa-calendar-days mr-2"></i><span>Jadwal</span></a>
             </div>
         </div>

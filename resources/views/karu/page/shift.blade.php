@@ -20,6 +20,7 @@
                                 <th>Shift</th>
                                 <th>Masuk</th>
                                 <th>Pulang</th>
+                                <th>Warna</th>
                                 <th>Beda Hari</th>
                                 <th>Aksi</th>
                             </tr>
@@ -31,11 +32,11 @@
                                         <td>{{ $shiftData->shift_name }}</td>
                                         <td>{{ $shiftData->check_in }}</td>
                                         <td>{{ $shiftData->check_out }}</td>
+                                        <td><div class="rounded" style="background-color:{{ $shiftData->color }}; height:20px; width:30px"></div></td>
                                         <td>{{ $shiftData->next_day == 0 ? 'Tidak' : 'Ya' }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-sm rounded" type="button"
-                                                data-toggle="tooltip" data-placement="top" title="Delete"><i
-                                                    class="fa fa-trash"></i></button>
+                                            <button class="btn btn-danger btn-sm rounded" type="button" data-toggle="tooltip"
+                                                data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 @endif
@@ -90,6 +91,14 @@
                                     <input class="form-check-input" id="shiftNextDay" type="checkbox" value="1"
                                         name="next-day">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="color">
+                                    Pilih Warna
+                                </label>
+                                <input class="form-control" type="color" name="color">
                             </div>
                         </div>
                     </div>

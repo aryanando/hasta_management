@@ -35,7 +35,8 @@ Route::get('/karu/log-karyawan', [KaruController::class, 'logKaryawan'])->middle
 Route::get('/karu/shift', [KaruController::class, 'shift'])->middleware('authapi');
 Route::post('/karu/save-shift', [KaruController::class, 'storeShift'])->middleware('authapi');
 // Jadwal
-Route::get('/karu/jadwal', [KaruController::class, 'jadwal'])->middleware('authapi');
+Route::get('/karu/jadwal/{month}', [KaruController::class, 'jadwal'])->middleware('authapi');
+Route::post('/karu/jadwal', [KaruController::class, 'storeUserShift'])->middleware('authapi');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login-auth', [AuthController::class, 'authenticate']);
