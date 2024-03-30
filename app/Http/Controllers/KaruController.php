@@ -145,4 +145,23 @@ class KaruController extends Controller
         }
     }
 
+    public function deleteUserShift(Request $request) {
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->delete(
+                env('API_URL') . '/api/v1/shift-user',
+                [
+                    'valid_date_start' => $request->post('valid_date_start'),
+                    'valid_date_end' => $request->post('valid_date_end'),
+                    'shift_id' => $request->post('shift_id'),
+                    'user_id' => $request->post('user_id'),
+                ]
+            );
+        if ($response->successful()) {
+            return $response;
+        } else {
+            return $response;
+        }
+    }
+
 }

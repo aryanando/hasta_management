@@ -3,6 +3,27 @@
 @section('content')
     @php
         $d = cal_days_in_month(CAL_GREGORIAN, $month, 2024);
+        function dayName($date)
+        {
+            if (
+                \Carbon\Carbon::parse($date)->dayName == 'Saturday' ||
+                \Carbon\Carbon::parse($date)->dayName == 'Sunday'
+            ) {
+                return '#DDDDDD';
+            } else {
+                return '';
+            }
+        }
+        function isPastDay($date2)
+        {
+            $now = \Carbon\Carbon::now()->format('Y-m-d');
+            $input = \Carbon\Carbon::createFromFormat('Y-m-d', $date2);
+            if ($input->gt($now)) {
+                return 'box';
+            } else {
+                return '';
+            }
+        }
     @endphp
 
     <!-- Page Heading -->
@@ -27,9 +48,20 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th style="min-width: 200px">Nama</th>
+                    <th style="min-width: 200px" class="p-0 py-1"></th>
                     @for ($i = 0; $i < $d; $i++)
-                        <th class="text-center" scope="col">{{ $i + 1 }}</th>
+                        <th class="text-center p-0 py-1"
+                            style='background-color: {{ dayName('2024-' . $month . '-' . $i + 1) }}; font-size:10px;'
+                            scope="col">
+                            {{ \Carbon\Carbon::parse('2024-' . $month . '-' . $i + 1)->locale('id')->dayName }} </th>
+                    @endfor
+                </tr>
+                <tr>
+                    <th style="min-width: 200px" class="p-0 py-1">Nama</th>
+                    @for ($i = 0; $i < $d; $i++)
+                        <th class="text-center p-0 py-1"
+                            style='background-color: {{ dayName('2024-' . $month . '-' . $i + 1) }};' scope="col">
+                            {{ $i + 1 }} </th>
                     @endfor
                 </tr>
             </thead>
@@ -51,20 +83,20 @@
                 @endphp
                 @foreach ($unit->unit_member as $member)
                     <tr>
-                        <td style="font-size: 12px">
+                        <td style="font-size: 12px" class="p-0 py-1">
                             <small>
                                 {{ $member->name }}
                             </small>
                         </td>
                         @for ($i = 0; $i < $d; $i++)
-                            <td style="font-size: 12px">
+                            <td style="font-size: 12px; background-color:{{ dayName('2024-' . $month . '-' . $i + 1) }}"
+                                class="p-0 py-1 text-center ">
                                 <button type="button" id="{{ $member->id }}-{{ $i + 1 }}" onclick=""
-                                    class="box border rounded"
+                                    class="{{ isPastDay('2024-' . $month . '-' . $i + 1) }} border rounded"
                                     style="background-color: {{ isset($shift_user[$member->id][$i + 1]) ? $shift_user[$member->id][$i + 1]->shift_color : 'grey' }}"
-                                    {{ isset($shift_user[$member->id][$i + 1]) ? 'data-lastshiftid='.$shift_user[$member->id][$i + 1]->shift_id : '' }}
-                                >
+                                    {{ isset($shift_user[$member->id][$i + 1]) ? 'data-lastshiftid=' . $shift_user[$member->id][$i + 1]->shift_id : '' }}>
                                     <small
-                                        class="{{ isset($shift_user[$member->id][$i + 1]) ? (isColorLightOrDark($shift_user[$member->id][$i + 1]->shift_color)) : 'text-light' }}">
+                                        class="{{ isset($shift_user[$member->id][$i + 1]) ? isColorLightOrDark($shift_user[$member->id][$i + 1]->shift_color) : 'text-light' }}">
                                         {{ isset($shift_user[$member->id][$i + 1]) ? $shift_user[$member->id][$i + 1]->shift_name : 'Off' }}
                                     </small>
                                 </button>
@@ -113,8 +145,8 @@
                 console.log(`Horizontal: ${event.clientX}, Vertical: ${event.clientY}`);
                 var horizontalLoc = event.clientX
                 var shiftOptionSelect = '';
-                var userID = (this.id).substring(0, 3);
-                var startDate = (this.id).substring(4);
+                var userID = (this.id).split("-")[0];
+                var startDate = (this.id).split("-")[1];
                 var month = {{ $month }};
 
                 if (this.children[0].innerText == "Off") {
@@ -131,11 +163,18 @@
                                 </div>`
                         @endif
                     @endforeach
-                }else{
+                } else {
+                    shiftOptionSelect =
+                        `<div class="row"><button type="button" onclick="deleteShiftUser(${userID},${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}')" class="border rounded" style="background-color: grey"><small class="text-light">` +
+                        'Off' + `</small>
+                                    </button>
+                                </div>`;
                     @foreach ($shift as $shiftData)
                         @if ($shiftData->unit_id == $user_data->unit['0']->id)
-                            shiftOptionSelect = shiftOptionSelect + `<div class="row">
-                                    <button type="button" onclick="storeShiftUser(${userID}, ${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}', ` + {{ $shiftData->id }} +
+                            shiftOptionSelect = shiftOptionSelect +
+                                `<div class="row">
+                                    <button type="button" onclick="storeShiftUser(${userID}, ${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}', ` +
+                                {{ $shiftData->id }} +
                                 ` )" class="border rounded" style="background-color: ` +
                                 '{{ $shiftData->color }}' + `">
                                         <small class="` +
@@ -149,8 +188,8 @@
                 $('html').append(
                     `
                     <div class="fullscreen" id="fullscreen"></div>
-                    <div id="buttonShiftSelect" style="position:absolute;z-index:100;top:${event.clientY}px;left:${horizontalLoc}px">
-                        ` + shiftOptionSelect +
+                    <div id="buttonShiftSelect" style="position:absolute;z-index:100;top:${event.clientY}px;left:${horizontalLoc}px">` +
+                    shiftOptionSelect +
                     `</div>`
                 );
                 const fullScrren = document.getElementById('fullscreen');
@@ -198,6 +237,49 @@
                     }
                 },
             );
+
+            const fullScrren = document.getElementById('fullscreen');
+            const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
+
+            function remove() {
+                fullScrren.parentNode.removeChild(fullScrren);
+                buttonShiftSelect.parentNode.removeChild(buttonShiftSelect);
+            }
+        }
+
+        function deleteShiftUser(userID, shiftID, startDate, endDate, dateID) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "{{ url('karu/jadwal') }}",
+                type: 'DELETE',
+                data: {
+                    user_id: userID,
+                    shift_id: shiftID,
+                    valid_date_start: startDate,
+                    valid_date_end: endDate,
+                },
+                success: function(result) {
+                    var resultResponse = (JSON.parse(result));
+                    if (resultResponse.success) {
+                        remove();
+                        $(`#${dateID}`).css("background-color", `grey`);
+                        $(`#${dateID}`).children('small').addClass('text-light');
+                        $(`#${dateID}`).children('small').html(`Off`);
+                    } else {
+                        alert("Gagal!!! App Ini Sedang Dalam Pengembangan, Silahkan Hubungi Hubungi Admin");
+                        remove();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert("Gagal!!! App Ini Sedang Dalam Pengembangan, Silahkan Hubungi Hubungi Admin, Error Message: " + err.Message);
+                }
+            });
 
             const fullScrren = document.getElementById('fullscreen');
             const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
