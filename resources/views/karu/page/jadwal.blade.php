@@ -146,7 +146,8 @@
                 var horizontalLoc = event.clientX
                 var shiftOptionSelect = '';
                 var userID = (this.id).split("-")[0];
-                var startDate = (this.id).split("-")[1];
+                var startDate = parseInt((this.id).split("-")[1]);
+                var nextDayDate = startDate + 1;
                 var month = {{ $month }};
 
                 if (this.children[0].innerText == "Off") {
@@ -154,7 +155,7 @@
                         @if ($shiftData->unit_id == $user_data->unit['0']->id)
                             shiftOptionSelect = shiftOptionSelect + `<div class="row">
                                     <button type="button" onclick="storeShiftUser(${userID},` + {{ $shiftData->id }} +
-                                `,'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}')" class="border rounded" style="background-color: ` +
+                                `,'2024-${month}-${startDate}','{{$shiftData->next_day == 1 ? '2024-${month}-${nextDayDate}' : '2024-${month}-${startDate}'}}' , '${this.id}' )" class="border rounded" style="background-color: ` +
                                 '{{ $shiftData->color }}' + `">
                                         <small class="` +
                                 lightOrDark('{{ $shiftData->color }}') + `">` +
