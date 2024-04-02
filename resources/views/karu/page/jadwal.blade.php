@@ -147,15 +147,18 @@
                 var shiftOptionSelect = '';
                 var userID = (this.id).split("-")[0];
                 var startDate = parseInt((this.id).split("-")[1]);
-                var nextDayDate = startDate + 1;
                 var month = {{ $month }};
+                var nextDayDate = new Date(`2024-${month}-${startDate}`);
+                var timestamp = nextDayDate.setDate(nextDayDate.getDate() + 1);
+                const date = new Date(timestamp);
+                const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
                 if (this.children[0].innerText == "Off") {
                     @foreach ($shift as $shiftData)
                         @if ($shiftData->unit_id == $user_data->unit['0']->id)
                             shiftOptionSelect = shiftOptionSelect + `<div class="row">
                                     <button type="button" onclick="storeShiftUser(${userID},` + {{ $shiftData->id }} +
-                                `,'2024-${month}-${startDate}','{{$shiftData->next_day == 1 ? '2024-${month}-${nextDayDate}' : '2024-${month}-${startDate}'}}' , '${this.id}' )" class="border rounded" style="background-color: ` +
+                                `,'2024-${month}-${startDate}','{{ $shiftData->next_day == 1 ? '${formattedDate}' : '2024-${month}-${startDate}' }}' , '${this.id}' )" class="border rounded" style="background-color: ` +
                                 '{{ $shiftData->color }}' + `">
                                         <small class="` +
                                 lightOrDark('{{ $shiftData->color }}') + `">` +
@@ -278,7 +281,8 @@
                 },
                 error: function(xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
-                    alert("Gagal!!! App Ini Sedang Dalam Pengembangan, Silahkan Hubungi Hubungi Admin, Error Message: " + err.Message);
+                    alert("Gagal!!! App Ini Sedang Dalam Pengembangan, Silahkan Hubungi Hubungi Admin, Error Message: " +
+                        err.Message);
                 }
             });
 
