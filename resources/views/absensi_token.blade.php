@@ -16,122 +16,20 @@
                 <div class="rounded bg-white p-3">
                     <h4>Data terbaru</h4>
                     <hr />
-                    <div class="row">
-                        <div class="col text-success h3">Nando</div>
-                        <div class="col text-success h3">11:40:30</div>
-                        <div class="col text-success h3">-</div>
-                        <div class="col text-success h3">Masuk</div>
-                    </div>
-                    <div class="row">
-                        <div class="col h6">Agus</div>
-                        <div class="col h6">11:39:30</div>
-                        <div class="col h6">15:39:30</div>
-                        <div class="col text-success">Pulang</div>
-                    </div>
-                    <div class="row">
-                        <div class="col h6">Sugeng</div>
-                        <div class="col h6">11:35:30</div>
-                        <div class="col h6">-</div>
-                        <div class="col text-success">Masuk</div>
-                    </div>
-                    <div class="row">
-                        <div class="col h6">Supri</div>
-                        <div class="col h6">11:34:30</div>
-                        <div class="col h6">-</div>
-                        <div class="col text-success">Masuk</div>
-                    </div>
-                    <div class="row">
-                        <div class="col h6">Andi</div>
-                        <div class="col h6">11:33:30</div>
-                        <div class="col h6">-</div>
-                        <div class="col text-success">Masuk</div>
+                    <div id="latestData">
+                        No Data !!!
                     </div>
                 </div>
 
             </div>
             <div class="row">
                 <div class="col-6 ">
-                    <div class="rounded bg-white p-3">
+                    <div class="rounded bg-white p-3" style="min-height: 290px">
                         <h4>Data terlambat hari ini</h4>
                         <hr />
-                        <div class="marquee-main">
-                            <div class="carousel">
-                                <div class="carousel__slider">
-                                    <ul class="carousel__list">
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Nando</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Nando</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Nando</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Nando</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Nando</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Nando</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Nando</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Nando</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Nando</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                        <li class="carousel__item" style="width: 100%">
-                                            <div class="row">
-                                                <div class="col h6">Andi</div>
-                                                <div class="col h6">11:40:30</div>
-                                                <div class="col h6">07:00:00</div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                        <ul id="latestLateData">
+
+                        </ul>
 
                     </div>
                 </div>
@@ -140,21 +38,15 @@
                         <h4>Data terlambat dalam satu bulan</h4>
                         <hr />
                         <div class="overflow-hidden mh-100">
-                            <div class="row">
-                                <div class="col h6">Nando</div>
-                                <div class="col h6">5 Kali</div>
-                                <div class="col h6">35 Menit</div>
-                            </div>
-                            <div class="row">
-                                <div class="col h6">Agus</div>
-                                <div class="col h6">2 Kali</div>
-                                <div class="col h6">60 Menit</div>
-                            </div>
-                            <div class="row">
-                                <div class="col h6">Sugeng</div>
-                                <div class="col h6">1 Kali</div>
-                                <div class="col h6">14 Menit</div>
-                            </div>
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <div class="col-6" style="font-size:10px">Coming Soon</div>
+                                        <div class="col-3" style="font-size:10px">Coming Soon</div>
+                                        <div class="col-3" style="font-size:10px">Coming Soon</div>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -186,25 +78,6 @@
         }
         showTime();
 
-        var DataTabless = new DataTables('#example', {
-            ajax: `{{ url('') }}/get-absensi`,
-            columns: [{
-                    data: 'user_name'
-                },
-                {
-                    data: 'absen_check_in'
-                },
-                {
-                    data: 'absen_check_out'
-                },
-                {
-                    data: 'shift_check_in'
-                },
-                {
-                    data: 'shift_check_out'
-                },
-            ]
-        });
         var token = ""
         window.$(document).ready(function() {
             setInterval(function() {
@@ -215,7 +88,6 @@
                 }).then((response) => {
                     console.log(response.data.data['token']);
                     if (token != response.data.data['token']) {
-                        DataTabless.ajax.reload();
                         token = response.data.data['token'];
                         console.log(response.data.data['token']);
                         generateToken(response.data.data['token'])
@@ -226,16 +98,67 @@
 
 
         function generateToken(token) {
+
             QRCode.toCanvas(document.getElementById('canvas'), token, {
                 // width: 560,
             }, function(error) {
                 if (error) console.error(error)
                 console.log('success!');
             })
-        }
-    </script>
 
-    <script type="module">
+            generateDataTable()
+        }
+
+        function generateDataTable() {
+            var div = document.getElementById('latestData');
+            var divLateData = document.getElementById('latestLateData');
+
+
+            $.get("{{ url('') }}/get-absensi", function(data, status) {
+                // console.log("Data: " + JSON.stringify(data) + "\nStatus: " + status);
+                var firstRow = 0;
+                div.innerHTML = ''
+                divLateData.innerHTML = ''
+                data.data.forEach(element => {
+                    console.log(element);
+                    var event = new Date(element.absen_check_in);
+                    var shiftCheckIn = element.shift_check_in;
+                    var eventEnd = new Date(element.absen_check_out);
+                    if (firstRow == 0) {
+                        console.log();
+                        firstRow++;
+                        div.innerHTML +=
+                            `<div class="row">
+                                <div class="col-6 text-success h5">${element.user_name}</div>
+                                <div class="col-2 text-success h5">${event.toLocaleTimeString('id-ID')}</div>
+                                <div class="col-2 text-success h5">${element.absen_check_out == null ? '-' : eventEnd.toLocaleTimeString('id-ID')}</div>
+                                <div class="col-2 text-success h5">${element.absen_check_out == null ? 'Masuk' : 'Pulang'}</div>
+                            </div>`;
+                    } else {
+                        div.innerHTML +=
+                            `<div class="row">
+                            <div class="col-6 h6">${element.user_name}</div>
+                            <div class="col-2 h6">${event.toLocaleTimeString('id-ID')}</div>
+                            <div class="col-2 h6">${element.absen_check_out == null ? '-' : eventEnd.toLocaleTimeString('id-ID')} </div>
+                            <div class="col-2 text-success">${element.absen_check_out == null ? 'Masuk' : 'Pulang'}</div>
+                        </div>`
+                    }
+
+                    if (true) {
+                        divLateData.innerHTML +=
+                            `<li>
+                                <div class="row">
+                                    <div class="col-8" style="font-size:10px">${element.user_name}</div>
+                                    <div class="col-2" style="font-size:10px">${event.toLocaleTimeString('id-ID')}</div>
+                                    <div class="col-2" style="font-size:10px">${shiftCheckIn}</div>
+                                </div>
+                            </li>`
+                    }
+                });
+            });
+
+        }
+
         function carousel() {
             let carouselSlider = document.querySelector(".carousel__slider");
             let list = document.querySelector(".carousel__list");
@@ -292,8 +215,6 @@
             carouselSlider.addEventListener("mouseenter", hover);
             carouselSlider.addEventListener("mouseleave", unhover);
         }
-
-        carousel();
     </script>
 @endpush
 
@@ -352,12 +273,12 @@
 
         /*
 
-        .carousel__item {
-            cursor: pointer;
-        }
+                                .carousel__item {
+                                    cursor: pointer;
+                                }
 
-        .carousel__item:hover {
-            background-color: rgba(255, 255, 255, 0.7);
-        } */
+                                .carousel__item:hover {
+                                    background-color: rgba(255, 255, 255, 0.7);
+                                } */
     </style>
 @endpush
