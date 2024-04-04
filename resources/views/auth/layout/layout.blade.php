@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>RSHB - Login</title>
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/css/app.css'])
     <link rel="stylesheet" href="style.css">
