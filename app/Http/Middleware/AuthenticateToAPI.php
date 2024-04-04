@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +31,11 @@ class AuthenticateToAPI
             ->withToken($token)
             ->get(env('API_URL') . '/api/v1/me');
         if ($response->successful()) {
+            $responseData =json_decode($response)->data;
+            if ($responseData->id !== $responseData->unit[0]->unit_leader_id AND $responseData->id !== 1) {
+                Session::flash('message', "Maaf Anda Tidak Memiliki Hak!!!");
+                return false;
+            }
             session(['user_data' => json_decode($response)->data]);
             return true;
         } else {
