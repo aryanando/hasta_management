@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="{{ asset('assets/css/sb-admin-2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}">
+    @if (App::environment('production'))
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    @endif
 
     <style>
         .form-control::placeholder {
