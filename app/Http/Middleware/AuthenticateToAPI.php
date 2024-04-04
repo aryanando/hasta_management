@@ -32,11 +32,12 @@ class AuthenticateToAPI
             ->get(env('API_URL') . '/api/v1/me');
         if ($response->successful()) {
             $responseData =json_decode($response)->data;
+            // dd($responseData);
             if ($responseData->id == 1) {
                 session(['user_data' => json_decode($response)->data]);
                 return true;
             }
-            if ($responseData->id !== $responseData->unit[0]->unit_leader_id) {
+            if ($responseData->id != $responseData->unit[0]->unit_leader_id) {
                 Session::flash('message', "Maaf Anda Tidak Memiliki Hak!!!");
                 return false;
             }
