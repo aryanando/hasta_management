@@ -33,6 +33,7 @@ class AuthenticateToAPI
         if ($response->successful()) {
             $responseData =json_decode($response)->data;
             if ($responseData->id == 1) {
+                session(['user_data' => json_decode($response)->data]);
                 return true;
             }
             if ($responseData->id !== $responseData->unit[0]->unit_leader_id) {
