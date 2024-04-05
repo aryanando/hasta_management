@@ -145,7 +145,7 @@
                         </div>`
                     }
 
-                    console.log(shiftCheckIn.getTime());
+                    // console.log(shiftCheckIn.getTime());
                     console.log(event.getTime());
 
                     if (true) {
