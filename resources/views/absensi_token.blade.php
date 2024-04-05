@@ -147,7 +147,7 @@
                     }
 
                     // console.log(shiftCheckIn.getTime());
-                    console.log(shiftCheckInDate.getTime() < event.getTime());
+                    console.log(`${event.getTime()} > ${shiftCheckInDate.getTime()} = ${shiftCheckInDate.getTime() < event.getTime()}`);
 
                     if (event.getTime() > shiftCheckInDate.getTime()) {
                         divLateData.innerHTML +=
