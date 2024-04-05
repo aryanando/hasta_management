@@ -146,6 +146,7 @@
                     }
 
                     console.log(shiftCheckIn.getTime());
+                    console.log(event.getTime());
 
                     if (event.getTime() > shiftCheckIn.getTime()) {
                         divLateData.innerHTML +=
