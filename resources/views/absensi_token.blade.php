@@ -123,7 +123,7 @@
                     console.log(element);
                     var event = new Date(element.absen_check_in);
                     var shiftCheckIn = element.shift_check_in;
-                    const d = new Date();
+                    const d = new Date(element.valid_date_start);
                     var shiftCheckInDate = new Date(`2024-${d.getMonth()+1}-${d.getDay()} ${shiftCheckIn}`);
                     var eventEnd = new Date(element.absen_check_out);
                     if (firstRow == 0) {
