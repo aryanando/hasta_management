@@ -122,7 +122,7 @@
                 data.data.forEach(element => {
                     console.log(element);
                     var event = new Date(element.absen_check_in);
-                    var shiftCheckIn = new Date(element.shift_check_in);
+                    var shiftCheckIn = element.shift_check_in;
 
                     var eventEnd = new Date(element.absen_check_out);
                     if (firstRow == 0) {
@@ -148,13 +148,13 @@
                     console.log(shiftCheckIn.getTime());
                     console.log(event.getTime());
 
-                    if (event.getTime() > shiftCheckIn.getTime()) {
+                    if (true) {
                         divLateData.innerHTML +=
                             `<li>
                                 <div class="row">
                                     <div class="col-8" style="font-size:10px">${element.user_name}</div>
                                     <div class="col-2" style="font-size:10px">${event.toLocaleTimeString('id-ID')}</div>
-                                    <div class="col-2" style="font-size:10px">${shiftCheckIn.toLocaleTimeString('id-ID')}</div>
+                                    <div class="col-2" style="font-size:10px">${shiftCheckIn}</div>
                                 </div>
                             </li>`
                     }
