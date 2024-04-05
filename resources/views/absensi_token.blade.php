@@ -144,7 +144,7 @@
                         </div>`
                     }
 
-                    if (true) {
+                    if (event > shiftCheckIn) {
                         divLateData.innerHTML +=
                             `<li>
                                 <div class="row">
