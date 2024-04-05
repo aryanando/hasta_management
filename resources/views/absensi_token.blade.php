@@ -124,7 +124,7 @@
                     var event = new Date(element.absen_check_in);
                     var shiftCheckIn = element.shift_check_in;
                     const d = new Date();
-                    var shiftCheckInDate = new Date(`2024-${d.getMonth()}-${d.getDay()} ${shiftCheckIn}`);
+                    var shiftCheckInDate = new Date(`2024-${d.getMonth()+1}-${d.getDay()} ${shiftCheckIn}`);
                     var eventEnd = new Date(element.absen_check_out);
                     if (firstRow == 0) {
                         console.log();
