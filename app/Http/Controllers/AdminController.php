@@ -75,7 +75,7 @@ class AdminController extends Controller
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/karyawan/');
         $dataKaryawan = json_decode($response->body());
-        dd($dataKaryawan);
+        dd(session('token'));
         if ($filter == 'noUnit') {
             foreach ($dataKaryawan as $karyawan) {
                 if (count($karyawan->unit)==0) {
