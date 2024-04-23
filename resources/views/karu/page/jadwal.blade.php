@@ -134,6 +134,19 @@
             z-index: 99;
             /* opacity: 0.2; */
         }
+
+        .fullscreen2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            z-index: 100;
+            opacity: 0.2;
+        }
     </style>
 @endpush
 
@@ -197,7 +210,7 @@
                     `</div>`
                 );
                 const fullScrren = document.getElementById('fullscreen');
-                const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
+                const buttonShiftSelect = document.getElementById('buttonShiftSelect');
                 fullScrren.addEventListener('click', remove, false);
 
                 function remove() {
@@ -213,6 +226,16 @@
         }
 
         function storeShiftUser(userID, shiftID, startDate, endDate, dateID, lastShiftId = 'NULL') {
+            const fullScrren = document.getElementById('fullscreen');
+            const buttonShiftSelect = document.getElementById('buttonShiftSelect');
+            removeButton();
+            $('html').append(
+                `<div class="fullscreen2" id="fullscreen2">
+                    <div class="row h-100 justify-content-center align-items-center">
+                    </div>
+                </div>`
+            );
+            const fullScrren2 = document.getElementById('fullscreen2');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -242,16 +265,29 @@
                 },
             );
 
-            const fullScrren = document.getElementById('fullscreen');
-            const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
+
 
             function remove() {
                 fullScrren.parentNode.removeChild(fullScrren);
+                fullScrren2.parentNode.removeChild(fullScrren2);
+            }
+
+            function removeButton() {
                 buttonShiftSelect.parentNode.removeChild(buttonShiftSelect);
             }
         }
 
         function deleteShiftUser(userID, shiftID, startDate, endDate, dateID) {
+            const fullScrren = document.getElementById('fullscreen');
+            const buttonShiftSelect = document.getElementById('buttonShiftSelect');
+            removeButton();
+            $('html').append(
+                `<div class="fullscreen2" id="fullscreen2">
+                    <div class="row h-100 justify-content-center align-items-center">
+                    </div>
+                </div>`
+            );
+            const fullScrren2 = document.getElementById('fullscreen2');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -286,11 +322,12 @@
                 }
             });
 
-            const fullScrren = document.getElementById('fullscreen');
-            const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
-
             function remove() {
                 fullScrren.parentNode.removeChild(fullScrren);
+                fullScrren2.parentNode.removeChild(fullScrren2);
+            }
+
+            function removeButton() {
                 buttonShiftSelect.parentNode.removeChild(buttonShiftSelect);
             }
         }
