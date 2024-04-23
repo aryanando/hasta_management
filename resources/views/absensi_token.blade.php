@@ -117,48 +117,54 @@
             $.get("{{ url('') }}/get-absensi", function(data, status) {
                 // console.log("Data: " + JSON.stringify(data) + "\nStatus: " + status);
                 var firstRow = 0;
+                var rowCount = 0;
                 div.innerHTML = ''
                 divLateData.innerHTML = ''
                 data.data.forEach(element => {
+
+                    rowCount++;
                     console.log(element);
                     var event = new Date(element.absen_check_in);
                     var shiftCheckIn = element.shift_check_in;
-                    const d = new Date(element.valid_date_start);
-                    var shiftCheckInDate = new Date(`2024-${d.getMonth()+1}-${d.getDay()} ${shiftCheckIn}`);
+                    const d = new Date();
+                    var shiftCheckInDate = new Date(`2024-${d.getMonth()+1}-${d.getDate()} ${shiftCheckIn}`);
+                    console.log(d.getDate());
                     var eventEnd = new Date(element.absen_check_out);
-                    if (firstRow == 0) {
-                        console.log();
-                        firstRow++;
-                        div.innerHTML +=
-                            `<div class="row">
-                                <div class="col-6 text-success h5">${element.user_name}</div>
-                                <div class="col-2 text-success h5">${event.toLocaleTimeString('id-ID')}</div>
-                                <div class="col-2 text-success h5">${element.absen_check_out == null ? '-' : eventEnd.toLocaleTimeString('id-ID')}</div>
-                                <div class="col-2 text-success h5">${element.absen_check_out == null ? 'Masuk' : 'Pulang'}</div>
-                            </div>`;
-                    } else {
-                        div.innerHTML +=
-                            `<div class="row">
-                            <div class="col-6 h6">${element.user_name}</div>
-                            <div class="col-2 h6">${event.toLocaleTimeString('id-ID')}</div>
-                            <div class="col-2 h6">${element.absen_check_out == null ? '-' : eventEnd.toLocaleTimeString('id-ID')} </div>
-                            <div class="col-2 text-success">${element.absen_check_out == null ? 'Masuk' : 'Pulang'}</div>
-                        </div>`
-                    }
+                    if (rowCount < 6) {
+                        if (firstRow == 0) {
+                            console.log();
+                            firstRow++;
+                            div.innerHTML +=
+                                `<div class="row">
+                                    <div class="col-6 text-success h5">${element.user_name}</div>
+                                    <div class="col-2 text-success h5">${event.toLocaleTimeString('id-ID')}</div>
+                                    <div class="col-2 text-success h5">${element.absen_check_out == null ? '-' : eventEnd.toLocaleTimeString('id-ID')}</div>
+                                    <div class="col-2 text-success h5">${element.absen_check_out == null ? 'Masuk' : 'Pulang'}</div>
+                                </div>`;
+                        } else {
+                            div.innerHTML +=
+                                `<div class="row">
+                                <div class="col-6 h6">${element.user_name}</div>
+                                <div class="col-2 h6">${event.toLocaleTimeString('id-ID')}</div>
+                                <div class="col-2 h6">${element.absen_check_out == null ? '-' : eventEnd.toLocaleTimeString('id-ID')} </div>
+                                <div class="col-2 text-success">${element.absen_check_out == null ? 'Masuk' : 'Pulang'}</div>
+                            </div>`
+                        }
 
-                    // console.log(shiftCheckIn.getTime());
-                    console.log(`${event.getTime()} > ${shiftCheckInDate.getTime()} = ${shiftCheckInDate.getTime() < event.getTime()}`);
-
-                    if (event.getTime() > shiftCheckInDate.getTime()) {
-                        divLateData.innerHTML +=
-                            `<li>
-                                <div class="row">
-                                    <div class="col-8" style="font-size:10px">${element.user_name}</div>
-                                    <div class="col-2" style="font-size:10px">${event.toLocaleTimeString('id-ID')}</div>
-                                    <div class="col-2" style="font-size:10px">${shiftCheckIn}</div>
-                                </div>
-                            </li>`
                     }
+                        // console.log(shiftCheckIn.getTime());
+                        console.log(`${event.getTime()} > ${shiftCheckInDate.getTime()} = ${shiftCheckInDate.getTime() < event.getTime()}`);
+
+                        if (event.getTime() > shiftCheckInDate.getTime()) {
+                            divLateData.innerHTML +=
+                                `<li>
+                                    <div class="row">
+                                        <div class="col-8" style="font-size:10px">${element.user_name}</div>
+                                        <div class="col-2" style="font-size:10px">${event.toLocaleTimeString('id-ID')}</div>
+                                        <div class="col-2" style="font-size:10px">${shiftCheckIn}</div>
+                                    </div>
+                                </li>`
+                        }
                 });
             });
 
