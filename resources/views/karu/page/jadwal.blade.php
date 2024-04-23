@@ -134,6 +134,19 @@
             z-index: 99;
             /* opacity: 0.2; */
         }
+
+        .fullscreen2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            z-index: 100;
+            opacity: 0.2;
+        }
     </style>
 @endpush
 
@@ -146,15 +159,19 @@
                 var horizontalLoc = event.clientX
                 var shiftOptionSelect = '';
                 var userID = (this.id).split("-")[0];
-                var startDate = (this.id).split("-")[1];
+                var startDate = parseInt((this.id).split("-")[1]);
                 var month = {{ $month }};
+                var nextDayDate = new Date(`2024-${month}-${startDate}`);
+                var timestamp = nextDayDate.setDate(nextDayDate.getDate() + 1);
+                const date = new Date(timestamp);
+                const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
                 if (this.children[0].innerText == "Off") {
                     @foreach ($shift as $shiftData)
                         @if ($shiftData->unit_id == $user_data->unit['0']->id)
                             shiftOptionSelect = shiftOptionSelect + `<div class="row">
                                     <button type="button" onclick="storeShiftUser(${userID},` + {{ $shiftData->id }} +
-                                `,'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}')" class="border rounded" style="background-color: ` +
+                                `,'2024-${month}-${startDate}','{{ $shiftData->next_day == 1 ? '${formattedDate}' : '2024-${month}-${startDate}' }}' , '${this.id}' )" class="border rounded" style="background-color: ` +
                                 '{{ $shiftData->color }}' + `">
                                         <small class="` +
                                 lightOrDark('{{ $shiftData->color }}') + `">` +
@@ -193,7 +210,7 @@
                     `</div>`
                 );
                 const fullScrren = document.getElementById('fullscreen');
-                const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
+                const buttonShiftSelect = document.getElementById('buttonShiftSelect');
                 fullScrren.addEventListener('click', remove, false);
 
                 function remove() {
@@ -209,6 +226,16 @@
         }
 
         function storeShiftUser(userID, shiftID, startDate, endDate, dateID, lastShiftId = 'NULL') {
+            const fullScrren = document.getElementById('fullscreen');
+            const buttonShiftSelect = document.getElementById('buttonShiftSelect');
+            removeButton();
+            $('html').append(
+                `<div class="fullscreen2" id="fullscreen2">
+                    <div class="row h-100 justify-content-center align-items-center">
+                    </div>
+                </div>`
+            );
+            const fullScrren2 = document.getElementById('fullscreen2');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -238,16 +265,29 @@
                 },
             );
 
-            const fullScrren = document.getElementById('fullscreen');
-            const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
+
 
             function remove() {
                 fullScrren.parentNode.removeChild(fullScrren);
+                fullScrren2.parentNode.removeChild(fullScrren2);
+            }
+
+            function removeButton() {
                 buttonShiftSelect.parentNode.removeChild(buttonShiftSelect);
             }
         }
 
         function deleteShiftUser(userID, shiftID, startDate, endDate, dateID) {
+            const fullScrren = document.getElementById('fullscreen');
+            const buttonShiftSelect = document.getElementById('buttonShiftSelect');
+            removeButton();
+            $('html').append(
+                `<div class="fullscreen2" id="fullscreen2">
+                    <div class="row h-100 justify-content-center align-items-center">
+                    </div>
+                </div>`
+            );
+            const fullScrren2 = document.getElementById('fullscreen2');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -277,15 +317,17 @@
                 },
                 error: function(xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
-                    alert("Gagal!!! App Ini Sedang Dalam Pengembangan, Silahkan Hubungi Hubungi Admin, Error Message: " + err.Message);
+                    alert("Gagal!!! App Ini Sedang Dalam Pengembangan, Silahkan Hubungi Hubungi Admin, Error Message: " +
+                        err.Message);
                 }
             });
 
-            const fullScrren = document.getElementById('fullscreen');
-            const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
-
             function remove() {
                 fullScrren.parentNode.removeChild(fullScrren);
+                fullScrren2.parentNode.removeChild(fullScrren2);
+            }
+
+            function removeButton() {
                 buttonShiftSelect.parentNode.removeChild(buttonShiftSelect);
             }
         }
