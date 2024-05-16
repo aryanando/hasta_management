@@ -14,7 +14,7 @@ class KaruController extends Controller
         // dd(session('data_user'));
         $data['user_data'] = session('user_data');
 
-        if ($data['user_data']->name == "Administrator" || $data['user_data']->name == "Admin 2") {
+        if ($data['user_data']->name == "Administrator" || $data['user_data']->name == "ARYANANDO") {
             return redirect(url('/admin'));
             # code...
         }

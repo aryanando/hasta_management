@@ -33,7 +33,7 @@ class AuthenticateToAPI
         if ($response->successful()) {
             $responseData =json_decode($response)->data;
             // dd($responseData);
-            if ($responseData->id == 1 || $responseData->id == 9991) {
+            if ($responseData->id == 1 || $responseData->id == 188) {
                 session(['user_data' => json_decode($response)->data]);
                 return true;
             }
