@@ -9,9 +9,9 @@ class AbsensiTokenController extends Controller
 {
     public function index() {
         $data['user_data'] = session('user_data');
-        if ($data['user_data']->id != 1) {
-            return redirect('/karu');
+        if ($data['user_data']->id == 1 || $data['user_data']->id == 9991) {
+            return view('absensi_token');
         }
-        return view('absensi_token');
+        return redirect('/karu');
     }
 }
