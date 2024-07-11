@@ -107,6 +107,19 @@
             </tbody>
         </table>
     </div>
+
+    <div class="p-3 border rounded bg-white shadow w-25">
+        <ul class="list-group small">
+            @foreach ($shift as $shiftData)
+                @if ($shiftData->unit_id == $user_data->unit['0']->id)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ $shiftData->shift_name }} | {{ $shiftData->check_in }} - {{ $shiftData->check_out }}
+                        <span class="badge rounded-pill" style="background: {{ $shiftData->color }}">&nbsp&nbsp&nbsp</span>
+                    </li>
+                @endif
+            @endforeach
+        </ul>
+    </div>
 @endsection
 
 @push('custom-style')
