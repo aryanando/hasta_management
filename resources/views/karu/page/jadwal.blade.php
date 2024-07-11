@@ -251,11 +251,12 @@
             const fullScrren2 = document.getElementById('fullscreen2');
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Authorization': "Bearer {{ session('token') }}"
                 }
             });
 
-            $.post("{{ url('karu/jadwal') }}", {
+            $.post("{{ env('API_URL') . '/api/v1/shift-user' }}", {
                     user_id: userID,
                     shift_id: shiftID,
                     valid_date_start: startDate,
@@ -263,14 +264,14 @@
                     last_shift_id: lastShiftId
                 },
                 function(data, status, response) {
-                    console.log("Data: " + data + "\nStatus: " + status);
-                    data1 = JSON.parse(data)
-                    if (data1.success == true) {
+                    // console.log("Data: " + data + "\nStatus: " + status);
+                    // console.log(data.data.shift_data.color);
+                    if (data.success == true) {
                         remove();
-                        $(`#${dateID}`).css("background-color", `${data1.data.shift_data.color}`);
+                        $(`#${dateID}`).css("background-color", `${data.data.shift_data.color}`);
                         $(`#${dateID}`).children('small').removeClass('text-light');
-                        $(`#${dateID}`).children('small').addClass(lightOrDark(`${data1.data.shift_data.color}`));
-                        $(`#${dateID}`).children('small').html(`${data1.data.shift_data.shift_name}`);
+                        $(`#${dateID}`).children('small').addClass(lightOrDark(`${data.data.shift_data.color}`));
+                        $(`#${dateID}`).children('small').html(`${data.data.shift_data.shift_name}`);
                     } else {
                         alert("Gagal!!! Tolong Hubungi Admin");
                         remove();
@@ -303,12 +304,13 @@
             const fullScrren2 = document.getElementById('fullscreen2');
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'Authorization': "Bearer {{ session('token') }}"
                 }
             });
 
             $.ajax({
-                url: "{{ url('karu/jadwal') }}",
+                url: "{{ env('API_URL') . '/api/v1/shift-user' }}",
                 type: 'DELETE',
                 data: {
                     user_id: userID,
@@ -317,8 +319,8 @@
                     valid_date_end: endDate,
                 },
                 success: function(result) {
-                    var resultResponse = (JSON.parse(result));
-                    if (resultResponse.success) {
+                    // var resultResponse = (JSON.parse(result));
+                    if (result.success) {
                         remove();
                         $(`#${dateID}`).css("background-color", `grey`);
                         $(`#${dateID}`).children('small').addClass('text-light');
