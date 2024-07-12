@@ -93,8 +93,11 @@
                                 class="p-0 py-1 text-center ">
                                 <button type="button" id="{{ $member->id }}-{{ $i + 1 }}" onclick=""
                                     class="{{ isPastDay('2024-' . $month . '-' . $i + 1) }} border rounded"
+                                    {{-- @dd(($shift_user[$member->id][$i + 1])) --}}
                                     style="background-color: {{ isset($shift_user[$member->id][$i + 1]) ? $shift_user[$member->id][$i + 1]->shift_color : 'grey' }}"
-                                    {{ isset($shift_user[$member->id][$i + 1]) ? 'data-lastshiftid=' . $shift_user[$member->id][$i + 1]->shift_id : '' }}>
+                                    {{ isset($shift_user[$member->id][$i + 1]) ? 'data-lastshiftid=' . $shift_user[$member->id][$i + 1]->shift_id : '' }}
+                                    {{ isset($shift_user[$member->id][$i + 1]) ? ($shift_user[$member->id][$i + 1]->next_day == 1 ? 'data-nextday= true' : 'data-nextday= false') : '' }}
+                                >
                                     <small
                                         class="{{ isset($shift_user[$member->id][$i + 1]) ? isColorLightOrDark($shift_user[$member->id][$i + 1]->shift_color) : 'text-light' }}">
                                         {{ isset($shift_user[$member->id][$i + 1]) ? $shift_user[$member->id][$i + 1]->shift_name : 'Off' }}
@@ -194,16 +197,23 @@
                         @endif
                     @endforeach
                 } else {
+                    endDateFix = startDate
+                    if (this.dataset.nextday == "true") {
+                        endDateFix = endDateFix + 1
+                        
+                    }
+                    console.log(`${this.dataset.nextday}`);
                     shiftOptionSelect =
-                        `<div class="row"><button type="button" onclick="deleteShiftUser(${userID},${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}')" class="border rounded" style="background-color: grey"><small class="text-light">` +
+                        `<div class="row"><button type="button" onclick="deleteShiftUser(${userID},${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${endDateFix}', '${this.id}')" class="border rounded" style="background-color: grey"><small class="text-light">` +
                         'Off' + `</small>
                                     </button>
                                 </div>`;
                     @foreach ($shift as $shiftData)
                         @if ($shiftData->unit_id == $user_data->unit['0']->id)
+                            
                             shiftOptionSelect = shiftOptionSelect +
                                 `<div class="row">
-                                    <button type="button" onclick="storeShiftUser(${userID}, ${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}', ` +
+                                    <button type="button" onclick="storeShiftUser(${userID}, ${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${endDateFix}', '${this.id}', ` +
                                 {{ $shiftData->id }} +
                                 ` )" class="border rounded" style="background-color: ` +
                                 '{{ $shiftData->color }}' + `">
@@ -265,7 +275,7 @@
                 },
                 function(data, status, response) {
                     // console.log("Data: " + data + "\nStatus: " + status);
-                    // console.log(data.data.shift_data.color);
+                    // console.log(data.data);
                     if (data.success == true) {
                         remove();
                         $(`#${dateID}`).css("background-color", `${data.data.shift_data.color}`);

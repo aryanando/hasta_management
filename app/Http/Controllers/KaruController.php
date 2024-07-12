@@ -76,6 +76,10 @@ class KaruController extends Controller
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/shift');
         $data['shift'] = (json_decode($response->body())->data->shift);
+        $shiftMentah = [];
+        foreach ($data['shift'] as $allShift) {
+            $shiftMentah[$allShift->id] = $allShift; 
+        }
 
         $response = Http::acceptJson()
             ->withToken(session('token'))
@@ -83,6 +87,7 @@ class KaruController extends Controller
         $data['shift_user'] = (json_decode($response->body())->data->shift);
         $dataShiftUserUnit = [];
         foreach ($data['shift_user'] as $shiftUser) {
+            $shiftUser->next_day = $shiftMentah[$shiftUser->shift_id]->next_day;
             $dataShiftUserUnit[$shiftUser->user_id][Carbon::createFromFormat('Y-m-d H:i:s', $shiftUser->valid_date_start)->day] = $shiftUser;
         }
         $data['shift_user'] = $dataShiftUserUnit;
