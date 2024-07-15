@@ -6,7 +6,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             {{-- <i class="fas fa-laugh-wink"></i> --}}
         </div>
-        <div class="sidebar-brand-text mx-3">Admin <sup>Karu</sup></div>
+        <div class="sidebar-brand-text mx-3">Admin <sup>{{ isset($data['small_tittle']) ? $data['small_tittle'] : '' }}</sup></div>
     </a>
 
     <!-- Divider -->
