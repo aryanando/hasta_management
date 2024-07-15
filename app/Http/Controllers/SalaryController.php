@@ -16,6 +16,8 @@ class SalaryController extends Controller
         if ($data['user_data']->name == "Administrator" || $data['user_data']->name == "ARYANANDO") {
             return redirect(url('/admin'));
             # code...
+        } if ($data['user_data']->name !== "EKO ARI IRAWAN, S.Kom") {
+            return redirect(url('/karu'));
         }
 
         $data['page_info'] = [
