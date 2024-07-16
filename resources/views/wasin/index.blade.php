@@ -75,7 +75,7 @@
             var labels = [];
             var dataPoints = [];
 
-            // Extracting labels and data points from the query result
+            // Extract
             data.forEach(function(item) {
                 labels.push(item.checkin_date);
                 dataPoints.push(item.total_checkins);

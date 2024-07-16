@@ -45,12 +45,12 @@ Route::post('/login-auth', [AuthController::class, 'authenticate']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('authapi');
 
 // 
-Route::get('/wasin', [WasinController::class, 'index']);
-Route::get('/wasin/cuti', [WasinController::class, 'laporan_cuti']);
-Route::get('/wasin/izin', [WasinController::class, 'laporan_izin']);
-Route::get('/wasin/laporan', [WasinController::class, 'absensi_laporan']);
-Route::get('/wasin/harian', [WasinController::class, 'absensi_harian']);
-Route::get('/change', [WasinController::class, 'index'])->name('change');
+Route::get('/wasin', [WasinController::class, 'index'])->middleware('authapi');
+Route::get('/wasin/cuti', [WasinController::class, 'laporan_cuti'])->middleware('authapi');
+Route::get('/wasin/izin', [WasinController::class, 'laporan_izin'])->middleware('authapi');
+Route::get('/wasin/laporan', [WasinController::class, 'absensi_laporan'])->middleware('authapi');
+Route::get('/wasin/harian', [WasinController::class, 'absensi_harian'])->middleware('authapi');
+Route::get('/change', [WasinController::class, 'index'])->name('change')->middleware('authapi');
 
 // Admin --------------------------- Admin
 Route::get('/admin', [AdminController::class, 'index'])->middleware('authapi');

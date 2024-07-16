@@ -10,8 +10,8 @@ class WasinController extends Controller
 {
     public function index(Request $request)
     {
-        $month = $request->input('month', date('m')); // Default to the current month if not provided
-        $day = $request->input('day', date('d')); // Default to the current day if not provided
+        $month = $request->input('month', date('m')); // Default Bulan
+        $day = $request->input('day', date('d')); // Default Hari
     
         $data['page_info'] = [
             'title' => 'Wasin - Dashboard',
