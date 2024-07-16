@@ -44,19 +44,19 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login-auth', [AuthController::class, 'authenticate']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('authapi');
 
-// 
+// Admin --------------------------- Admin
+Route::get('/admin', [AdminController::class, 'index'])->middleware('authapi');
+Route::get('/admin/unit', [AdminController::class, 'unit'])->middleware('authapi');
+Route::get('/admin/unit/{id}', [AdminController::class, 'unitDetail'])->middleware('authapi');
+Route::post('/admin/unit/{id}', [AdminController::class, 'unitDetailAdd']);
+
+//wasin
 Route::get('/wasin', [WasinController::class, 'index'])->middleware('authapi');
 Route::get('/wasin/cuti', [WasinController::class, 'laporan_cuti'])->middleware('authapi');
 Route::get('/wasin/izin', [WasinController::class, 'laporan_izin'])->middleware('authapi');
 Route::get('/wasin/laporan', [WasinController::class, 'absensi_laporan'])->middleware('authapi');
 Route::get('/wasin/harian', [WasinController::class, 'absensi_harian'])->middleware('authapi');
 Route::get('/change', [WasinController::class, 'index'])->name('change')->middleware('authapi');
-
-// Admin --------------------------- Admin
-Route::get('/admin', [AdminController::class, 'index'])->middleware('authapi');
-Route::get('/admin/unit', [AdminController::class, 'unit'])->middleware('authapi');
-Route::get('/admin/unit/{id}', [AdminController::class, 'unitDetail'])->middleware('authapi');
-Route::post('/admin/unit/{id}', [AdminController::class, 'unitDetailAdd']);
 
 // Admin API
 Route::get('/admin/api/karyawan/{filter}', [AdminController::class, 'karyawan']);
