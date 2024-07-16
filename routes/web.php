@@ -6,6 +6,7 @@ use App\Http\Controllers\AbsensiTokenController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KaruController;
+use App\Http\Controllers\WasinController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,14 @@ Route::delete('/karu/jadwal', [KaruController::class, 'deleteUserShift'])->middl
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login-auth', [AuthController::class, 'authenticate']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('authapi');
+
+// 
+Route::get('/wasin', [WasinController::class, 'index']);
+Route::get('/wasin/cuti', [WasinController::class, 'laporan_cuti']);
+Route::get('/wasin/izin', [WasinController::class, 'laporan_izin']);
+Route::get('/wasin/laporan', [WasinController::class, 'absensi_laporan']);
+Route::get('/wasin/harian', [WasinController::class, 'absensi_harian']);
+Route::get('/change', [WasinController::class, 'index'])->name('change');
 
 // Admin --------------------------- Admin
 Route::get('/admin', [AdminController::class, 'index'])->middleware('authapi');
