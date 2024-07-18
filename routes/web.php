@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\KaruController;
+use App\Http\Controllers\WasinController;
 use App\Http\Controllers\SalaryController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,15 @@ Route::post('/admin/unit/{id}', [AdminController::class, 'unitDetailAdd']);
 
 // Admin API
 Route::get('/admin/api/karyawan/{filter}', [AdminController::class, 'karyawan']);
+
+//wasin
+Route::get('/wasin', [WasinController::class, 'index'])->middleware('authapi');
+Route::get('/wasin/cuti', [WasinController::class, 'laporan_cuti'])->middleware('authapi');
+Route::get('/wasin/izin', [WasinController::class, 'laporan_izin'])->middleware('authapi');
+Route::get('/wasin/laporan', [WasinController::class, 'absensi_laporan'])->middleware('authapi');
+Route::get('/wasin/harian', [WasinController::class, 'absensi_harian'])->middleware('authapi');
+Route::get('/change', [WasinController::class, 'index'])->name('change')->middleware('authapi');
+
 
 // Keuangan ------------------------- Keuangan
 Route::get('/keuangan', [SalaryController::class, 'index'])->middleware('authapi');
