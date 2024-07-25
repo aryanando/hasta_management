@@ -15,7 +15,7 @@
                     </option>
                 @endforeach
             </select>
-            
+
         </div>
     </form>
     <canvas id="myChart" width="100%" height="25"></canvas>
@@ -60,6 +60,34 @@
             </tr>
         </tfoot>
     </table>
+
+    <div class="card">
+        <div class="card-header">
+            Export Laporan Kehadiran
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+            <!-- Month Selector -->
+            <div class="mb-3">
+                <select id="monthSelector" class="form-control">
+                    @foreach (range(1, 12) as $month)
+                        @php
+                            $monthName = DateTime::createFromFormat('!m', $month)->format('F');
+                        @endphp
+                        <option value="{{ $month }}" {{ request('month', date('m')) == $month ? 'selected' : '' }}>
+                            {{ $monthName }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Export Button -->
+            <a id="exportButton" href="{{ route('absensi_export') }}?export=1&month={{ request('month', date('m')) }}"
+                class="btn btn-primary">Export to Excel</a>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -104,7 +132,20 @@
         });
     </script>
 @endpush
+@push('custom-script')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var monthSelector = document.getElementById('monthSelector');
+            var exportButton = document.getElementById('exportButton');
 
+            monthSelector.addEventListener('change', function() {
+                var selectedMonth = monthSelector.value;
+                var baseUrl = '{{ route('absensi_export') }}';
+                exportButton.href = baseUrl + '?export=1&month=' + selectedMonth;
+            });
+        });
+    </script>
+@endpush
 {{-- @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {

@@ -40,7 +40,7 @@
                 <a class="collapse-item {{$data['active_page_child'] == 'izin' ? 'active' : ''}}" href="{{url('/wasin/izin')}}"><i class="fa-solid fa-users mr-2"></i><span>Izin</span></a>
                 <h6 class="collapse-header">Data Absensi</h6>
                 <a class="collapse-item {{$data['active_page_child'] == 'harian' ? 'active' : ''}}" href="{{url('/wasin/harian')}}"><i class="fa-regular fa-clock mr-2"></i><span>Absensi Harian</span></a>
-                <a class="collapse-item {{$data['active_page_child'] == 'absensi' ? 'active' : ''}}" href="{{url('/wasin/absensi')}}"><i class="fa-regular fa-calendar-days mr-2"></i><span>Laporan Absensi</span></a>
+                <a class="collapse-item {{$data['active_page_child'] == 'absensi' ? 'active' : ''}}" href="{{url('/wasin/laporan')}}"><i class="fa-regular fa-calendar-days mr-2"></i><span>Laporan Absensi</span></a>
             </div>
         </div>
     </li>

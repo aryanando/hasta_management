@@ -19,13 +19,13 @@
 
 <body>
     <!-- @if (Session::has('message'))
-        <div class="alert alert-danger"><small>{{ Session::get('message') }}</small></div>
-    @endif -->
+<div class="alert alert-danger"><small>{{ Session::get('message') }}</small></div>
+@endif -->
     <main>
         <!-- .. Main HTML -->
         <div id="wrapper">
 
-            <x-wasin-sidebar :data="$page_info"/>
+            <x-wasin-sidebar :data="$page_info" />
 
             <!-- Content Wrapper -->
             <div id="content-wrapper" class="d-flex flex-column">
@@ -33,7 +33,7 @@
                 <!-- Main Content -->
                 <div id="content">
 
-                <x-wasin-topbar />
+                    <x-wasin-topbar />
 
                     <div class="container-fluid">
 
@@ -41,7 +41,7 @@
 
                     </div>
                     <!-- /.container-fluid -->
-   
+
                 </div>
                 <!-- End of Main Content -->
 
@@ -78,13 +78,16 @@
             </div>
         </div>
     </main>
-    
+
     @stack('custom-script')
+    @stack('custom-script2')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.0.4/popper.js"></script>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @stack('scripts')
 </body>
