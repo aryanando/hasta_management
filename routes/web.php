@@ -5,6 +5,7 @@ use App\Http\Controllers\AbsensiToken;
 use App\Http\Controllers\AbsensiTokenController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\KaruController;
 use App\Http\Controllers\WasinController;
 use App\Exports\AbsensiExport;
@@ -14,6 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 
 
+use App\Http\Controllers\SalaryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -76,6 +78,10 @@ Route::get('/absensi-laporan', [WasinController::class, 'absensi_laporan'])->nam
 
 
 
+
+// Keuangan ------------------------- Keuangan
+Route::get('/keuangan', [SalaryController::class, 'index'])->middleware('authapi');
+Route::post('/keuangan', [ExcelImportController::class, 'import'])->middleware('authapi')->name('import.excel');
 
 
 
