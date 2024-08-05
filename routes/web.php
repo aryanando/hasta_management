@@ -74,6 +74,7 @@ Route::get('/absen_unit', [WasinController::class, 'absensi_harian'])->name('abs
 Route::get('/export-absensi', [WasinController::class, 'exportHarian'])->name('export_absensi')->middleware('authapi');
 Route::get('/absensi-laporan', [WasinController::class, 'absensi_laporan'])->name('absensi_laporan')->middleware('authapi');
 Route::get('/absensi-export', [WasinController::class, 'exportLaporan'])->name('absensi_export');
+Route::get('/filter_absensi', [WasinController::class, 'filterAbsensi'])->name('filter_absensi')->middleware('authapi');
 
 
 

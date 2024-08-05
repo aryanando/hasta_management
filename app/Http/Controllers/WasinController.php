@@ -120,10 +120,10 @@ class WasinController extends Controller
             'active_page' => 'laporan',
             'active_page_child' => 'harian',
         ];
-    
+
         $selectedUnit = $request->input('unit');
         $selectedDate = $request->input('date', date('Y-m-d'));
-    
+
         $datatable = DB::table('users')
             ->select('users.id', 'users.name', 'ut.unit_name as unit')
             ->join('user_units as usnit', 'usnit.user_id', '=', 'users.id')
@@ -135,11 +135,11 @@ class WasinController extends Controller
             })
             ->groupBy('users.id', 'users.name', 'ut.unit_name')
             ->get();
-    
+
         $units = DB::table('unit_translations')
             ->select('id', 'unit_name', 'unit_leader_id')
             ->get();
-    
+
         $absensi = DB::table('absens as abse')
             ->select(
                 'abse.user_id',
@@ -164,7 +164,7 @@ class WasinController extends Controller
                 });
             })
             ->get();
-    
+
         $shifts = DB::table('user_shifts as sf')
             ->select('sf.user_id', 'shi.shift_name', DB::raw('TIME(sf.valid_date_start) as sfmasuk'))
             ->join('shifts as shi', 'shi.id', '=', 'sf.shift_id')
@@ -178,7 +178,7 @@ class WasinController extends Controller
                 });
             })
             ->get();
-    
+
         $absensi = $absensi->merge($shifts->map(function ($shift) {
             return (object) [
                 'user_id' => $shift->user_id,
@@ -190,17 +190,92 @@ class WasinController extends Controller
                 'status' => 'Belum Absen'
             ];
         })->all());
-    
+
         if ($request->ajax()) {
             return response()->json([
                 'datatable' => $datatable,
                 'absensi' => $absensi,
             ]);
         }
-    
+
         return view('wasin.page.harian', compact('datatable', 'units', 'absensi'), $data);
     }
-    
+
+    public function filterAbsensi(Request $request)
+    {
+        $selectedUnit = $request->input('unit');
+        $selectedDate = $request->input('date', date('Y-m-d'));
+
+        $datatable = DB::table('users')
+            ->select('users.id', 'users.name', 'ut.unit_name as unit')
+            ->join('user_units as usnit', 'usnit.user_id', '=', 'users.id')
+            ->join('unit_translations as ut', 'ut.id', '=', 'usnit.unit_id')
+            ->leftJoin('user_shifts as sf', 'sf.user_id', '=', 'users.id')
+            ->whereRaw('DATE(sf.valid_date_start) = ?', [$selectedDate])
+            ->when($selectedUnit, function ($query, $selectedUnit) {
+                return $query->where('usnit.unit_id', $selectedUnit);
+            })
+            ->groupBy('users.id', 'users.name', 'ut.unit_name')
+            ->get();
+
+        $absensi = DB::table('absens as abse')
+            ->select(
+                'abse.user_id',
+                DB::raw('TIME(abse.check_in) as masuk'),
+                DB::raw('TIME(abse.check_out) as pulang'),
+                'sf.shift_name',
+                DB::raw('TIME(sf.check_in) as sfmasuk'),
+                DB::raw('TIMEDIFF(TIME(abse.check_in), TIME(sf.check_in)) AS difference'),
+                DB::raw("CASE 
+                WHEN TIME(abse.check_in) > ADDTIME(TIME(sf.check_in), '00:15:00') THEN 'Telat'
+                ELSE 'Tepat Waktu'
+            END AS status")
+            )
+            ->join('shifts as sf', 'sf.id', '=', 'abse.shift_id')
+            ->join('users as u', 'u.id', '=', 'abse.user_id')
+            ->whereRaw('DATE(abse.check_in) = ?', [$selectedDate])
+            ->when($selectedUnit, function ($query, $selectedUnit) {
+                return $query->whereIn('u.id', function ($subquery) use ($selectedUnit) {
+                    $subquery->select('user_id')
+                        ->from('user_units')
+                        ->where('unit_id', $selectedUnit);
+                });
+            })
+            ->get();
+
+        $shifts = DB::table('user_shifts as sf')
+            ->select('sf.user_id', 'shi.shift_name', DB::raw('TIME(sf.valid_date_start) as sfmasuk'))
+            ->join('shifts as shi', 'shi.id', '=', 'sf.shift_id')
+            ->leftJoin('users as u', 'u.id', '=', 'sf.user_id')
+            ->whereRaw('DATE(sf.valid_date_start) = ?', [$selectedDate])
+            ->when($selectedUnit, function ($query, $selectedUnit) {
+                return $query->whereIn('sf.user_id', function ($subquery) use ($selectedUnit) {
+                    $subquery->select('user_id')
+                        ->from('user_units')
+                        ->where('unit_id', $selectedUnit);
+                });
+            })
+            ->get();
+
+        $absensi = $absensi->merge($shifts->map(function ($shift) {
+            return (object) [
+                'user_id' => $shift->user_id,
+                'shift_name' => $shift->shift_name,
+                'sfmasuk' => $shift->sfmasuk,
+                'masuk' => null,
+                'pulang' => null,
+                'difference' => null,
+                'status' => 'Belum Absen'
+            ];
+        })->all());
+
+        return response()->json([
+            'datatable' => $datatable,
+            'absensi' => $absensi,
+        ]);
+    }
+
+
 
     public function exportHarian(Request $request)
     {
@@ -297,18 +372,18 @@ class WasinController extends Controller
             'active_page' => 'laporan',
             'active_page_child' => 'absensi',
         ];
-    
+
         $month = $request->input('month', date('Y-m'));
         $selectedMonth = $month;
-    
+
         \Log::info('Selected month: ' . $month);
-    
+
         $data['datatable'] = DB::table('users')
             ->select('users.id', 'users.name', 'ut.unit_name as unit')
             ->join('user_units as usnit', 'usnit.user_id', '=', 'users.id')
             ->join('unit_translations as ut', 'ut.id', '=', 'usnit.unit_id')
             ->get();
-    
+
         $absen = DB::table('absens')
             ->select(
                 'absens.check_in',
@@ -323,16 +398,16 @@ class WasinController extends Controller
                 END AS status")
             )
             ->join('shifts as sf', 'sf.id', '=', 'absens.shift_id')
-            ->where(function($query) use ($month) {
+            ->where(function ($query) use ($month) {
                 $query->whereMonth('absens.check_in', '=', date('m', strtotime($month)))
-                      ->whereYear('absens.check_in', '=', date('Y', strtotime($month)))
-                      ->orWhere(function($query) use ($month) {
-                          $query->whereMonth('absens.check_out', '=', date('m', strtotime($month)))
-                                ->whereYear('absens.check_out', '=', date('Y', strtotime($month)));
-                      });
+                    ->whereYear('absens.check_in', '=', date('Y', strtotime($month)))
+                    ->orWhere(function ($query) use ($month) {
+                        $query->whereMonth('absens.check_out', '=', date('m', strtotime($month)))
+                            ->whereYear('absens.check_out', '=', date('Y', strtotime($month)));
+                    });
             })
             ->get();
-    
+
         $groupedAbsen = [];
         foreach ($absen as $att) {
             $userId = $att->user_id;
@@ -341,14 +416,14 @@ class WasinController extends Controller
             }
             $dateIn = date('Y-m-d', strtotime($att->check_in));
             $dateOut = date('Y-m-d', strtotime($att->check_out));
-    
+
             $groupedAbsen[$userId][$dateIn]['check_in'] = $att->check_in;
             $groupedAbsen[$userId][$dateIn]['status'] = $att->status;
-    
+
             if ($att->status === 'Telat') {
                 $groupedAbsen[$userId]['telat_count']++;
             }
-    
+
             if ($att->next_day) {
                 $dateOutPrevDay = date('Y-m-d', strtotime('-1 day', strtotime($dateOut)));
                 $groupedAbsen[$userId][$dateOutPrevDay]['check_out'] = $att->check_out;
@@ -356,15 +431,15 @@ class WasinController extends Controller
                 $groupedAbsen[$userId][$dateOut]['check_out'] = $att->check_out;
             }
         }
-    
+
         $data['absen'] = $groupedAbsen;
         $data['jumlahhari'] = date("t", strtotime($month . '-01'));
         $data['selectedMonth'] = $selectedMonth;
-    
+
         return view('wasin.page.export', $data);
     }
-    
-    
+
+
 
 
 }

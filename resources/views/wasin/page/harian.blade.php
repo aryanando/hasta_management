@@ -98,7 +98,7 @@
                     $('#exportDate').val(date);
 
                     $.ajax({
-                        url: '{{ route('absen_unit', [], true) }}',
+                        url: '{{ route('filter_absensi', [], true) }}',
                         method: 'GET',
                         data: {
                             unit: unit,
