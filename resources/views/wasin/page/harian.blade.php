@@ -93,49 +93,53 @@
                 $('#filterForm').on('submit', function(event) {
                     event.preventDefault();
                     let unit = $('#unitSelect').val();
-                    let date = $('#dateSelect').val() ||
-                    '{{ date('Y-m-d') }}'; // Default to today if no date selected
-                    $('#exportUnit').val(unit); // Set the value for export
-                    $('#exportDate').val(date); // Set the value for export
+                    let date = $('#dateSelect').val() || '{{ date('Y-m-d') }}';
+                    $('#exportUnit').val(unit);
+                    $('#exportDate').val(date);
 
                     $.ajax({
-                        url: '{{ route('absen_unit') }}',
+                        url: '{{ route('absen_unit', [], true) }}',
                         method: 'GET',
                         data: {
                             unit: unit,
                             date: date
                         },
                         success: function(response) {
+                            console.log(response);
                             let tbody = $('#dataTableBody');
                             tbody.empty();
                             let rows = '';
-                            response.datatable.forEach(function(data, index) {
-                                let absensiData = response.absensi.find(a => a.user_id ==
-                                    data.id);
 
-                                // Determine status class
-                                let statusClass = absensiData ? (absensiData.status ===
-                                    'Telat' ? 'text-bg-danger' : (absensiData.status ===
-                                        'Tepat Waktu' ? 'text-bg-success' :
-                                        'text-bg-secondary')) : 'text-bg-secondary';
+                            if (response.datatable) {
+                                response.datatable.forEach(function(data, index) {
+                                    let absensiData = response.absensi.find(a => a
+                                        .user_id == data.id);
 
-                                rows += `
-                                <tr>
-                                    <td>${index + 1}</td>
-                                    <td>${data.name}</td>
-                                    <td>${data.unit}</td>
-                                    <td>${absensiData ? (absensiData.shift_name ? absensiData.shift_name : '--') : '--'} - ${absensiData ? (absensiData.sfmasuk ? absensiData.sfmasuk : '--') : '--'}</td>
-                                    <td>${absensiData ? (absensiData.masuk ? absensiData.masuk : '--') : '--'}</td>
-                                    <td>${absensiData ? (absensiData.pulang ? absensiData.pulang : '--') : '--'}</td>
-                                    <td>${absensiData ? (absensiData.difference ? absensiData.difference : '--') : '--'}</td>
-                                    <td>
-                                        <span class="badge ${statusClass}">
-                                            ${absensiData ? (absensiData.status ? absensiData.status : 'Belum Absen') : 'Belum Absen'}
-                                        </span>
-                                    </td>
-                                </tr>
-                            `;
-                            });
+                                    let statusClass = absensiData ? (absensiData.status ===
+                                            'Telat' ? 'text-bg-danger' : (absensiData
+                                                .status === 'Tepat Waktu' ?
+                                                'text-bg-success' : 'text-bg-secondary')) :
+                                        'text-bg-secondary';
+
+                                    rows += `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${data.name}</td>
+                                <td>${data.unit}</td>
+                                <td>${absensiData ? (absensiData.shift_name ? absensiData.shift_name : '--') : '--'} - ${absensiData ? (absensiData.sfmasuk ? absensiData.sfmasuk : '--') : '--'}</td>
+                                <td>${absensiData ? (absensiData.masuk ? absensiData.masuk : '--') : '--'}</td>
+                                <td>${absensiData ? (absensiData.pulang ? absensiData.pulang : '--') : '--'}</td>
+                                <td>${absensiData ? (absensiData.difference ? absensiData.difference : '--') : '--'}</td>
+                                <td>
+                                    <span class="badge ${statusClass}">
+                                        ${absensiData ? (absensiData.status ? absensiData.status : 'Belum Absen') : 'Belum Absen'}
+                                    </span>
+                                </td>
+                            </tr>
+                        `;
+                                });
+                            }
+
                             tbody.append(rows);
                         }
                     });
@@ -143,6 +147,7 @@
             });
         </script>
     @endpush
+
 
     @push('custom-script')
         <script type="module">

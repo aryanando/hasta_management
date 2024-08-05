@@ -120,11 +120,10 @@ class WasinController extends Controller
             'active_page' => 'laporan',
             'active_page_child' => 'harian',
         ];
-
+    
         $selectedUnit = $request->input('unit');
         $selectedDate = $request->input('date', date('Y-m-d'));
-
-        // Fetch all relevant users along with their units and shifts
+    
         $datatable = DB::table('users')
             ->select('users.id', 'users.name', 'ut.unit_name as unit')
             ->join('user_units as usnit', 'usnit.user_id', '=', 'users.id')
@@ -136,12 +135,11 @@ class WasinController extends Controller
             })
             ->groupBy('users.id', 'users.name', 'ut.unit_name')
             ->get();
-
+    
         $units = DB::table('unit_translations')
             ->select('id', 'unit_name', 'unit_leader_id')
             ->get();
-
-        // Fetch attendance data, including shifts for users who have checked in
+    
         $absensi = DB::table('absens as abse')
             ->select(
                 'abse.user_id',
@@ -166,8 +164,7 @@ class WasinController extends Controller
                 });
             })
             ->get();
-
-        // Add shifts data to the absensi if users have not checked in
+    
         $shifts = DB::table('user_shifts as sf')
             ->select('sf.user_id', 'shi.shift_name', DB::raw('TIME(sf.valid_date_start) as sfmasuk'))
             ->join('shifts as shi', 'shi.id', '=', 'sf.shift_id')
@@ -181,8 +178,7 @@ class WasinController extends Controller
                 });
             })
             ->get();
-
-        // Merge the attendance data with shift data if user didn't check in
+    
         $absensi = $absensi->merge($shifts->map(function ($shift) {
             return (object) [
                 'user_id' => $shift->user_id,
@@ -194,16 +190,17 @@ class WasinController extends Controller
                 'status' => 'Belum Absen'
             ];
         })->all());
-
+    
         if ($request->ajax()) {
             return response()->json([
                 'datatable' => $datatable,
                 'absensi' => $absensi,
             ]);
         }
-
+    
         return view('wasin.page.harian', compact('datatable', 'units', 'absensi'), $data);
     }
+    
 
     public function exportHarian(Request $request)
     {
