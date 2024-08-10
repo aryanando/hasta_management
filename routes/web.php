@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExcelImportController;
 use App\Http\Controllers\KaruController;
 use App\Http\Controllers\WasinController;
+use App\Http\Controllers\ClaimRujukanController;
 use App\Exports\AbsensiExport;
 use App\Exports\BulananExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -83,6 +84,9 @@ Route::get('/filter_absensi', [WasinController::class, 'filterAbsensi'])->name('
 // Keuangan ------------------------- Keuangan
 Route::get('/keuangan', [SalaryController::class, 'index'])->middleware('authapi');
 Route::post('/keuangan', [ExcelImportController::class, 'import'])->middleware('authapi')->name('import.excel');
+
+// Klaim Rujukan
+Route::get('/klaim-rujukan', [ClaimRujukanController::class, 'index'])->middleware('authapi');
 
 
 
