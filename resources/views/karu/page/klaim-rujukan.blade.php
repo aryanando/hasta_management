@@ -50,7 +50,8 @@
                                 <td>{{ $dataRujukan->bukti_foto_serahterima }}</td>
                                 <td>{{ $dataRujukan->keterangan }}</td>
                                 <td>
-                                    -
+                                    <button onClick="window.open('{{ route('klaim-rujukan-cetak', $dataRujukan->id) }}', '_blank')" type="button" class="btn btn-outline-secondary"><i
+                                            class="fa-solid fa-print"></i></button>
                                     {{-- <button class="btn btn-danger btn-sm rounded" type="button" data-toggle="tooltip"
                                         data-placement="top" title="Delete"><i class="fa fa-trash"></i></button> --}}
                                 </td>
@@ -255,8 +256,9 @@
                                 <label for="petugas_kasir">Nama Petugas Kasir</label>
                                 <input class="form-control form-control-sm mt-2" id="petugas_kasir" type="text"
                                     value="Nama Petugas Kasir" disabled>
-                                <input name="petugas_kasir" id="id_petugas_kasir" class="form-control form-control-sm mt-2"
-                                    type="text" value="Nama Petugas Kasir" disabled hidden>
+                                <input name="petugas_kasir" id="id_petugas_kasir"
+                                    class="form-control form-control-sm mt-2" type="text" value="Nama Petugas Kasir"
+                                    disabled hidden>
                             </div>
                             <div class="form-group">
                                 <label for="biaya">Biaya</label>
@@ -296,9 +298,8 @@
                                         <div class="btn-group me-2" role="group" aria-label="First group">
                                             <button onClick="step(2)" type="button" class="btn btn-outline-secondary"><i
                                                     class="fa-solid fa-arrow-left"></i> Prev</button>
-                                            <button onClick="" type="button"
-                                                class="btn btn-outline-secondary">Cetak <i
-                                                    class="fa-solid fa-print"></i></button>
+                                            <button onClick="" type="button" class="btn btn-outline-secondary">Cetak
+                                                <i class="fa-solid fa-print"></i></button>
                                             <button onClick="saveNewDataRujukan()" type="button"
                                                 class="btn btn-outline-secondary">Simpan <i
                                                     class="fa-solid fa-save"></i></button>
