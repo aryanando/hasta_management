@@ -7,7 +7,8 @@
             {{-- <i class="fas fa-laugh-wink"></i> --}}
         </div>
         <div class="sidebar-brand-text mx-3">Admin
-            <sup>{{ isset($data['small_tittle']) ? $data['small_tittle'] : '' }}</sup></div>
+            <sup>{{ isset($data['small_tittle']) ? $data['small_tittle'] : '' }}</sup>
+        </div>
     </a>
 
     <!-- Divider -->
@@ -23,36 +24,38 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Absensi
-    </div>
-
-    <li class="nav-item {{ $data['active_page'] == 'absensi' ? 'active' : '' }}">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-calendar-days"></i>
-            <span>Absensi</span>
-        </a>
-        <div id="collapseTwo" class="collapse {{ $data['active_page'] == 'absensi' ? 'show' : '' }}"
-            aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Monitoring Absensi</h6>
-                <a class="collapse-item {{ $data['active_page_child'] == 'today' ? 'active' : '' }}"
-                    href="{{ url('/karu/absensi-hari-ini') }}"><i
-                        class="fa-regular fa-calendar-check mr-2"></i><span>Hari Ini</span></a>
-                <a class="collapse-item {{ $data['active_page_child'] == 'log_karyawan' ? 'active' : '' }}"
-                    href="{{ url('/karu/log-karyawan') }}"><i class="fa-solid fa-users mr-2"></i><span>Log
-                        Karyawan</span></a>
-                <h6 class="collapse-header">Management Absensi</h6>
-                <a class="collapse-item {{ $data['active_page_child'] == 'shift' ? 'active' : '' }}"
-                    href="{{ url('/karu/shift') }}"><i class="fa-regular fa-clock mr-2"></i><span>Shift</span></a>
-                <a class="collapse-item {{ $data['active_page_child'] == 'jadwal' ? 'active' : '' }}"
-                    href="{{ url('/karu/jadwal/' . date('m')) }}"><i
-                        class="fa-regular fa-calendar-days mr-2"></i><span>Jadwal</span></a>
-            </div>
+    @if (Session('user_data')->karu)
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Absensi
         </div>
-    </li>
+
+        <li class="nav-item {{ $data['active_page'] == 'absensi' ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-calendar-days"></i>
+                <span>Absensi</span>
+            </a>
+            <div id="collapseTwo" class="collapse {{ $data['active_page'] == 'absensi' ? 'show' : '' }}"
+                aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Monitoring Absensi</h6>
+                    <a class="collapse-item {{ $data['active_page_child'] == 'today' ? 'active' : '' }}"
+                        href="{{ url('/karu/absensi-hari-ini') }}"><i
+                            class="fa-regular fa-calendar-check mr-2"></i><span>Hari Ini</span></a>
+                    <a class="collapse-item {{ $data['active_page_child'] == 'log_karyawan' ? 'active' : '' }}"
+                        href="{{ url('/karu/log-karyawan') }}"><i class="fa-solid fa-users mr-2"></i><span>Log
+                            Karyawan</span></a>
+                    <h6 class="collapse-header">Management Absensi</h6>
+                    <a class="collapse-item {{ $data['active_page_child'] == 'shift' ? 'active' : '' }}"
+                        href="{{ url('/karu/shift') }}"><i class="fa-regular fa-clock mr-2"></i><span>Shift</span></a>
+                    <a class="collapse-item {{ $data['active_page_child'] == 'jadwal' ? 'active' : '' }}"
+                        href="{{ url('/karu/jadwal/' . date('m')) }}"><i
+                            class="fa-regular fa-calendar-days mr-2"></i><span>Jadwal</span></a>
+                </div>
+            </div>
+        </li>
+    @endif
 
     @if (Session('user_data')->name == 'Administrator')
         <!-- Heading -->
@@ -83,7 +86,7 @@
 
 
     @if (count(Session('user_data')->unit) > 0)
-        @if (Session('user_data')->unit[0]->unit_name == 'IGD')
+        @if (Session('user_data')->unit[0]->unit_name == 'IGD' || Session('user_data')->unit[0]->unit_name == 'KASIR')
             <!-- Heading -->
             <div class="sidebar-heading">
                 Klaim Rujukan
