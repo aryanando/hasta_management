@@ -83,7 +83,7 @@
 
 
     @if (count(Session('user_data')->unit) > 0)
-        @if (Session('user_data')->unit[0]->unit_name == 'RM')
+        @if (Session('user_data')->unit[0]->unit_name == 'IGD')
             <!-- Heading -->
             <div class="sidebar-heading">
                 Klaim Rujukan

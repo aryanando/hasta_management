@@ -200,7 +200,7 @@
                     endDateFix = startDate
                     if (this.dataset.nextday == "true") {
                         endDateFix = endDateFix + 1
-                        
+
                     }
                     console.log(`${this.dataset.nextday}`);
                     shiftOptionSelect =
@@ -210,7 +210,7 @@
                                 </div>`;
                     @foreach ($shift as $shiftData)
                         @if ($shiftData->unit_id == $user_data->unit['0']->id)
-                            
+
                             shiftOptionSelect = shiftOptionSelect +
                                 `<div class="row">
                                     <button type="button" onclick="storeShiftUser(${userID}, ${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${endDateFix}', '${this.id}', ` +
@@ -261,7 +261,6 @@
             const fullScrren2 = document.getElementById('fullscreen2');
             $.ajaxSetup({
                 headers: {
-                    // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     'Authorization': "Bearer {{ session('token') }}"
                 }
             });
