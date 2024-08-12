@@ -88,6 +88,12 @@
             var addKlaimRujukan01 = document.getElementById("addKlaimRujukan01");
             var addKlaimRujukan02 = document.getElementById("addKlaimRujukan02");
             var addKlaimRujukan03 = document.getElementById("addKlaimRujukan03");
+            var noPerujuk = document.getElementById("no_hp_perujuk");
+
+            // if (index == 3 AND noPerujuk.value == '') {
+            //     alert("Nomor telp wajib diisi");
+            //     return false;
+            // }
 
             addKlaimRujukan01.classList.add("d-none");
             addKlaimRujukan02.classList.add("d-none");
@@ -118,8 +124,8 @@
                 "biaya": document.getElementById("biaya").value,
                 "nama_perujuk": sendData['rawDataRujukan'].perujuk,
                 "perujuk_id": null,
-                "petugas_rm": 13,
-                "petugas_kasir": 119,
+                "petugas_rm": {{ $user_data->id }},
+                "petugas_kasir": null,
                 "no_hp": document.getElementById("no_hp_perujuk").value,
                 "bukti_foto_serahterima": null,
                 "keterangan": "Joss",
@@ -158,7 +164,7 @@
                             element.perujuk,
                             element.keterangan,
                             `<button onClick="setStep2(${i})" class="btn btn-info btn-sm rounded" type="button"
-                                data-toggle="tooltip" data-placement="top" title="Delete"><i
+                                data-toggle="tooltip" data-placement="top" title="Buat Klaim Rujukan"><i
                                 class="fa-solid fa-arrow-right"></i></button>`,
                         ]).draw(false);
                     i++;
@@ -193,9 +199,7 @@
                                         <th>Tanggal</th>
                                         <th>Nama Pasien</th>
                                         <th>Perujuk</th>
-
                                         <th>Keterangan</th>
-
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -243,7 +247,7 @@
                             <div class="form-group">
                                 <label for="no_hp_perujuk">Nomor Perujuk</label>
                                 <input name="no_hp_perujuk" id="no_hp_perujuk" class="form-control form-control-sm mt-2"
-                                    type="text" value="Nomor Perujuk" required>
+                                    type="text" placeholder="Masukkan Nomor HP disini" required>
                             </div>
                             <div class="form-group">
                                 <label for="petugas_rm">Nama Petugas Pendaftaran</label>
@@ -264,6 +268,11 @@
                                 <label for="biaya">Biaya</label>
                                 <input name="biaya" id="biaya" class="form-control form-control-sm mt-2"
                                     type="number" value=125000>
+                            </div>
+                            <div class="form-group">
+                                <label for="keterangan">Keterangan</label>
+                                <input name="keterangan" id="keterangan" class="form-control form-control-sm mt-2"
+                                    type="text" placeholder="Silahkan tuliskan catatan disini">
                             </div>
                         </div>
                         <div class="modal-footer">
