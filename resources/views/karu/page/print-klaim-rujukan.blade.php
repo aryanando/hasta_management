@@ -58,7 +58,7 @@
                         <div class="col-3"><strong>Nama Perujuk</strong></div>
                         <div class="col-1 text-end">:</div>
                         <div class="col-8">
-                            @if ($rujukan->nama_perujuk === 'BLU')
+                            @if (!empty($rujukan->perujuk_blu))
                                 {{ $rujukan->perujuk_blu->name }}
                             @else
                                 {{ $rujukan->nama_perujuk }}

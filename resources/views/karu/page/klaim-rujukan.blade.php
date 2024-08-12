@@ -99,7 +99,6 @@
             document.getElementById("biaya").value = sendData['rawDataRujukan'].biaya;
             localStorage["selectedIndex"] = index;
             step(2);
-            console.log(sendData);
         }
 
         function step(index) {
