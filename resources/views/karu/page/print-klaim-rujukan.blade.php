@@ -23,6 +23,10 @@
             .container {
                 max-width: none !important;
             }
+
+            .bg-white.rounded.mt-3.p-4 {
+                box-shadow: none !important;
+            }
         }
     </style>
 </head>
@@ -53,7 +57,13 @@
                     <div class="row mb-2">
                         <div class="col-3"><strong>Nama Perujuk</strong></div>
                         <div class="col-1 text-end">:</div>
-                        <div class="col-8">{{ $rujukan->nama_perujuk }}</div>
+                        <div class="col-8">
+                            @if ($rujukan->nama_perujuk === 'BLU')
+                                {{ $rujukan->perujuk_blu->name }}
+                            @else
+                                {{ $rujukan->nama_perujuk }}
+                            @endif
+                        </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-3"><strong>No. HP</strong></div>
@@ -101,9 +111,10 @@
             </div>
             <div class="d-flex justify-content-around  mb-3" ">
                 <div class="p-2 ">{{ $rujukan->petugas_pendaftaran->name }}</div>
-                <div class="p-2 ">(..................................)</div>
+                <div class="p-2 ">
+                    {{ $rujukan->petugas_kasir->name ?? '(.............................................)' }}
+                </div>
             </div>
-
         </div>
 
         {{-- <button id="download" class="btn btn-primary mt-3">Download PDF</button> --}}
