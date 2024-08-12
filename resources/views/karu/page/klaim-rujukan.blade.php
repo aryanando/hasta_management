@@ -46,7 +46,7 @@
                                 <td>{{ $dataRujukan->perujuk_blu->name ?? $dataRujukan->nama_perujuk }}</td>
                                 <td>{{ $dataRujukan->no_hp }}</td>
                                 <td>{{ $dataRujukan->petugas_pendaftaran->name }}</td>
-                                <td>{{ $dataRujukan->petugas_kasir->name }}</td>
+                                <td>{{ $dataRujukan->petugas_kasir->name ?? '-' }}</td>
                                 <td>{{ $dataRujukan->bukti_foto_serahterima }}</td>
                                 <td>{{ $dataRujukan->keterangan }}</td>
                                 <td>
@@ -112,29 +112,39 @@
                 'Authorization': `Bearer {{ session('token') }}`
             }
 
-            var dataSend = {
-                "nama_pasien": sendData['rawDataRujukan'].registrasi.pasien.nm_pasien,
-                "no_reg_periksa": sendData['rawDataRujukan'].no_rawat,
-                "biaya": document.getElementById("biaya").value,
-                "nama_perujuk": sendData['rawDataRujukan'].perujuk,
-                "perujuk_id": null,
-                "petugas_rm": 13,
-                "petugas_kasir": 119,
-                "no_hp": document.getElementById("no_hp_perujuk").value,
-                "bukti_foto_serahterima": null,
-                "keterangan": "Joss",
+            var noPerujuk = document.getElementById("no_hp_perujuk");
+            console.log(noPerujuk.value);
+            
+            if (noPerujuk.value !== "") {
+                var dataSend = {
+                    "nama_pasien": sendData['rawDataRujukan'].registrasi.pasien.nm_pasien,
+                    "no_reg_periksa": sendData['rawDataRujukan'].no_rawat,
+                    "biaya": document.getElementById("biaya").value,
+                    "nama_perujuk": sendData['rawDataRujukan'].perujuk,
+                    "perujuk_id": null,
+                    "petugas_rm": {{ $user_data->id }},
+                    "petugas_kasir": null,
+                    "no_hp": document.getElementById("no_hp_perujuk").value,
+                    "bukti_foto_serahterima": null,
+                    "keterangan": document.getElementById("keterangan").value,
+                }
+    
+                axios.post('{{ env('API_URL', '') }}/api/v1/rujukan', dataSend, {
+                        headers: headers
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        window.open(`{{ url('/klaim-rujukan/cetak') }}/${response.data.data.id}`, "_blank");
+                        window.location.replace("{{ url('/klaim-rujukan') }}");
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            }else{
+                alert('Nomor telp wajib diisi');
             }
 
-            axios.post('{{ env('API_URL', '') }}/api/v1/rujukan', dataSend, {
-                    headers: headers
-                })
-                .then((response) => {
-                    console.log(response);
-                    window.open(`{{ url('/klaim-rujukan/cetak') }}/${response.data.data.id}`, "_blank");
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
         }
     </script>
     <script type="module">
@@ -158,7 +168,7 @@
                             element.perujuk,
                             element.keterangan,
                             `<button onClick="setStep2(${i})" class="btn btn-info btn-sm rounded" type="button"
-                                data-toggle="tooltip" data-placement="top" title="Delete"><i
+                                data-toggle="tooltip" data-placement="top" title="Buat Klaim Rujukan"><i
                                 class="fa-solid fa-arrow-right"></i></button>`,
                         ]).draw(false);
                     i++;
@@ -167,10 +177,12 @@
         ).catch(err => console.error(err));
 
         var DataTabless = new DataTables('#rujukanTable', {
-            responsive: true
+            responsive: true,
+            scrollX: true,
         });
         var DataTablesRujukanData = new DataTables('#rujukanDataTable', {
-            "autoWidth": false
+            "autoWidth": false,
+            scrollX: true,
         });
     </script>
 @endpush
@@ -193,9 +205,7 @@
                                         <th>Tanggal</th>
                                         <th>Nama Pasien</th>
                                         <th>Perujuk</th>
-
                                         <th>Keterangan</th>
-
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -243,7 +253,7 @@
                             <div class="form-group">
                                 <label for="no_hp_perujuk">Nomor Perujuk</label>
                                 <input name="no_hp_perujuk" id="no_hp_perujuk" class="form-control form-control-sm mt-2"
-                                    type="text" value="Nomor Perujuk" required>
+                                    type="text" placeholder="Masukkan Nomor HP disini" required>
                             </div>
                             <div class="form-group">
                                 <label for="petugas_rm">Nama Petugas Pendaftaran</label>
@@ -264,6 +274,11 @@
                                 <label for="biaya">Biaya</label>
                                 <input name="biaya" id="biaya" class="form-control form-control-sm mt-2"
                                     type="number" value=125000>
+                            </div>
+                            <div class="form-group">
+                                <label for="keterangan">Keterangan</label>
+                                <input name="keterangan" id="keterangan" class="form-control form-control-sm mt-2"
+                                    type="text" placeholder="Silahkan tuliskan catatan disini">
                             </div>
                         </div>
                         <div class="modal-footer">
