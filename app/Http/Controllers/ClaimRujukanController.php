@@ -54,7 +54,15 @@ class ClaimRujukanController extends Controller
         }else{
             return redirect()->back()->with('message', 'Anda Tidak Memiliki Akses!!!');
         }
+    }
 
-
+    public function verif($id) {
+        $data['user_data'] = session('user_data');
+        $response = Http::acceptJson()
+        ->withToken(session('token'))
+        ->put(env('API_URL') . '/api/v1/rujukan/'.$id, [
+            'petugas_kasir' => $data['user_data']->id,
+        ]);
+        return redirect()->back();
     }
 }

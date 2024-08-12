@@ -12,8 +12,10 @@
                 </div>
                 <div class="col-md-2">
                     <div class="float-right">
-                        <button class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#modalAddKlaimRujukan">Add</button>
+                        @if ($user_data->unit[0]->unit_name == 'RM')
+                            <button class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalAddKlaimRujukan">Add</button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -52,7 +54,7 @@
                                     <div style="width: 70px">
                                         @if ($user_data->unit[0]->unit_name == 'KASIR')
                                             <button
-                                                onClick="window.open('{{ route('klaim-rujukan-cetak', $dataRujukan->id) }}', '_blank')"
+                                                onClick="window.location.href = '{{ route('klaim-rujukan-verif', $dataRujukan->id) }}'"
                                                 type="button" class="btn btn-sm btn-outline-secondary" title="Validasi"><i
                                                     class="fa-solid fa-check"></i></button>
                                         @endif
@@ -166,6 +168,7 @@
     </script>
     <script type="module">
         const header = `Authorization: Bearer {{ session('token') }}`;
+
         var data = axios.get('{{ env('API_URL', '') }}/api/v1/rujukan-data', {
             headers: {
                 "Authorization": `Bearer {{ session('token') }}`
@@ -225,7 +228,9 @@
         var DataTabless = new DataTables('#rujukanTable', {
             responsive: true,
             scrollX: true,
-            order: [[0, 'desc']]
+            order: [
+                [0, 'desc']
+            ]
         });
         var DataTablesRujukanData = new DataTables('#rujukanDataTable', {
             "autoWidth": false,
@@ -308,9 +313,9 @@
                                             Karyawan?..
                                         </label>
                                     </div>
-                                    <div class="d-none" id="perujuk_blu_input"><input name="nama_perujuk_karyawan" id="nama_perujuk_karyawan"
-                                            class="form-control form-control-sm mt-2" type="text"
-                                            placeholder="Ketikkan atau Pilih Nama Yang Sesuai"></div>
+                                    <div class="d-none" id="perujuk_blu_input"><input name="nama_perujuk_karyawan"
+                                            id="nama_perujuk_karyawan" class="form-control form-control-sm mt-2"
+                                            type="text" placeholder="Ketikkan atau Pilih Nama Yang Sesuai"></div>
                                 </div>
                             </div>
                             <div class="form-group">
