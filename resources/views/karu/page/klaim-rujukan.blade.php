@@ -225,6 +225,7 @@
         var DataTabless = new DataTables('#rujukanTable', {
             responsive: true,
             scrollX: true,
+            order: [[0, 'desc']]
         });
         var DataTablesRujukanData = new DataTables('#rujukanDataTable', {
             "autoWidth": false,
@@ -303,7 +304,7 @@
                                 <div class="col">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="checkBLU">
-                                        <label class="form-check-label" for="flexCheckDefault">
+                                        <label class="form-check-label" for="checkBLU">
                                             Karyawan?..
                                         </label>
                                     </div>
