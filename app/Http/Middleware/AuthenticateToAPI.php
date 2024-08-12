@@ -32,8 +32,12 @@ class AuthenticateToAPI
             ->get(env('API_URL') . '/api/v1/me');
         if ($response->successful()) {
             $responseData =json_decode($response)->data;
-            if($responseData->unit[0]->unit_leader_id == $responseData->id){
-                $responseData->karu = true;
+            if ($responseData->name !== 'Administrator') {
+                if($responseData->unit[0]->unit_leader_id == $responseData->id){
+                    $responseData->karu = true;
+                }else{
+                    $responseData->karu = false;
+                }
             }else{
                 $responseData->karu = false;
             }
