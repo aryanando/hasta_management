@@ -33,7 +33,6 @@
                             <th>Petugas Kasir</th>
                             <th>Foto</th>
                             <th>Keterangan</th>
-
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -50,10 +49,18 @@
                                 <td>{{ $dataRujukan->bukti_foto_serahterima }}</td>
                                 <td>{{ $dataRujukan->keterangan }}</td>
                                 <td>
-                                    <button onClick="window.open('{{ route('klaim-rujukan-cetak', $dataRujukan->id) }}', '_blank')" type="button" class="btn btn-outline-secondary"><i
-                                            class="fa-solid fa-print"></i></button>
-                                    {{-- <button class="btn btn-danger btn-sm rounded" type="button" data-toggle="tooltip"
-                                        data-placement="top" title="Delete"><i class="fa fa-trash"></i></button> --}}
+                                    <div style="width: 70px">
+                                        @if ($user_data->unit[0]->unit_name == 'KASIR')
+                                            <button
+                                                onClick="window.open('{{ route('klaim-rujukan-cetak', $dataRujukan->id) }}', '_blank')"
+                                                type="button" class="btn btn-sm btn-outline-secondary" title="Validasi"><i
+                                                    class="fa-solid fa-check"></i></button>
+                                        @endif
+                                        <button
+                                            onClick="window.open('{{ route('klaim-rujukan-cetak', $dataRujukan->id) }}', '_blank')"
+                                            type="button" class="btn btn-sm btn-outline-secondary" title="Cetak"><i
+                                                class="fa-solid fa-print"></i></button>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -68,6 +75,16 @@
 @push('custom-script')
     <script>
         var sendData = [];
+
+        bluCheckbox = document.getElementById("checkBLU");
+        inputBlu = document.getElementById("perujuk_blu_input");
+        bluCheckbox.addEventListener('change', (event) => {
+            if (event.currentTarget.checked) {
+                inputBlu.classList.remove('d-none');
+            } else {
+                inputBlu.classList.add('d-none');
+            }
+        })
 
         function setStep2(index) {
             data = JSON.parse(localStorage["data"]);
@@ -114,21 +131,21 @@
 
             var noPerujuk = document.getElementById("no_hp_perujuk");
             console.log(noPerujuk.value);
-            
+
             if (noPerujuk.value !== "") {
                 var dataSend = {
                     "nama_pasien": sendData['rawDataRujukan'].registrasi.pasien.nm_pasien,
                     "no_reg_periksa": sendData['rawDataRujukan'].no_rawat,
                     "biaya": document.getElementById("biaya").value,
                     "nama_perujuk": sendData['rawDataRujukan'].perujuk,
-                    "perujuk_id": null,
+                    "perujuk_id": localStorage["perujukKaryawanID"] ?? null,
                     "petugas_rm": {{ $user_data->id }},
                     "petugas_kasir": null,
                     "no_hp": document.getElementById("no_hp_perujuk").value,
                     "bukti_foto_serahterima": null,
                     "keterangan": document.getElementById("keterangan").value,
                 }
-    
+
                 axios.post('{{ env('API_URL', '') }}/api/v1/rujukan', dataSend, {
                         headers: headers
                     })
@@ -141,7 +158,7 @@
                     .catch((error) => {
                         console.log(error);
                     })
-            }else{
+            } else {
                 alert('Nomor telp wajib diisi');
             }
 
@@ -172,6 +189,35 @@
                                 class="fa-solid fa-arrow-right"></i></button>`,
                         ]).draw(false);
                     i++;
+                });
+            }
+        ).catch(err => console.error(err));
+
+        var DataKaryawan = axios.get('{{ env('API_URL', '') }}/api/v1/karyawan', {
+            headers: {
+                "Authorization": `Bearer {{ session('token') }}`
+            }
+        }).then(
+            res => {
+                console.log(res.data.data.karyawan);
+                var i = 0;
+                var karyawan = [];
+                res.data.data.karyawan.forEach(element => {
+                    karyawan.push({
+                        'label': element.name,
+                        'value': element.name,
+                        'id': element.id,
+                    });
+                });
+                $("#nama_perujuk_karyawan").autocomplete({
+                    source: karyawan,
+                    select: function(event, ui) {
+                        var label = ui.item.name;
+                        var value = ui.item.name;
+                        // userId = ui.item.id;
+                        localStorage["perujukKaryawanID"] = ui.item.id;
+                        // console.log(ui.item.id);
+                    }
                 });
             }
         ).catch(err => console.error(err));
@@ -245,10 +291,26 @@
                                 <input name="nama_pasien" id="nama_pasien" class="form-control form-control-sm mt-2"
                                     type="text" value="Nama Pasien" disabled>
                             </div>
-                            <div class="form-group">
-                                <label for="nama_perujuk">Nama Perujuk</label>
-                                <input name="nama_perujuk" id="nama_perujuk" class="form-control form-control-sm mt-2"
-                                    type="text" value="Nama Perujuk" disabled>
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="nama_perujuk">Nama Perujuk</label>
+                                        <input name="nama_perujuk" id="nama_perujuk"
+                                            class="form-control form-control-sm mt-2" type="text" value="Nama Perujuk"
+                                            disabled>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="checkBLU">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Karyawan?..
+                                        </label>
+                                    </div>
+                                    <div class="d-none" id="perujuk_blu_input"><input name="nama_perujuk_karyawan" id="nama_perujuk_karyawan"
+                                            class="form-control form-control-sm mt-2" type="text"
+                                            placeholder="Ketikkan atau Pilih Nama Yang Sesuai"></div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="no_hp_perujuk">Nomor Perujuk</label>
@@ -325,7 +387,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
