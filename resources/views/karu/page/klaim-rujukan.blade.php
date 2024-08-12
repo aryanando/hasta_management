@@ -177,12 +177,12 @@
         ).catch(err => console.error(err));
 
         var DataTabless = new DataTables('#rujukanTable', {
-            responsive: true
-            scrollX: true
+            responsive: true,
+            scrollX: true,
         });
         var DataTablesRujukanData = new DataTables('#rujukanDataTable', {
-            "autoWidth": false
-            scrollX: true
+            "autoWidth": false,
+            scrollX: true,
         });
     </script>
 @endpush
