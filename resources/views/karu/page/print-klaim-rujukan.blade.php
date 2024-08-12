@@ -28,18 +28,18 @@
     </head>
 
     <body id="allprint">
-        <div class="container">
+        <div class="container mt-3">
             <div class="bg-white rounded mt-3 shadow p-4">
                 <div class="d-flex align-items-center mb-3">
                     <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" class="me-3"
-                        style="height: 150px; width: 150px;">
+                        style="height: 100px; width: 100px;">
 
                     <div class="flex-grow-1 text-center">
                         <h1 class="mb-0">Fee Rujuk Masuk</h1>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="row mb-2">
                             <div class="col-3"><strong>Nama Pasien</strong></div>
                             <div class="col-1 text-end">:</div>
@@ -66,7 +66,8 @@
                             <div class="col-8">{{ $rujukan->keterangan }}</div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+
+                    {{-- <div class="col-md-6">
                         <div class="row mb-2">
                             <div class="col-3"><strong>Petugas Kasir</strong></div>
                             <div class="col-1 text-end">:</div>
@@ -92,9 +93,19 @@
                             <div class="col-1 text-end">:</div>
                             <div class="col-8">Rp. {{ number_format($rujukan->biaya, 0, ',', '.') }}</div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
+                <div class="d-flex justify-content-around  mb-3" style="height: 125px;">
+                    <div class="p-2 ">Petugas Pendaftaran</div>
+                    <div class="p-2 ">Petugas Kasir</div>
+                </div>
+                <div class="d-flex justify-content-around  mb-3" ">
+                    <div class="p-2 ">{{ $rujukan->petugas_pendaftaran->name }}</div>
+                    <div class="p-2 ">(..................................)</div>
+                </div>
+
             </div>
+
             {{-- <button id="download" class="btn btn-primary mt-3">Download PDF</button> --}}
         </div>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
