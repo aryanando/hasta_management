@@ -84,6 +84,7 @@
             if (event.currentTarget.checked) {
                 inputBlu.classList.remove('d-none');
             } else {
+                localStorage["perujukKaryawanID"] = null;
                 inputBlu.classList.add('d-none');
             }
         })
@@ -96,7 +97,7 @@
             document.getElementById("nama_perujuk").value = sendData['rawDataRujukan'].perujuk;
             document.getElementById("petugas_rm").value = '{{ $user_data->name }}';
             document.getElementById("petugas_kasir").value = '-';
-            document.getElementById("biaya").value = sendData['rawDataRujukan'].biaya;
+            // document.getElementById("biaya").value = sendData['rawDataRujukan'].biaya;
             localStorage["selectedIndex"] = index;
             step(2);
         }
@@ -217,7 +218,12 @@
                         var label = ui.item.name;
                         var value = ui.item.name;
                         // userId = ui.item.id;
-                        localStorage["perujukKaryawanID"] = ui.item.id;
+
+                        if(bluCheckbox.checked){
+                            localStorage["perujukKaryawanID"] = ui.item.id;
+                        }else{
+                            localStorage["perujukKaryawanID"] = null;
+                        }
                         // console.log(ui.item.id);
                     }
                 });
@@ -340,7 +346,7 @@
                             <div class="form-group">
                                 <label for="biaya">Biaya</label>
                                 <input name="biaya" id="biaya" class="form-control form-control-sm mt-2"
-                                    type="number" value=125000>
+                                    type="number" value=125000 disabled>
                             </div>
                             <div class="form-group">
                                 <label for="keterangan">Keterangan</label>
