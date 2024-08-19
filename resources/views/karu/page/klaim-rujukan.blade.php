@@ -77,7 +77,7 @@
 @push('custom-script')
     <script>
         var sendData = [];
-
+        localStorage["perujukKaryawanID"] = null;
         bluCheckbox = document.getElementById("checkBLU");
         inputBlu = document.getElementById("perujuk_blu_input");
         bluCheckbox.addEventListener('change', (event) => {
