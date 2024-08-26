@@ -96,8 +96,7 @@
                                     {{-- @dd(($shift_user[$member->id][$i + 1])) --}}
                                     style="background-color: {{ isset($shift_user[$member->id][$i + 1]) ? $shift_user[$member->id][$i + 1]->shift_color : 'grey' }}"
                                     {{ isset($shift_user[$member->id][$i + 1]) ? 'data-lastshiftid=' . $shift_user[$member->id][$i + 1]->shift_id : '' }}
-                                    {{ isset($shift_user[$member->id][$i + 1]) ? ($shift_user[$member->id][$i + 1]->next_day == 1 ? 'data-nextday= true' : 'data-nextday= false') : '' }}
-                                >
+                                    {{ isset($shift_user[$member->id][$i + 1]) ? ($shift_user[$member->id][$i + 1]->next_day == 1 ? 'data-nextday= true' : 'data-nextday= false') : '' }}>
                                     <small
                                         class="{{ isset($shift_user[$member->id][$i + 1]) ? isColorLightOrDark($shift_user[$member->id][$i + 1]->shift_color) : 'text-light' }}">
                                         {{ isset($shift_user[$member->id][$i + 1]) ? $shift_user[$member->id][$i + 1]->shift_name : 'Off' }}
@@ -117,6 +116,9 @@
                 @if ($shiftData->unit_id == $user_data->unit['0']->id)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{ $shiftData->shift_name }} | {{ $shiftData->check_in }} - {{ $shiftData->check_out }}
+                        @if ($shiftData->deleted_at !== null)
+                            <span class="badge bg-secondary">Deleted</span>
+                        @endif
                         <span class="badge rounded-pill" style="background: {{ $shiftData->color }}">&nbsp&nbsp&nbsp</span>
                     </li>
                 @endif
@@ -184,7 +186,7 @@
 
                 if (this.children[0].innerText == "Off") {
                     @foreach ($shift as $shiftData)
-                        @if ($shiftData->unit_id == $user_data->unit['0']->id)
+                        @if ($shiftData->unit_id == $user_data->unit['0']->id AND $shiftData->deleted_at == NULL)
                             shiftOptionSelect = shiftOptionSelect + `<div class="row">
                                     <button type="button" onclick="storeShiftUser(${userID},` + {{ $shiftData->id }} +
                                 `,'2024-${month}-${startDate}','{{ $shiftData->next_day == 1 ? '${formattedDate}' : '2024-${month}-${startDate}' }}' , '${this.id}' )" class="border rounded" style="background-color: ` +
@@ -209,7 +211,7 @@
                                     </button>
                                 </div>`;
                     @foreach ($shift as $shiftData)
-                        @if ($shiftData->unit_id == $user_data->unit['0']->id)
+                        @if ($shiftData->unit_id == $user_data->unit['0']->id AND $shiftData->deleted_at == NULL)
 
                             shiftOptionSelect = shiftOptionSelect +
                                 `<div class="row">
