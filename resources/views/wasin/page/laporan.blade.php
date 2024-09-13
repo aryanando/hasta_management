@@ -1,4 +1,3 @@
-
 @extends('wasin.layout.layout')
 
 @section('content')
@@ -50,12 +49,8 @@
                         @for ($day = 1; $day <= $jumlahhari; $day++)
                             @php
                                 $date = date('Y-m-') . str_pad($day, 2, '0', STR_PAD_LEFT);
-                                $check_in = isset($absen[$row->id][$date]['check_in'])
-                                    ? $absen[$row->id][$date]['check_in']
-                                    : '-';
-                                $status = isset($absen[$row->id][$date]['status'])
-                                    ? $absen[$row->id][$date]['status']
-                                    : '';
+                                $check_in = $absen[$row->id][$date]['check_in'] ?? '-';
+                                $status = $absen[$row->id][$date]['status'] ?? '';
                                 $status_class = $status === 'Telat' ? 'text-danger' : '';
                             @endphp
                             <td class="text-center"><span class="{{ $status_class }}">{{ $check_in }}</span></td>
@@ -67,9 +62,7 @@
                         @for ($day = 1; $day <= $jumlahhari; $day++)
                             @php
                                 $date = date('Y-m-') . str_pad($day, 2, '0', STR_PAD_LEFT);
-                                $check_out = isset($absen[$row->id][$date]['check_out'])
-                                    ? $absen[$row->id][$date]['check_out']
-                                    : '-';
+                                $check_out = $absen[$row->id][$date]['check_out'] ?? '-';
                             @endphp
                             <td class="text-center">{{ $check_out }}</td>
                         @endfor
@@ -151,9 +144,4 @@
     </script>
 @endpush
 @push('custom-script2')
-
 @endpush
-
-
-
-

@@ -110,39 +110,41 @@
                             tbody.empty();
                             let rows = '';
 
-                            if (response.datatable) {
+                            if (response.datatable && response.absensi) {
                                 response.datatable.forEach(function(data, index) {
                                     let absensiData = response.absensi.find(a => a
                                         .user_id == data.id);
 
                                     let statusClass = absensiData ? (absensiData.status ===
-                                            'Telat' ? 'text-bg-danger' : (absensiData
-                                                .status === 'Tepat Waktu' ?
+                                            'Telat' ? 'text-bg-danger' :
+                                            (absensiData.status === 'Tepat Waktu' ?
                                                 'text-bg-success' : 'text-bg-secondary')) :
                                         'text-bg-secondary';
 
                                     rows += `
-                            <tr>
-                                <td>${index + 1}</td>
-                                <td>${data.name}</td>
-                                <td>${data.unit}</td>
-                                <td>${absensiData ? (absensiData.shift_name ? absensiData.shift_name : '--') : '--'} - ${absensiData ? (absensiData.sfmasuk ? absensiData.sfmasuk : '--') : '--'}</td>
-                                <td>${absensiData ? (absensiData.masuk ? absensiData.masuk : '--') : '--'}</td>
-                                <td>${absensiData ? (absensiData.pulang ? absensiData.pulang : '--') : '--'}</td>
-                                <td>${absensiData ? (absensiData.difference ? absensiData.difference : '--') : '--'}</td>
-                                <td>
-                                    <span class="badge ${statusClass}">
-                                        ${absensiData ? (absensiData.status ? absensiData.status : 'Belum Absen') : 'Belum Absen'}
-                                    </span>
-                                </td>
-                            </tr>
-                        `;
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${data.name}</td>
+                                        <td>${data.unit}</td>
+                                        <td>${absensiData ? (absensiData.shift_name ? absensiData.shift_name : '--') : '--'} - 
+                                            ${absensiData ? (absensiData.sfmasuk ? absensiData.sfmasuk : '--') : '--'}</td>
+                                        <td>${absensiData ? (absensiData.masuk ? absensiData.masuk : '--') : '--'}</td>
+                                        <td>${absensiData ? (absensiData.pulang ? absensiData.pulang : '--') : '--'}</td>
+                                        <td>${absensiData ? (absensiData.difference ? absensiData.difference : '--') : '--'}</td>
+                                        <td>
+                                            <span class="badge ${statusClass}">
+                                                ${absensiData ? (absensiData.status ? absensiData.status : 'Belum Absen') : 'Belum Absen'}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                `;
                                 });
                             }
 
                             tbody.append(rows);
                         }
                     });
+
                 });
             });
         </script>

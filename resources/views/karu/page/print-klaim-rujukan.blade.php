@@ -61,7 +61,7 @@
                             @if (!empty($rujukan->perujuk_blu))
                                 {{ $rujukan->perujuk_blu->name }}
                             @else
-                                {{ $rujukan->nama_perujuk }}
+                                {{ $rujukan->nama_perujuk}}
                             @endif
                         </div>
                     </div>
