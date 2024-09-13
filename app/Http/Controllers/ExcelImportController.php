@@ -23,11 +23,11 @@ class ExcelImportController extends Controller
         $data = Excel::toCollection(null, $file);
         $dataFix = [];
         $index = 0;
-        foreach ($data[1] as $karyawan) {
-            if ($index > 2 and $index < (count($data[1]) - 1)) {
+        foreach ($data[0] as $karyawan) {
+            if ($index > 2 and $index < (count($data[0]) - 1)) {
                 $dataFix[$index - 3] = [
                     'tahun'         => 2024,
-                    'bulan'         => 7,
+                    'bulan'         => 9,
                     'user_id'       => $karyawan[39],
                     'gaji_pokok'    => $karyawan[17],
                     'bpjs_tk'       => $karyawan[18],
@@ -68,7 +68,7 @@ class ExcelImportController extends Controller
         // $data['slip'] = (json_decode($response->body()));
         // return $data['unit'];
         // dd($response->body());
-        
+
 
         return redirect()->back()->with('success', 'Excel file imported successfully!');
     }

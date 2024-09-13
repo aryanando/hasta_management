@@ -27,7 +27,7 @@
                         </thead>
                         <tbody>
                             @foreach ($shift as $shiftData)
-                                @if ($shiftData->unit_id == $user_data->unit['0']->id)
+                                @if ($shiftData->unit_id == $user_data->unit['0']->id AND $shiftData->deleted_at == NULL)
                                     <tr>
                                         <td>{{ $shiftData->shift_name }}</td>
                                         <td>{{ $shiftData->check_in }}</td>
@@ -35,7 +35,7 @@
                                         <td><div class="rounded" style="background-color:{{ $shiftData->color }}; height:20px; width:30px"></div></td>
                                         <td>{{ $shiftData->next_day == 0 ? 'Tidak' : 'Ya' }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-sm rounded" type="button" data-toggle="tooltip"
+                                            <button onclick="document.location.href='{{ route('delete_shift', $shiftData->id) }}';" class="btn btn-danger btn-sm rounded" type="button" data-toggle="tooltip"
                                                 data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
