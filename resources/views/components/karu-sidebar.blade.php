@@ -1,4 +1,5 @@
 <!-- Sidebar -->
+{{-- @dd(Session('user_data')) --}}
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -86,7 +87,7 @@
 
 
     @if (count(Session('user_data')->unit) > 0)
-        @if (Session('user_data')->unit[0]->unit_name == 'RM' || Session('user_data')->unit[0]->unit_name == 'KASIR')
+        @if (Session('user_data')->unit[0]->unit_name == 'RM' || Session('user_data')->unit[0]->unit_name == 'KASIR' || Session('user_data')->name == 'GANDI ARI SETIOKO,Amd.Kep ')
             <!-- Heading -->
             <div class="sidebar-heading">
                 Klaim Rujukan

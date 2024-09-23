@@ -1,6 +1,9 @@
 @extends('karu.layout.layout')
 
+
+
 @section('content')
+{{-- @dd($user_data) --}}
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Rujukan</h1>
     {{-- <h5>With great power comes great responsibility!!!.</h5> --}}
@@ -52,7 +55,7 @@
                                 <td>{{ $dataRujukan->keterangan }}</td>
                                 <td>
                                     <div style="width: 70px">
-                                        @if ($user_data->unit[0]->unit_name == 'KASIR')
+                                        @if ($user_data->unit[0]->unit_name == 'KASIR' || $user_data->name == "ARYANANDO" || $user_data->name == "GANDI ARI SETIOKO,Amd.Kep ")
                                             <button
                                                 onClick="window.location.href = '{{ route('klaim-rujukan-verif', $dataRujukan->id) }}'"
                                                 type="button" class="btn btn-sm btn-outline-secondary" title="Validasi"><i

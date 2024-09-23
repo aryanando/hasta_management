@@ -14,7 +14,7 @@ class ClaimRujukanController extends Controller
             return redirect(url('/admin'));
         }
 
-        if ($data['user_data']->unit[0]->unit_name == 'RM' || $data['user_data']->unit[0]->unit_name == 'KASIR' ) {
+        if ($data['user_data']->unit[0]->unit_name == 'RM' || $data['user_data']->unit[0]->unit_name == 'KASIR' || $data['user_data']->name == "ARYANANDO" || $data['user_data']->name == "GANDI ARI SETIOKO,Amd.Kep ") {
             $response = Http::acceptJson()
                 ->withToken(session('token'))
                 ->get(env('API_URL') . '/api/v1/rujukan');
@@ -39,7 +39,7 @@ class ClaimRujukanController extends Controller
             return redirect(url('/admin'));
         }
 
-        if ($data['user_data']->unit[0]->unit_name == 'RM' || $data['user_data']->unit[0]->unit_name == 'KASIR' ) {
+        if ($data['user_data']->unit[0]->unit_name == 'RM' || $data['user_data']->unit[0]->unit_name == 'KASIR' || $data['user_data']->name == "ARYANANDO" || $data['user_data']->name == "GANDI ARI SETIOKO,Amd.Kep ") {
             $response = Http::acceptJson()
                 ->withToken(session('token'))
                 ->get(env('API_URL') . '/api/v1/rujukan/'.$id);
