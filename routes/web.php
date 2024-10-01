@@ -88,6 +88,7 @@ Route::post('/keuangan', [ExcelImportController::class, 'import'])->middleware('
 
 // Klaim Rujukan
 Route::get('/klaim-rujukan', [ClaimRujukanController::class, 'index'])->middleware('authapi');
+Route::get('/detail-klaim-rujukan', [ClaimRujukanController::class, 'detailDataRujukan'])->middleware('authapi');
 Route::get('/klaim-rujukan/verif/{id}', [ClaimRujukanController::class, 'verif'])->middleware('authapi')->name('klaim-rujukan-verif');
 Route::get('/klaim-rujukan/cetak/{id}', [ClaimRujukanController::class, 'print'])->middleware('authapi')->name('klaim-rujukan-cetak');
 

@@ -104,9 +104,12 @@
                     aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Data Rujukan</h6>
-                        <a class="collapse-item {{ $data['active_page_child'] == 'data-klaim-rujukan' ? 'active' : '' }}"
+                        <a class="collapse-item {{ $data['active_page_child'] == 'klaim-rujukan' ? 'active' : '' }}"
                             href="{{ url('/klaim-rujukan') }}"><i
                                 class="fa-regular fa-calendar-check mr-2"></i><span>Rujukan</span></a>
+                        <a class="collapse-item {{ $data['active_page_child'] == 'data-klaim-rujukan' ? 'active' : '' }}"
+                            href="{{ url('/detail-klaim-rujukan') }}"><i
+                                class="fa-regular fa-calendar-check mr-2"></i><span>Detail Data Rujukan</span></a>
                         {{-- <a class="collapse-item {{ $data['active_page_child'] == 'log_karyawan' ? 'active' : '' }}"
                         href="{{ url('/karu/log-karyawan') }}"><i class="fa-solid fa-users mr-2"></i><span>Log
                             Karyawan</span></a> --}}
