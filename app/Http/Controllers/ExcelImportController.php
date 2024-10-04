@@ -27,7 +27,7 @@ class ExcelImportController extends Controller
             if ($index > 2 and $index < (count($data[0]) - 1)) {
                 $dataFix[$index - 3] = [
                     'tahun'         => 2024,
-                    'bulan'         => 9,
+                    'bulan'         => 10,
                     'user_id'       => $karyawan[39],
                     'gaji_pokok'    => $karyawan[17],
                     'bpjs_tk'       => $karyawan[18],
@@ -56,7 +56,7 @@ class ExcelImportController extends Controller
             $index++;
         }
 
-        // dd(($dataFix[110]));
+        // dd(($data));
         $response = Http::acceptJson()
             ->withToken(session('token'))
             ->post(
