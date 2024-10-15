@@ -11,6 +11,7 @@ use App\Http\Controllers\WasinController;
 use App\Http\Controllers\ClaimRujukanController;
 use App\Exports\AbsensiExport;
 use App\Exports\BulananExport;
+use App\Http\Controllers\ESurveyController;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -92,6 +93,9 @@ Route::get('/detail-klaim-rujukan', [ClaimRujukanController::class, 'detailDataR
 Route::get('/klaim-rujukan/verif/{id}', [ClaimRujukanController::class, 'verif'])->middleware('authapi')->name('klaim-rujukan-verif');
 Route::get('/klaim-rujukan/cetak/{id}', [ClaimRujukanController::class, 'print'])->middleware('authapi')->name('klaim-rujukan-cetak');
 
+// Esurvey ------------------------- Esurvey
+Route::get('/karu/esurvey-bulan-ini', [ESurveyController::class, 'unit'])->middleware('authapi');
+Route::get('/karu/esurvey-bulan-ini/{unit_id}', [ESurveyController::class, 'unit'])->middleware('authapi');
 
 
 Route::get('/dev', function () {

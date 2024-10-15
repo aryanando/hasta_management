@@ -56,7 +56,53 @@
                 </div>
             </div>
         </li>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            E-Survey
+        </div>
+
+        <li class="nav-item {{ $data['active_page'] == 'esurvey' ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                aria-expanded="true" aria-controls="collapseThree">
+                <i class="fas fa-fw fa-calendar-days"></i>
+                <span>E-Survey</span>
+            </a>
+            <div id="collapseThree" class="collapse {{ $data['active_page'] == 'esurvey' ? 'show' : '' }}"
+                aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Monitoring E-Survey</h6>
+                    <a class="collapse-item {{ $data['active_page_child'] == 'esurvey' ? 'active' : '' }}"
+                        href="{{ url('/karu/esurvey-bulan-ini') }}"><i
+                            class="fa-regular fa-calendar-check mr-2"></i><span>Data Bulan Ini</span></a>
+                </div>
+            </div>
+        </li>
     @endif
+
+    @if (Session('user_data')->id == '200')
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            E-Survey
+        </div>
+
+        <li class="nav-item {{ $data['active_page'] == 'esurvey' ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+                aria-expanded="true" aria-controls="collapseThree">
+                <i class="fas fa-fw fa-calendar-days"></i>
+                <span>E-Survey</span>
+            </a>
+            <div id="collapseThree" class="collapse {{ $data['active_page'] == 'esurvey' ? 'show' : '' }}"
+                aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Monitoring E-Survey</h6>
+                    <a class="collapse-item {{ $data['active_page_child'] == 'esurvey' ? 'active' : '' }}"
+                        href="{{ url('/karu/esurvey-bulan-ini') }}"><i
+                            class="fa-regular fa-calendar-check mr-2"></i><span>Data Bulan Ini</span></a>
+                </div>
+            </div>
+        </li>
+    @endif
+
 
     @if (Session('user_data')->name == 'Administrator')
         <!-- Heading -->
@@ -87,7 +133,9 @@
 
 
     @if (count(Session('user_data')->unit) > 0)
-        @if (Session('user_data')->unit[0]->unit_name == 'RM' || Session('user_data')->unit[0]->unit_name == 'KASIR' || Session('user_data')->name == 'GANDI ARI SETIOKO,Amd.Kep ')
+        @if (Session('user_data')->unit[0]->unit_name == 'RM' ||
+                Session('user_data')->unit[0]->unit_name == 'KASIR' ||
+                Session('user_data')->name == 'GANDI ARI SETIOKO,Amd.Kep ')
             <!-- Heading -->
             <div class="sidebar-heading">
                 Klaim Rujukan
