@@ -26,7 +26,7 @@ class ESurveyController extends Controller
             ->get(env('API_URL') . '/api/v1/unit');
         $data = array(
             'page_info' => [
-                'title' => 'Karu - Esurvey Karyawan',
+                'title' => 'Esurvey Karyawan',
                 'active_page' => 'esurvey',
                 'active_page_child' => 'esurvey',
             ],
@@ -57,7 +57,7 @@ class ESurveyController extends Controller
 
         $data = array(
             'page_info' => [
-                'title' => 'Karu - Esurvey Karyawan',
+                'title' => 'Esurvey Karyawan',
                 'active_page' => 'esurvey',
                 'active_page_child' => 'jenis-karyawan',
             ],

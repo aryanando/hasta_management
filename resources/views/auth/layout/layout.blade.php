@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css">
     <link rel="stylesheet" href="{{ asset('assets/css/sb-admin-2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}">
+    <link rel="icon" href="/favicon-32x32.png" type="image/x-icon">
 
 </head>
 
