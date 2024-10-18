@@ -59,7 +59,7 @@ class ESurveyController extends Controller
             'page_info' => [
                 'title' => 'Karu - Esurvey Karyawan',
                 'active_page' => 'esurvey',
-                'active_page_child' => 'esurvey',
+                'active_page_child' => 'jenis-karyawan',
             ],
             'user_data' => session('user_data'),
             'esurvey_unit' => json_decode($response->body())->data->esurvey,
