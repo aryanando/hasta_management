@@ -10,12 +10,13 @@
                 aria-expanded="false">
                 Jenis Karyawan -
                 @foreach ($jenis_karyawan as $data)
-                    {{ $data->id == collect(request()->segments())->last() ? ' - '.$data->name : '' }}
+                    {{ $data->id == collect(request()->segments())->last() ? ' - ' . $data->name : '' }}
                 @endforeach
             </button>
             <ul class="dropdown-menu">
                 @foreach ($jenis_karyawan as $data)
-                    <li><a class="dropdown-item" href="/karu/esurvey-jenis-karyawan/{{ $data->id }}">{{ $data->name }}</a></li>
+                    <li><a class="dropdown-item"
+                            href="/karu/esurvey-jenis-karyawan/{{ $data->id }}">{{ $data->name }}</a></li>
                 @endforeach
             </ul>
         </div>
@@ -73,6 +74,17 @@
         </tbody>
 
     </table>
+    <div class="row mb-3">
+        <div class="col-4">
+            <div style="width: 300px;"><canvas id="polriChart"></canvas></div>
+        </div>
+        <div class="col-4">
+            <div style="width: 300px;"><canvas id="pnsChart"></canvas></div>
+        </div>
+        <div class="col-4">
+            <div style="width: 300px;"><canvas id="bluChart"></canvas></div>
+        </div>
+    </div>
 @endsection
 
 @push('custom-script')
@@ -80,6 +92,87 @@
         var DataTabless = new DataTables('#esurveyDataTable', {
             responsive: true
         });
+
+        const dataPolri = {
+            'data': {
+                labels: [
+                    'Sudah Upload',
+                    'Belum Upload',
+                ],
+                datasets: [{
+                    label: 'Data ESurvey Polri',
+                    data: [{{ $statistic->polri->sudah }}, {{ $statistic->polri->belum }}],
+                    backgroundColor: [
+                        'rgb(0, 255, 0)',
+                        'rgb(255, 0, 0)',
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            'title': 'Data Esurvey Polri',
+            'canvas': document.getElementById('polriChart')
+        };
+        const dataPNS = {
+            'data': {
+                labels: [
+                    'Sudah Upload',
+                    'Belum Upload',
+                ],
+                datasets: [{
+                    label: 'Data ESurvey PNS Polri',
+                    data: [{{ $statistic->pns->sudah }}, {{ $statistic->pns->belum }}],
+                    backgroundColor: [
+                        'rgb(0, 255, 0)',
+                        'rgb(255, 0, 0)',
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            'title': 'Data Esurvey PNS Polri',
+            'canvas': document.getElementById('pnsChart')
+        };
+        const dataBLU = {
+            'data': {
+                labels: [
+                    'Sudah Upload',
+                    'Belum Upload',
+                ],
+                datasets: [{
+                    label: 'Data ESurvey BLU',
+                    data: [{{ $statistic->blu->sudah }}, {{ $statistic->blu->belum }}],
+                    backgroundColor: [
+                        'rgb(0, 255, 0)',
+                        'rgb(255, 0, 0)',
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            'title': 'Data Esurvey BLU',
+            'canvas': document.getElementById('bluChart')
+        };
+
+        buildChart(dataPolri);
+        buildChart(dataPNS);
+        buildChart(dataBLU);
+
+        function buildChart(data) {
+            const polriChart = new Chart(data.canvas, {
+                type: 'pie',
+                data: data.data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: data.title,
+                        }
+                    }
+                },
+            });
+        }
     </script>
 
     <script>
