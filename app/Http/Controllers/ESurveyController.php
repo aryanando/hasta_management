@@ -55,6 +55,8 @@ class ESurveyController extends Controller
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/jenis-karyawan');
 
+            // dd(json_decode($response->body()));
+
         $data = array(
             'page_info' => [
                 'title' => 'Esurvey Karyawan',
@@ -63,6 +65,7 @@ class ESurveyController extends Controller
             ],
             'user_data' => session('user_data'),
             'esurvey_unit' => json_decode($response->body())->data->esurvey,
+            'statistic' => json_decode($response->body())->data->statistic,
             'jenis_karyawan' => json_decode($response2->body())->data->jenis_karyawan
         );
 

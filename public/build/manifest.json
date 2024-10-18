@@ -1,6 +1,7 @@
 {
-  "_dataTables-D1U2ga_G.js": {
-    "file": "assets/dataTables-D1U2ga_G.js"
+  "_dataTables-C5P27B_V.js": {
+    "file": "assets/dataTables-C5P27B_V.js",
+    "name": "dataTables"
   },
   "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
     "file": "assets/fa-brands-400-DtZKBM2a.ttf",
@@ -40,19 +41,21 @@
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DsFEcwMf.js",
+    "file": "assets/app-BqyEYzeh.js",
+    "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_dataTables-D1U2ga_G.js"
+      "_dataTables-C5P27B_V.js"
     ]
   },
   "resources/js/token.js": {
-    "file": "assets/token-DmmH12dB.js",
+    "file": "assets/token-Dq69SA8Z.js",
+    "name": "token",
     "src": "resources/js/token.js",
     "isEntry": true,
     "imports": [
-      "_dataTables-D1U2ga_G.js"
+      "_dataTables-C5P27B_V.js"
     ]
   },
   "resources/sass/app.scss": {
