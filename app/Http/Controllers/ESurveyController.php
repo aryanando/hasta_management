@@ -51,8 +51,6 @@ class ESurveyController extends Controller
                 ->get(env('API_URL') . '/api/v1/esurvey/jenis-karyawan/'.$jenis_karyawan_id);
         }
 
-        dd(json_decode($response->body()));
-
         $response2 = Http::acceptJson()
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/jenis-karyawan');
