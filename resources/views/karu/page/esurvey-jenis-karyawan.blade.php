@@ -103,8 +103,8 @@
                     label: 'Data ESurvey Polri',
                     data: [{{ $statistic->polri->sudah }}, {{ $statistic->polri->belum }}],
                     backgroundColor: [
-                        'rgb(0, 255, 0)',
-                        'rgb(255, 0, 0)',
+                        '#85e085',
+                        '#ffb3b3',
                     ],
                     hoverOffset: 4
                 }]
@@ -122,8 +122,8 @@
                     label: 'Data ESurvey PNS Polri',
                     data: [{{ $statistic->pns->sudah }}, {{ $statistic->pns->belum }}],
                     backgroundColor: [
-                        'rgb(0, 255, 0)',
-                        'rgb(255, 0, 0)',
+                        '#85e085',
+                        '#ffb3b3',
                     ],
                     hoverOffset: 4
                 }]
@@ -141,8 +141,8 @@
                     label: 'Data ESurvey BLU',
                     data: [{{ $statistic->blu->sudah }}, {{ $statistic->blu->belum }}],
                     backgroundColor: [
-                        'rgb(0, 255, 0)',
-                        'rgb(255, 0, 0)',
+                        '#85e085',
+                        '#ffb3b3',
                     ],
                     hoverOffset: 4
                 }]
@@ -157,6 +157,7 @@
 
         function buildChart(data) {
             const polriChart = new Chart(data.canvas, {
+                plugins: [ChartDataLabels],
                 type: 'pie',
                 data: data.data,
                 options: {
