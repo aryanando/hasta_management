@@ -97,7 +97,10 @@
                     <h6 class="collapse-header">Monitoring E-Survey</h6>
                     <a class="collapse-item {{ $data['active_page_child'] == 'esurvey' ? 'active' : '' }}"
                         href="{{ url('/karu/esurvey-bulan-ini') }}"><i
-                            class="fa-regular fa-calendar-check mr-2"></i><span>Data Bulan Ini</span></a>
+                            class="fa-regular fa-calendar-check mr-2"></i><span>Unit</span></a>
+                    <a class="collapse-item {{ $data['active_page_child'] == 'jenis-karyawan' ? 'active' : '' }}"
+                        href="{{ url('/karu/esurvey-jenis-karyawan') }}"><i
+                            class="fa-regular fa-calendar-check mr-2"></i><span>Jenis Karyawan</span></a>
                 </div>
             </div>
         </li>
