@@ -28,9 +28,7 @@
             z-index: 1100;
         }
     </style>
-
     @stack('custom-style')
-
 </head>
 
 <body>
