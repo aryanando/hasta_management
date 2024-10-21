@@ -18,7 +18,7 @@ class ESurveyController extends Controller
         } else {
             $response = Http::acceptJson()
                 ->withToken(session('token'))
-                ->get(env('API_URL') . '/api/v1/esurvey/unit/'.$unit_id);
+                ->get(env('API_URL') . '/api/v1/esurvey/unit/' . $unit_id);
         }
 
         $response2 = Http::acceptJson()
@@ -48,14 +48,14 @@ class ESurveyController extends Controller
         } else {
             $response = Http::acceptJson()
                 ->withToken(session('token'))
-                ->get(env('API_URL') . '/api/v1/esurvey/jenis-karyawan/'.$jenis_karyawan_id);
+                ->get(env('API_URL') . '/api/v1/esurvey/jenis-karyawan/' . $jenis_karyawan_id);
         }
 
         $response2 = Http::acceptJson()
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/jenis-karyawan');
 
-            // dd(json_decode($response->body()));
+        // dd(json_decode($response->body()));
 
         $data = array(
             'page_info' => [
@@ -71,5 +71,14 @@ class ESurveyController extends Controller
 
 
         return view('karu.page.esurvey-jenis-karyawan', $data);
+    }
+
+    public function deleteEsurvey($id)
+    {
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->delete(env('API_URL') . '/api/v1/esurvey/' . $id);
+
+        return redirect()->back();
     }
 }

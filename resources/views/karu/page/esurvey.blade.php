@@ -67,7 +67,7 @@
                     </td>
                     <td>{{ count($esurveyData->esurvey) > 0 ? ($esurveyData->esurvey[0]->status == 0 ? 'verified' : 'unverified') : '-' }}
                     </td>
-                    <td><i class="bi bi-trash"></i></td>
+                    <td><a href="/karu/esurvey/delete/{{ count($esurveyData->esurvey) > 0 ? ($esurveyData->esurvey[0]->id) : '' }}"><i class="bi bi-trash"></i></a></td>
                 </tr>
             @endforeach
         </tbody>

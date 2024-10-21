@@ -98,6 +98,7 @@ Route::get('/karu/esurvey-bulan-ini', [ESurveyController::class, 'unit'])->middl
 Route::get('/karu/esurvey-bulan-ini/{unit_id}', [ESurveyController::class, 'unit'])->middleware('authapi');
 Route::get('/karu/esurvey-jenis-karyawan', [ESurveyController::class, 'jenisKaryawan'])->middleware('authapi');
 Route::get('/karu/esurvey-jenis-karyawan/{jenis_karyawan_id}', [ESurveyController::class, 'jenisKaryawan'])->middleware('authapi');
+Route::get('/karu/esurvey/delete/{id}', [ESurveyController::class, 'deleteEsurvey'])->middleware('authapi');
 
 
 Route::get('/dev', function () {
