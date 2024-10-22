@@ -22,8 +22,8 @@
                 <div class="card-body">
                     <p class="card-text small">Shift Hari Ini : {{ $users->shifts[0]->shifts->shift_name }} (
                         {{ $users->shifts[0]->shifts->check_in . '-' . $users->shifts[0]->shifts->check_out }} )</p>
-                    <p class="card-text small">Check In : {{ $users->shifts[0]->check_in ?? '-' }}</p>
-                    <p class="card-text small">Check In : {{ $users->shifts[0]->check_out ?? '-' }}</p>
+                    <p class="card-text small">Check In : {!! $users->shifts[0]->check_in ?? '- <span class="badge bg-danger">Belum Absen</span>' !!}</p>
+                    <p class="card-text small">Check Out : {{ $users->shifts[0]->check_out ?? '-' }}</p>
                 </div>
                 <div class="card-footer bg-transparent small text-muted ">Updated At
                     {{ \Carbon\Carbon::parse($users->shifts[0]->updated_at)->format('M d Y') }}</div>
@@ -104,8 +104,8 @@
                     ],
                     backgroundColor: [
                         '#000000',
-                        '#85e085',
                         '#ffb3b3',
+                        '#85e085',
                     ],
                     hoverOffset: 4
                 }]

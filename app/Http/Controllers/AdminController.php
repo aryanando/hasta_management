@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -78,16 +79,20 @@ class AdminController extends Controller
                 ->withToken(session('token'))
                 ->get(env('API_URL') . '/api/v1/user-statistic/' . $id);
 
+            $jamMasuk = new Carbon(json_decode($response->body())->data->users->shifts[0]->check_in);
+            $batasJamMasuk = new Carbon(json_decode($response->body())->data->users->shifts[0]->shifts->check_in);
             $data = array(
                 'users' => json_decode($response->body())->data->users,
                 'user_statistics' => json_decode($response2->body())->data,
                 'page_info' => array(
-                    'title' => 'Admin - '. json_decode($response->body())->data->users->name,
+                    'title' => 'Admin - ' . json_decode($response->body())->data->users->name,
                     'active_page' => 'admin',
                     'active_page_child' => 'user',
                 ),
                 'user_data' => session('user_data'),
+                'terlambat_hari_ini' => $jamMasuk->diffInMinutes($batasJamMasuk),
             );
+            // dd($jamMasuk);
 
             return view('admin.page.user-detail', $data);
         } else {
