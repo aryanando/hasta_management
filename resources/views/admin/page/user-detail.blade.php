@@ -69,6 +69,16 @@
                     {{ count($users->esurvey) > 0 ? \Carbon\Carbon::parse($users->esurvey[0]->updated_at)->format('M d Y') : '-' }}</div>
             </div>
         </div>
+        <div class="col-4">
+            <div class="card mb-3">
+                <div class="card-header bg-transparent">Statistik Keterlambatan</div>
+                <div class="card-body">
+                    <div style="width: 300px;"><canvas id="keterlambatanChart"></canvas></div>
+                </div>
+                <div class="card-footer bg-transparent small text-muted ">Updated At
+                    {{ \Carbon\Carbon::parse($users->shifts[0]->updated_at)->format('M d Y') }}</div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -77,6 +87,50 @@
         var DataTabless = new DataTables('#usersTable', {
             responsive: true
         });
+
+        const dataKeterlambatan = {
+            'data': {
+                labels: [
+                    'Tidak Absen',
+                    'Terlambat',
+                    'Tepat',
+                ],
+                datasets: [{
+                    label: 'Data Absensi Bulan Ini',
+                    data: [{{ $user_statistics->currentMonthData->jumlahTidakAbsen }}, {{ $user_statistics->currentMonthData->jumlahTerlambat }}, {{ $user_statistics->currentMonthData->jumlahTidakTerlambat }}],
+                    backgroundColor: [
+                        '#000000',
+                        '#85e085',
+                        '#ffb3b3',
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            'title': 'Data Absensi Bulan Ini',
+            'canvas': document.getElementById('keterlambatanChart')
+        };
+
+        buildChart(dataKeterlambatan);
+
+        function buildChart(data) {
+            const polriChart = new Chart(data.canvas, {
+                plugins: [ChartDataLabels],
+                type: 'pie',
+                data: data.data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: data.title,
+                        }
+                    }
+                },
+            });
+        }
     </script>
 @endpush
 
