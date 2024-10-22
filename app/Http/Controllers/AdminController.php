@@ -68,6 +68,25 @@ class AdminController extends Controller
         return $data['unit'];
     }
 
+    public function users($id = null)
+    {
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->get(env('API_URL') . '/api/v1/admin/users');
+
+        $data = array(
+            'users' => json_decode($response->body())->data->users,
+            'page_info' => array(
+                'title' => 'Admin - Unit',
+                'active_page' => 'manage-karyawan',
+                'active_page_child' => 'unit',
+            ),
+            'user_data' => session('user_data'),
+        );
+
+        return view('admin.page.users', $data);
+    }
+
     // API Autocomplete Select
     public function karyawan($filter)
     {
@@ -78,8 +97,8 @@ class AdminController extends Controller
         // return $dataKaryawan;
         if ($filter == 'noUnit') {
             foreach ($dataKaryawan as $karyawan) {
-                if (count($karyawan->unit)==0) {
-                    $data[] = array("label" => $karyawan->name, "value"=> $karyawan->name, "id"=>$karyawan->id);
+                if (count($karyawan->unit) == 0) {
+                    $data[] = array("label" => $karyawan->name, "value" => $karyawan->name, "id" => $karyawan->id);
                 }
             }
             return $data;
