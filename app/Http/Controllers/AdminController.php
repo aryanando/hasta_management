@@ -70,21 +70,39 @@ class AdminController extends Controller
 
     public function users($id = null)
     {
-        $response = Http::acceptJson()
-            ->withToken(session('token'))
-            ->get(env('API_URL') . '/api/v1/admin/users');
+        if ($id !== NULL) {
+            $response = Http::acceptJson()
+                ->withToken(session('token'))
+                ->get(env('API_URL') . '/api/v1/admin/users/' . $id);
 
-        $data = array(
-            'users' => json_decode($response->body())->data->users,
-            'page_info' => array(
-                'title' => 'Admin - Unit',
-                'active_page' => 'manage-karyawan',
-                'active_page_child' => 'unit',
-            ),
-            'user_data' => session('user_data'),
-        );
+            $data = array(
+                'users' => json_decode($response->body())->data->users,
+                'page_info' => array(
+                    'title' => 'Admin - '. json_decode($response->body())->data->users->name,
+                    'active_page' => 'manage-karyawan',
+                    'active_page_child' => 'user',
+                ),
+                'user_data' => session('user_data'),
+            );
 
-        return view('admin.page.users', $data);
+            return view('admin.page.user-detail', $data);
+        } else {
+            $response = Http::acceptJson()
+                ->withToken(session('token'))
+                ->get(env('API_URL') . '/api/v1/admin/users');
+
+            $data = array(
+                'users' => json_decode($response->body())->data->users,
+                'page_info' => array(
+                    'title' => 'Admin - Unit',
+                    'active_page' => 'manage-karyawan',
+                    'active_page_child' => 'unit',
+                ),
+                'user_data' => session('user_data'),
+            );
+
+            return view('admin.page.users', $data);
+        }
     }
 
     // API Autocomplete Select

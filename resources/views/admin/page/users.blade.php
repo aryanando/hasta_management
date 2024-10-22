@@ -21,7 +21,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->unit ? $user->unit->unit_name : '-' }}</td>
-                    <td><button type="button" class="btn btn-success">
+                    <td><button type="button" class="btn btn-success" onclick="location.href='{{ url('admin/users/'.$user->id) }}'">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-eye" viewBox="0 0 16 16">
                                 <path
