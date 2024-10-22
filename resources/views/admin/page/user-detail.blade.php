@@ -66,7 +66,8 @@
                     </div>
                 </div>
                 <div class="card-footer bg-transparent small text-muted ">Updated At
-                    {{ count($users->esurvey) > 0 ? \Carbon\Carbon::parse($users->esurvey[0]->updated_at)->format('M d Y') : '-' }}</div>
+                    {{ count($users->esurvey) > 0 ? \Carbon\Carbon::parse($users->esurvey[0]->updated_at)->format('M d Y') : '-' }}
+                </div>
             </div>
         </div>
         <div class="col-4">
@@ -97,7 +98,10 @@
                 ],
                 datasets: [{
                     label: 'Data Absensi Bulan Ini',
-                    data: [{{ $user_statistics->currentMonthData->jumlahTidakAbsen }}, {{ $user_statistics->currentMonthData->jumlahTerlambat }}, {{ $user_statistics->currentMonthData->jumlahTidakTerlambat }}],
+                    data: [{{ $user_statistics->currentMonthData->jumlahTidakAbsen }},
+                        {{ $user_statistics->currentMonthData->jumlahTerlambat }},
+                        {{ $user_statistics->currentMonthData->jumlahTidakTerlambat }}
+                    ],
                     backgroundColor: [
                         '#000000',
                         '#85e085',
@@ -130,6 +134,11 @@
                     }
                 },
             });
+        }
+    </script>
+    <script>
+        function blankFun(uri) {
+            window.open(uri, '_blank');
         }
     </script>
 @endpush
