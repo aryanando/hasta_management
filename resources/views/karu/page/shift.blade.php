@@ -27,7 +27,7 @@
                         </thead>
                         <tbody>
                             @foreach ($shift as $shiftData)
-                                @if ($shiftData->unit_id == $user_data->unit['0']->id AND $shiftData->deleted_at == NULL)
+                                @if ($shiftData->unit_id == $unit_id_fix AND $shiftData->deleted_at == NULL)
                                     <tr>
                                         <td>{{ $shiftData->shift_name }}</td>
                                         <td>{{ $shiftData->check_in }}</td>

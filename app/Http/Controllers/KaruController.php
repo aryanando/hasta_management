@@ -50,6 +50,12 @@ class KaruController extends Controller
 
     public function shift()
     {
+        $data['user_data'] = session('user_data');
+        if ($data['user_data']->id == 1) {
+            $unit_id = 20;
+        }else{
+            $unit_id = $data['user_data']->unit[0]->id;
+        }
         $response = Http::acceptJson()
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/shift');
