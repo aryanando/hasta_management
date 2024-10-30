@@ -4,7 +4,7 @@
     {{-- @dd($esurvey_unit) --}}
     <h1>Data Esurvey Unit</h1>
 
-    @if ($user_data->id == 200)
+    @if ($user_data->id == 200 || $user_data->id == 1)
         <div class="btn-group">
             <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
                 aria-expanded="false">

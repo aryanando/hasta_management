@@ -11,18 +11,34 @@ class ClaimRujukanController extends Controller
     {
         $data['user_data'] = session('user_data');
 
-        if ($data['user_data']->name == "Administrator" || $data['user_data']->name == "ARYANANDO") {
+        if ($data['user_data']->name == "ARYANANDO") {
             return redirect(url('/admin'));
         }
 
-        if ($data['user_data']->unit[0]->unit_name == 'RM' || $data['user_data']->unit[0]->unit_name == 'KASIR' || $data['user_data']->name == "ARYANANDO" || $data['user_data']->name == "GANDI ARI SETIOKO,Amd.Kep ") {
+        if (count($data['user_data']->unit) > 0) {
+            if ($data['user_data']->unit[0]->unit_name == 'RM' || $data['user_data']->unit[0]->unit_name == 'KASIR' || $data['user_data']->name == "ARYANANDO" || $data['user_data']->name == "GANDI ARI SETIOKO,Amd.Kep ") {
+                $response = Http::acceptJson()
+                    ->withToken(session('token'))
+                    ->get(env('API_URL') . '/api/v1/rujukan');
+                $data['rujukan'] = (json_decode($response->body())->data);
+
+                $data['page_info'] = [
+                    'title' => $data['user_data']->unit[0]->unit_name . ' - Klaim Rujukan',
+                    'active_page' => 'klaim-rujukan',
+                    'active_page_child' => 'klaim-rujukan',
+                ];
+                return view('karu.page.klaim-rujukan', $data);
+            } else {
+                return redirect()->back()->with('message', 'Anda Tidak Memiliki Akses!!!');
+            }
+        } elseif ($data['user_data']->id == 1) {
             $response = Http::acceptJson()
                 ->withToken(session('token'))
                 ->get(env('API_URL') . '/api/v1/rujukan');
             $data['rujukan'] = (json_decode($response->body())->data);
 
             $data['page_info'] = [
-                'title' => $data['user_data']->unit[0]->unit_name . ' - Klaim Rujukan',
+                'title' => 'Admin - Klaim Rujukan',
                 'active_page' => 'klaim-rujukan',
                 'active_page_child' => 'klaim-rujukan',
             ];
@@ -35,7 +51,7 @@ class ClaimRujukanController extends Controller
     public function print($id)
     {
         $data['user_data'] = session('user_data');
-        if ($data['user_data']->name == "Administrator" || $data['user_data']->name == "ARYANANDO") {
+        if ($data['user_data']->name == "ARYANANDO") {
             return redirect(url('/admin'));
         }
 
@@ -46,7 +62,7 @@ class ClaimRujukanController extends Controller
             $data['rujukan'] = (json_decode($response->body())->data);
 
             $data['page_info'] = [
-                'title' => $data['user_data']->unit[0]->unit_name . ' - Klaim Rujukan',
+                'title' => count($data['user_data']->unit) > 0 ? $data['user_data']->unit[0]->unit_name . ' - Klaim Rujukan' : 'Administrator Klaim Rujukan',
                 'active_page' => 'klaim-rujukan',
                 'active_page_child' => null,
             ];
@@ -71,7 +87,7 @@ class ClaimRujukanController extends Controller
     {
         $data['user_data'] = session('user_data');
         $data['page_info'] = [
-            'title' => $data['user_data']->unit[0]->unit_name . ' - Klaim Rujukan',
+            'title' => count($data['user_data']->unit) > 0 ? $data['user_data']->unit[0]->unit_name . ' - Klaim Rujukan' : 'Administrator Klaim Rujukan',
             'active_page' => 'klaim-rujukan',
             'active_page_child' => 'data-klaim-rujukan',
         ];

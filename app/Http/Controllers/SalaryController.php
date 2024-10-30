@@ -5,28 +5,35 @@ namespace App\Http\Controllers;
 use App\Imports\KeuanganImportClass;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Http;
 
 class SalaryController extends Controller
 {
     //
-    public function index() {
+    public function index()
+    {
         // dd(session('data_user'));
         $data['user_data'] = session('user_data');
 
-        if ($data['user_data']->name == "Administrator" || $data['user_data']->name == "ARYANANDO") {
-            return redirect(url('/admin'));
-            # code...
-        } if ($data['user_data']->name !== "EKO ARI IRAWAN, S.Kom") {
+        if (!in_array($data['user_data']->id,  [1, 109])) {
             return redirect(url('/karu'));
         }
 
-        $data['page_info'] = [
-            'title' => 'Keuangan - Dashboard',
-            'active_page' => 'dashboard',
-            'active_page_child' => null,
-            'small_tittle' => 'Keuangan',
-        ];
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->get(env('API_URL') . '/api/v1/slips');
+
+        $data = array(
+            'page_info' => [
+                'title' => 'Keuangan - Dashboard',
+                'active_page' => 'keuangan',
+                'active_page_child' => 'keuangan',
+                'small_tittle' => 'Keuangan',
+            ],
+            'dataPenghasilan' => json_decode($response)->data,
+            'user_data' => session('user_data'),
+        );
+
         return view('karu.page.slip-gaji', $data);
     }
-
 }

@@ -113,7 +113,7 @@
     <div class="p-3 border rounded bg-white shadow w-25">
         <ul class="list-group small">
             @foreach ($shift as $shiftData)
-                @if ($shiftData->unit_id == $user_data->unit['0']->id)
+                @if ($shiftData->unit_id == $unit_id_fix)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         {{ $shiftData->shift_name }} | {{ $shiftData->check_in }} - {{ $shiftData->check_out }}
                         @if ($shiftData->deleted_at !== null)
@@ -186,7 +186,7 @@
 
                 if (this.children[0].innerText == "Off") {
                     @foreach ($shift as $shiftData)
-                        @if ($shiftData->unit_id == $user_data->unit['0']->id AND $shiftData->deleted_at == NULL)
+                        @if ($shiftData->unit_id == $unit_id_fix AND $shiftData->deleted_at == NULL)
                             shiftOptionSelect = shiftOptionSelect + `<div class="row">
                                     <button type="button" onclick="storeShiftUser(${userID},` + {{ $shiftData->id }} +
                                 `,'2024-${month}-${startDate}','{{ $shiftData->next_day == 1 ? '${formattedDate}' : '2024-${month}-${startDate}' }}' , '${this.id}' )" class="border rounded" style="background-color: ` +
@@ -211,7 +211,7 @@
                                     </button>
                                 </div>`;
                     @foreach ($shift as $shiftData)
-                        @if ($shiftData->unit_id == $user_data->unit['0']->id AND $shiftData->deleted_at == NULL)
+                        @if ($shiftData->unit_id == $unit_id_fix AND $shiftData->deleted_at == NULL)
 
                             shiftOptionSelect = shiftOptionSelect +
                                 `<div class="row">
