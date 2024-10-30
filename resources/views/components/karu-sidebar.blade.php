@@ -163,12 +163,12 @@
         </div>
 
         <li class="nav-item {{ $data['active_page'] == 'manage-karyawan' ? 'active' : '' }}">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#karyawanManagement"
-                aria-expanded="true" aria-controls="karyawanManagement">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#unitManagement"
+                aria-expanded="true" aria-controls="unitManagement">
                 <i class="fas fa-fw fa-calendar-days"></i>
                 <span>Manage Unit</span>
             </a>
-            <div id="karyawanManagement"
+            <div id="unitManagement"
                 class="collapse {{ $data['active_page'] == 'manage-karyawan' ? 'show' : '' }}"
                 aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
