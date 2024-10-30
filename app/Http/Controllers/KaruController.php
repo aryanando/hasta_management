@@ -78,6 +78,7 @@ class KaruController extends Controller
         }else{
             $unit_id = $data['user_data']->unit[0]->id;
         }
+        $data['unit_id_fix'] = $unit_id;
         $response = Http::acceptJson()
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/unit/'.$unit_id);
