@@ -159,14 +159,14 @@
     @if (Session('user_data')->name == 'Administrator')
         <!-- Heading -->
         <div class="sidebar-heading">
-            Karyawan
+            Unit
         </div>
 
         <li class="nav-item {{ $data['active_page'] == 'manage-karyawan' ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#karyawanManagement"
                 aria-expanded="true" aria-controls="karyawanManagement">
                 <i class="fas fa-fw fa-calendar-days"></i>
-                <span>Manage Karyawan</span>
+                <span>Manage Unit</span>
             </a>
             <div id="karyawanManagement"
                 class="collapse {{ $data['active_page'] == 'manage-karyawan' ? 'show' : '' }}"
