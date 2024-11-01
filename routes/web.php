@@ -87,7 +87,8 @@ Route::get('/filter_absensi', [WasinController::class, 'filterAbsensi'])->name('
 
 // Keuangan ------------------------- Keuangan
 Route::get('/keuangan', [SalaryController::class, 'index'])->middleware('authapi');
-Route::post('/keuangan', [ExcelImportController::class, 'import'])->middleware('authapi')->name('import.excel');
+Route::post('/keuangan', [ExcelImportController::class, 'import'])->middleware('authapi')->name('import-excel');
+Route::get('/keuangan/baru', [SalaryController::class, 'baru'])->middleware('authapi')->name('gaji-baru');
 
 // Klaim Rujukan
 Route::get('/klaim-rujukan', [ClaimRujukanController::class, 'index'])->middleware('authapi');

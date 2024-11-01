@@ -14,10 +14,13 @@ class ExcelImportController extends Controller
         // Validate the uploaded file
         $request->validate([
             'file' => 'required|mimes:xlsx,xls',
+            'bulan' => 'required',
+            'tahun' => 'required',
         ]);
 
         // Get the uploaded file
         $file = $request->file('file');
+        $input = $request->post();
 
         // Process the Excel file
         $data = Excel::toCollection(null, $file);
@@ -26,8 +29,8 @@ class ExcelImportController extends Controller
         foreach ($data[0] as $karyawan) {
             if ($index > 2 and $index < (count($data[0]) - 1)) {
                 $dataFix[$index - 3] = [
-                    'tahun'         => 2024,
-                    'bulan'         => 10,
+                    'tahun'         => $input['tahun'],
+                    'bulan'         => $input['bulan'],
                     'user_id'       => $karyawan[39],
                     'gaji_pokok'    => $karyawan[17],
                     'bpjs_tk'       => $karyawan[18],
@@ -38,10 +41,10 @@ class ExcelImportController extends Controller
                     'pot_bpjs_tk'   => $karyawan[23],
                     'pot_bpjs_4p'   => $karyawan[24],
                     'pot_bpjs_1p'   => $karyawan[25],
-                    'pot_t_keluarga'=> $karyawan[26],
+                    'pot_t_keluarga' => $karyawan[26],
                     'pot_thr'       => $karyawan[27],
-                    'pot_s_koperasi'=> $karyawan[28],
-                    'pot_yatim_ppni'=> $karyawan[29],
+                    'pot_s_koperasi' => $karyawan[28],
+                    'pot_yatim_ppni' => $karyawan[29],
                     'pot_bon'       => $karyawan[30],
                     'pot_jajan_kop' => $karyawan[31],
                     'pot_tagihan_kasir' => $karyawan[32],
@@ -69,7 +72,6 @@ class ExcelImportController extends Controller
         // return $data['unit'];
         // dd($response->body());
 
-
-        return redirect()->back()->with('success', 'Excel file imported successfully!');
+        return redirect()->route('gaji-baru')->with('success', 'Excel file imported successfully!');
     }
 }
