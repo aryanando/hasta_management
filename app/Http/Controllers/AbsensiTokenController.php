@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Http;
 class AbsensiTokenController extends Controller
 {
     public function index() {
-        return view('absensi_token');
+        $data['user_data'] = session('user_data');
+        if ($data['user_data']->id == 1 || $data['user_data']->id == 188) {
+            return view('absensi_token');
+        }
+        return redirect('/karu');
     }
 }
