@@ -117,7 +117,7 @@
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseKeuangan"
                 aria-expanded="true" aria-controls="collapseKeuangan">
                 <i class="fas fa-fw fa-calendar-days"></i>
-                <span>Management Keuangan</span>
+                <span>Manage Keuangan</span>
             </a>
             <div id="collapseKeuangan" class="collapse {{ $data['active_page'] == 'keuangan' ? 'show' : '' }}"
                 aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -134,14 +134,14 @@
     @if (Session('user_data')->id == '1')
         <!-- Heading -->
         <div class="sidebar-heading">
-            Administrator
+            Manage User
         </div>
 
         <li class="nav-item {{ $data['active_page'] == 'admin' ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdmin"
                 aria-expanded="true" aria-controls="collapseAdmin">
                 <i class="fas fa-fw fa-calendar-days"></i>
-                <span>Administrator</span>
+                <span>Manage User</span>
             </a>
             <div id="collapseAdmin" class="collapse {{ $data['active_page'] == 'admin' ? 'show' : '' }}"
                 aria-labelledby="headingTwo" data-parent="#accordionSidebar">

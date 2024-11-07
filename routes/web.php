@@ -35,7 +35,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/token', [AbsensiTokenController::class, 'index'])->middleware('authapi');
+Route::get('/token', [AbsensiTokenController::class, 'index'])->middleware('authapi')->name('token_page');
 Route::get('/get-newtoken', [AbsensiToken::class, 'index']);
 Route::get('/get-absensi', [AbsensiKaryawanController::class, 'index']);
 
