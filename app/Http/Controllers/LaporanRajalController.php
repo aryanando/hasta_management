@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+class LaporanRajalController extends Controller
+{
+    public function index() {
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->get(env('API_URL') . '/api/v1/laporan/rajal');
+        $data['user_data'] = session('user_data');
+        $data['page_info'] = [
+            'title' => 'Admin - Laporan Rajal',
+            'active_page' => 'laporan',
+            'active_page_child' => 'laporanRawatJalan',
+        ];
+        $data['data_rajal'] = (json_decode($response->body())->data);
+        return view('admin.page.laporan-rajal', $data);
+    }
+}

@@ -248,6 +248,32 @@
             </li>
         @endif
     @endif
+    @if (Session('user_data')->name == 'Administrator')
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Laporan
+        </div>
+
+        <li class="nav-item {{ $data['active_page'] == 'laporan' ? 'active' : '' }}">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#manageLaporan"
+                aria-expanded="true" aria-controls="manageLaporan">
+                <i class="fas fa-fw fa-calendar-days"></i>
+                <span>Manage Laporan</span>
+            </a>
+            <div id="manageLaporan"
+                class="collapse {{ $data['active_page'] == 'laporan' ? 'show' : '' }}"
+                aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Rawat Jalan</h6>
+                    <a class="collapse-item {{ $data['active_page_child'] == 'laporanRawatJalan' ? 'active' : '' }}"
+                        href="{{ url('/laporan/rajal') }}"><i class="fa-regular fa-calendar-check mr-2"></i><span>Laporan Rawat Jalan</span></a>
+                    {{-- <a class="collapse-item {{ $data['active_page_child'] == 'log_karyawan' ? 'active' : '' }}"
+                        href="{{ url('/karu/log-karyawan') }}"><i class="fa-solid fa-users mr-2"></i><span>Log
+                            Karyawan</span></a> --}}
+                </div>
+            </div>
+        </li>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider">
