@@ -55,7 +55,7 @@
                                 {{ $periksalab->data_jenis_perawatan_lab->nm_perawatan }}<br>
                             @endforeach
                         @else
-                            Tidak ada Lab
+                            Tidak ada pemeriksaan Lab
                         @endif
                     </td>
                     {{-- <td>
@@ -75,18 +75,6 @@
                         @endif
                     </td> --}}
                     <td>
-                        {{-- @if (!empty($rajal->data_periksa_laboratorium))
-                            @foreach ($rajal->data_periksa_laboratorium as $periksalab)
-                                @if (!empty($periksalab))
-                                    <br>
-                                    @foreach ($periksalab->data_detail_periksa_lab as $item)
-                                     {{$item->biaya_item}}
-                                    @endforeach
-                                @endif
-                            @endforeach
-                        @else
-                            Tidak ada Lab
-                        @endif --}}
                         Harga Lab
                     </td>
                     <td>
@@ -95,7 +83,7 @@
                                 {{ $rad->kd_jenis_prw }}<br>
                             @endforeach
                         @else
-                            Tidak ada resep obat
+                            Tidak ada pemeriksaan Radiologi
                         @endif
                     </td>
                     <td>
