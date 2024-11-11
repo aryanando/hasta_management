@@ -3,6 +3,7 @@
 @section('content')
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800">Laporan Rawat Jalan</h1>
+    <h2>Tanggal : {{ $tanggal_laporan }}</h2>
     {{-- <h5>With great power comes great responsibility!!!.</h5> --}}
 
     <table id="rajalDataTable">
@@ -68,7 +69,7 @@
                                             ? $periksalab->data_detail_periksa_lab
                                             : [$periksalab->data_detail_periksa_lab];
                                     @endphp
-                                    
+
                                     @foreach ($detailPeriksaLab as $detail)
                                         @if (is_iterable($detail->data_template_laboratorium))
                                             @foreach ($detail->data_template_laboratorium as $biayalab)
@@ -92,7 +93,7 @@
                             @foreach ($rajal->data_periksa_laboratorium as $periksalab)
                                 @if ($periksalab->data_jenis_perawatan_lab->total_byr != 0)
                                     {{ $periksalab->data_jenis_perawatan_lab->total_byr }}<br>
-                                    
+
                                 @else
                                     @foreach ($periksalab->data_detail_periksa_lab as $plab)
                                         {{$plab->data_template_laboratorium->biaya_item}}

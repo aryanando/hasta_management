@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -18,6 +19,7 @@ class LaporanRajalController extends Controller
             'active_page_child' => 'laporanRawatJalan',
         ];
         $data['data_rajal'] = (json_decode($response->body())->data);
+        $data['tanggal_laporan'] = Carbon::now()->format('Y-m-d');
         return view('admin.page.laporan-rajal', $data);
     }
     public function byTanggal($tahun, $bulan, $tanggal) {
@@ -31,6 +33,7 @@ class LaporanRajalController extends Controller
             'active_page_child' => 'laporanRawatJalan',
         ];
         $data['data_rajal'] = (json_decode($response->body())->data);
+        $data['tanggal_laporan'] = $tahun.'-'.$bulan.'-'.$tanggal;
         return view('admin.page.laporan-rajal', $data);
     }
 }
