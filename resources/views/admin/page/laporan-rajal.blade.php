@@ -63,9 +63,21 @@
                         @if (!empty($rajal->data_periksa_laboratorium))
                             @foreach ($rajal->data_periksa_laboratorium as $periksalab)
                                 @if (!empty($periksalab))
-                                    @foreach ($periksalab->data_detail_periksa_lab as $biayalab)
-                                        {{ $biayalab->biaya_item }}<br>
-                                        @php $sumTotalLab += $biayalab->biaya_item; @endphp
+                                    @php
+                                        $detailPeriksaLab = is_array($periksalab->data_detail_periksa_lab)
+                                            ? $periksalab->data_detail_periksa_lab
+                                            : [$periksalab->data_detail_periksa_lab];
+                                    @endphp
+                                    
+                                    @foreach ($detailPeriksaLab as $detail)
+                                        @if (is_iterable($detail->data_template_laboratorium))
+                                            @foreach ($detail->data_template_laboratorium as $biayalab)
+                                                @if (is_object($biayalab) && property_exists($biayalab, 'biaya_item'))
+                                                    {{ $biayalab->biaya_item }}<br>
+                                                    @php $sumTotalLab += $biayalab->biaya_item; @endphp
+                                                @endif
+                                            @endforeach
+                                        @endif
                                     @endforeach
                                 @endif
                             @endforeach
@@ -73,9 +85,24 @@
                         @else
                             Tidak ada Lab
                         @endif
-                    </td> --}}
+                    </td>
+                     --}}
                     <td>
-                        Harga Lab
+                        @if (!empty($rajal->data_periksa_laboratorium))
+                            @foreach ($rajal->data_periksa_laboratorium as $periksalab)
+                                @if ($periksalab->data_jenis_perawatan_lab->total_byr != 0)
+                                    {{ $periksalab->data_jenis_perawatan_lab->total_byr }}<br>
+                                    
+                                @else
+                                    @foreach ($periksalab->data_detail_periksa_lab as $plab)
+                                        {{$plab->data_template_laboratorium->biaya_item}}
+                                    @endforeach
+                                    <hr>
+                                @endif
+                            @endforeach
+                        @else
+                            Tidak ada pemeriksaan Lab
+                        @endif
                     </td>
                     <td>
                         @if ($rajal->data_periksa_radiologi)
