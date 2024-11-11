@@ -92,11 +92,13 @@
                         @if (!empty($rajal->data_periksa_laboratorium))
                             @foreach ($rajal->data_periksa_laboratorium as $periksalab)
                                 @if ($periksalab->data_jenis_perawatan_lab->total_byr != 0)
-                                    {{ $periksalab->data_jenis_perawatan_lab->total_byr }}<br>
-
+                                    {{ $periksalab->data_jenis_perawatan_lab->total_byr }}
+                                    <hr>
                                 @else
                                     @foreach ($periksalab->data_detail_periksa_lab as $plab)
-                                        {{$plab->data_template_laboratorium->biaya_item}}
+                                        @if ($periksalab->kd_jenis_prw == $plab->kd_jenis_prw)
+                                            {{ $plab->data_template_laboratorium->biaya_item != 0 ? $plab->data_template_laboratorium->biaya_item : '' }}
+                                        @endif
                                     @endforeach
                                     <hr>
                                 @endif
