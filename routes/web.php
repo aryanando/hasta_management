@@ -107,6 +107,7 @@ Route::get('/karu/esurvey/delete/{id}', [ESurveyController::class, 'deleteEsurve
 
 // Laporan ------------------------ Laporan
 Route::get('/laporan/rajal', [LaporanRajalController::class, 'index'])->middleware('authapi');
+Route::get('/laporan/rajal/bytanggal/{tahun}/{bulan}/{tanggal}', [LaporanRajalController::class, 'byTanggal'])->middleware('authapi');
 
 
 

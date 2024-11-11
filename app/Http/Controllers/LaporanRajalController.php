@@ -20,4 +20,17 @@ class LaporanRajalController extends Controller
         $data['data_rajal'] = (json_decode($response->body())->data);
         return view('admin.page.laporan-rajal', $data);
     }
+    public function byTanggal($tahun, $bulan, $tanggal) {
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->get(env('API_URL') . '/api/v1/laporan/rajal/bytanggal/'.$tahun.'/'.$bulan.'/'.$tanggal);
+        $data['user_data'] = session('user_data');
+        $data['page_info'] = [
+            'title' => 'Admin - Laporan Rajal',
+            'active_page' => 'laporan',
+            'active_page_child' => 'laporanRawatJalan',
+        ];
+        $data['data_rajal'] = (json_decode($response->body())->data);
+        return view('admin.page.laporan-rajal', $data);
+    }
 }
