@@ -7,11 +7,25 @@
     <div class="card">
         <div class="card-body">
             <form>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="byName"
+                        onclick="changeSearchBar(this)" checked>
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        By Nama
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                        value="byNoRM" onclick="changeSearchBar(this)">
+                    <label class="form-check-label" for="flexRadioDefault2">
+                        By Nomer Rekam Medis
+                    </label>
+                </div>
                 <div class="mb-3">
-                    <label for="namaPasien" class="form-label">Nama Pasien</label>
+                    <label for="namaPasien" class="form-label" id="labelForSearchBar">Nama Pasien</label>
                     <input type="text" class="form-control" id="namaPasien" aria-describedby="namaPasien"
                         oninput="processChange()">
-                    <div id="namaPasien" class="form-text">Masukkan minimal 3 huruf dan tunggu beberapa saat</div>
+                    <div id="namaPasienFormText" class="form-text">Masukkan minimal 3 huruf dan tunggu beberapa saat</div>
                 </div>
             </form>
         </div>
@@ -27,6 +41,7 @@
     </div>
     <div class="bg-white p-3 mt-3 border rounded" id="item-result">
         {{-- Disini Bakal Item --}}
+        <div class="text-muted" id="statusItem">Silahkan Search</div>
     </div>
 @endsection
 
@@ -72,13 +87,33 @@
         function cariDataPasien() {
             document.getElementById('item-result').innerHTML = '';
             const val = document.getElementById('namaPasien').value;
-            if (val.length >= 3) {
-                document.getElementById('loadingPasien').classList.remove('d-none');
-                console.log(val);
-                getData(val);
+            const filterChecked = document.querySelector('input[name="flexRadioDefault"]:checked').value;
+            if (filterChecked == 'byName') {
+                if (val.length >= 3) {
+                    document.getElementById('loadingPasien').classList.remove('d-none');
+                    console.log(val);
+                    getData(val);
+                }
+            } else {
+                if (val.length >= 6) {
+                    document.getElementById('loadingPasien').classList.remove('d-none');
+                    console.log(val);
+                    getData(val);
+                }
             }
         }
         // $('#namaPasien').change($.debounce(2000, cariDataPasien));
+        function changeSearchBar(filterChecked){
+            document.getElementById('item-result').innerHTML = '';
+            document.getElementById('namaPasien').value = '';
+            if (filterChecked.value == 'byName') {
+                document.getElementById('labelForSearchBar').innerHTML = 'Nama Pasien';
+                document.getElementById('namaPasienFormText').innerHTML = 'Masukkan minimal 3 huruf dan tunggu beberapa saat';
+            }else{
+                document.getElementById('labelForSearchBar').innerHTML = 'Nomor RM Pasien';
+                document.getElementById('namaPasienFormText').innerHTML = 'Masukkan 6 angka kombinasi nomor RM dan tunggu beberapa saat';
+            }
+        }
 
 
         function debounce(func, timeout = 1500) {
@@ -98,14 +133,19 @@
     </script>
     <script type="module">
         function getData(params) {
-            var url = "{{ env('API_URL') }}" + '/api/v1/pasien/nama/' + params
+            const filterChecked = document.querySelector('input[name="flexRadioDefault"]:checked').value;
+            if (filterChecked == 'byName') {
+                var url = "{{ env('API_URL') }}" + '/api/v1/pasien/nama/' + params
+            } else {
+                var url = "{{ env('API_URL') }}" + '/api/v1/pasien/no-rkm-medis/' + params
+            }
             axios.get(url, {
                     'headers': {
                         'Authorization': "Bearer {{ session('token') }}"
                     }
                 })
                 .then((response => {
-                    console.log(response.data.data);
+                    console.log(response.data.data.length);
                     for (let index = 0; index < 30; index++) {
                         if (response.data.data[index] != null) {
                             var element = response.data.data[index];
@@ -123,7 +163,7 @@
                                             </div>
                                             <div class="col-5">
                                                 <button type="button" class="btn btn-primary">Lihat</button>
-                                                <button type="button" class="btn" style="background-color: #a9fde8;">Operasi JR</button>
+                                                <button type="button" class="btn" style="background-color: #a9fde8;" onClick="location.href='{{ url('pasien/penunjang/operasi') }}/${element.no_rkm_medis}';">Operasi</button>
                                             </div>
                                         </div>
                                     </div>
@@ -131,6 +171,9 @@
                             document.getElementById('item-result').innerHTML += cardItem;
                             document.getElementById('loadingPasien').classList.add('d-none');
                         }
+                    }
+                    if (response.data.data.length == 0) {
+                        document.getElementById('loadingPasien').classList.add('d-none');
                     }
 
                 }))

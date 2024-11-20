@@ -112,6 +112,7 @@ Route::get('/laporan/rajal/bytanggal/{tahun}/{bulan}/{tanggal}', [LaporanRajalCo
 
 // Pasien ------------------------ Pasien
 Route::get('/pasien/cari', [PasienController::class, 'index'])->middleware('authapi');
+Route::get('/pasien/penunjang/operasi/{no_rkm_medis}', [PasienController::class, 'operasi'])->middleware('authapi');
 
 
 
