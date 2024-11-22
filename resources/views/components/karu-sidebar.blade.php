@@ -278,7 +278,7 @@
         </li>
     @endif
 
-    @if (isUnit(20, $userData) || isAdmin())
+    @if (isUnit(5, $userData) || isAdmin())
         <!-- Heading -->
         <div class="sidebar-heading">
             Pasien

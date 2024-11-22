@@ -41,14 +41,17 @@
                                     @if ($reg_periksa_operasi->data_penjab->png_jawab == 'JASA RAHARJA')
                                         @if ($data_operasi->data_update_operasi == null)
                                             <button type="button" class="btn btn-primary"
-                                                onclick="updateJasaRaharja('{{ $reg_periksa_operasi->no_rawat }}', '{{ $data_operasi->tgl_operasi }}')">Update
+                                                onclick="showModalUpdate('{{ $reg_periksa_operasi->no_rawat }}', '{{ $data_operasi->tgl_operasi }}')">Update
                                                 Ke Jasaraharja</button>
                                         @else
                                             <div>
                                                 Data Telah diupdate
                                                 <ul class="alignMe">
-                                                    <li><b>Tanggal Update</b> {{ \Carbon\Carbon::parse($data_operasi->data_update_operasi->updated_at)->format('d M Y') }}</li>
-                                                    <li><b>Oleh</b> {{ $data_operasi->data_update_operasi->data_petugas->name }}</li>
+                                                    <li><b>Tanggal Update</b>
+                                                        {{ \Carbon\Carbon::parse($data_operasi->data_update_operasi->updated_at)->format('d M Y') }}
+                                                    </li>
+                                                    <li><b>Oleh</b>
+                                                        {{ $data_operasi->data_update_operasi->data_petugas->name }}</li>
                                                 </ul>
                                             </div>
                                         @endif
@@ -130,8 +133,37 @@
                 .catch(error => {
                     // Handle errors
                 });
+
+        }
+
+        function showModalUpdate(noRawat, tglOperasi){
+            $("#buttonSaveJR").attr("onclick",`updateJasaRaharja("${noRawat}", "${tglOperasi}")`);
+            $('#myModal').modal('show');
         }
 
         window.updateJasaRaharja = updateJasaRaharja;
+        window.showModalUpdate = showModalUpdate;
     </script>
+@endpush
+
+@push('custom-modal')
+    <div class="modal" tabindex="-1" role="dialog" id="myModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Perubahan Biaya Operasi Tertanggung Jasa Raharja Umum</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Setelah anda menekan tombol <b>Update</b> maka data biaya akan berubah sesuai perhitungan Jasa Raharja, perubahan tidak dapat dikembalikan jadi mohon untuk berhati-hati. Nama akun anda akan tersimpan sebagai petugas yang melakukan perubahan.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="buttonSaveJR" onclick="">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endpush
