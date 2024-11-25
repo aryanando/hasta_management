@@ -43,6 +43,9 @@
                                             <button type="button" class="btn btn-primary"
                                                 onclick="showModalUpdate('{{ $reg_periksa_operasi->no_rawat }}', '{{ $data_operasi->tgl_operasi }}')">Update
                                                 Ke Jasaraharja</button>
+                                            <button type="button" class="btn btn-success"
+                                                onclick="showModalUpdateJasaraharjaBPJS('{{ $reg_periksa_operasi->no_rawat }}', '{{ $data_operasi->tgl_operasi }}')">Update
+                                                Ke Jasaraharja BPJS</button>
                                         @else
                                             <div>
                                                 Data Telah diupdate
@@ -111,14 +114,7 @@
             const data = {
                 no_rawat: `${noRawat}`,
                 tgl_operasi: `${tglOperasi}`,
-                biayaoperator1: 6000000,
-                biayadokter_anestesi: 2100000,
-                biayaasisten_operator1: 600000,
-                biayaasisten_anestesi: 300000,
-                biayainstrumen: 300000,
-                biaya_omloop: 150000,
-                biayasewaok: 1000000,
-                bagian_rs: 0,
+                type_penanggung_jawab: `JR`
             };
 
             axios.put("{{ env('API_URL') }}" + '/api/v1/operasi/by-no-rawat', data, {
@@ -133,16 +129,41 @@
                 .catch(error => {
                     // Handle errors
                 });
+        }
+        function updateJasaRaharjaBPJS(noRawat, tglOperasi) {
+            const data = {
+                no_rawat: `${noRawat}`,
+                tgl_operasi: `${tglOperasi}`,
+                type_penanggung_jawab: `JR_BPJS`
+            };
 
+            axios.put("{{ env('API_URL') }}" + '/api/v1/operasi/by-no-rawat', data, {
+                    'headers': {
+                        'Authorization': "Bearer {{ session('token') }}"
+                    }
+                })
+                .then(response => {
+                    console.log(response.data);
+                    location.reload();
+                })
+                .catch(error => {
+                    // Handle errors
+                });
         }
 
         function showModalUpdate(noRawat, tglOperasi){
             $("#buttonSaveJR").attr("onclick",`updateJasaRaharja("${noRawat}", "${tglOperasi}")`);
             $('#myModal').modal('show');
         }
+        function showModalUpdateJasaraharjaBPJS(noRawat, tglOperasi){
+            $("#buttonSaveJRBPJS").attr("onclick",`updateJasaRaharja("${noRawat}", "${tglOperasi}")`);
+            $('#modalJasaraharjaBPJS').modal('show');
+        }
 
         window.updateJasaRaharja = updateJasaRaharja;
+        window.updateJasaRaharjaBPJS = updateJasaRaharjaBPJS;
         window.showModalUpdate = showModalUpdate;
+        window.showModalUpdateJasaraharjaBPJS = showModalUpdateJasaraharjaBPJS;
     </script>
 @endpush
 
@@ -161,6 +182,25 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="buttonSaveJR" onclick="">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modalJasaraharjaBPJS">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Konfirmasi Perubahan Biaya Operasi Tertanggung Jasa Raharja dan BPJS</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Setelah anda menekan tombol <b>Update</b> maka data biaya akan berubah sesuai perhitungan Jasa Raharja dan BPJS, perubahan tidak dapat dikembalikan jadi mohon untuk berhati-hati. Nama akun anda akan tersimpan sebagai petugas yang melakukan perubahan.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="buttonSaveJRBPJS" onclick="">Update</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                 </div>
             </div>
