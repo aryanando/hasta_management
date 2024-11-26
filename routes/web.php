@@ -12,6 +12,7 @@ use App\Http\Controllers\ClaimRujukanController;
 use App\Exports\AbsensiExport;
 use App\Exports\BulananExport;
 use App\Http\Controllers\ESurveyController;
+use App\Http\Controllers\LaporanFarmasiController;
 use App\Http\Controllers\LaporanRajalController;
 use App\Http\Controllers\PasienController;
 use Maatwebsite\Excel\Facades\Excel;
@@ -109,6 +110,7 @@ Route::get('/karu/esurvey/delete/{id}', [ESurveyController::class, 'deleteEsurve
 // Laporan ------------------------ Laporan
 Route::get('/laporan/rajal', [LaporanRajalController::class, 'index'])->middleware('authapi');
 Route::get('/laporan/rajal/bytanggal/{tahun}/{bulan}/{tanggal}', [LaporanRajalController::class, 'byTanggal'])->middleware('authapi');
+Route::get('/laporan/farmasi', [LaporanFarmasiController::class, 'index'])->middleware('authapi');
 
 // Pasien ------------------------ Pasien
 Route::get('/pasien/cari', [PasienController::class, 'index'])->middleware('authapi');
