@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-5 p-2">
                                 <div style="background-color: #00014d">
-                                    <button onclick="speakDong('Tn. Dandung Satrio Wulang Jiwo')">Speak</button>
+                                    <button onclick="getDataAntrian('2019281291')">Speak</button>
                                     <div class="text-center" id="realTimeClock" style="font-size:56px; color:#d0ff61">
                                         Wait ...
                                     </div>
@@ -81,23 +81,28 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-3">
-                                <div class="card">
+                                <div class="card" style="height: 240px">
                                     <div class="card-header py-1">
                                         JUMLAH ANTRIAN
                                     </div>
                                     <div class="card-body">
-                                        <span class="font-weight-bold text-center" style="font-size: 40px">30</span>
+                                        <div class="d-flex align-items-center justify-content-center"
+                                            style="height: 100%">
+                                            <span class="font-weight-bold text-center" style="font-size: 90px">30</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-2">
-                                <div class="card">
+                                <div class="card" style="height: 240px">
                                     <div class="card-header py-1">
                                         LIHAT ANTRIAN LENGKAP :
                                     </div>
                                     <div class="card-body py-1">
-                                        <img src="https://pngimg.com/uploads/qr_code/qr_code_PNG10.png"
-                                            class="img-fluid" alt="" srcset="">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <img src="https://pngimg.com/uploads/qr_code/qr_code_PNG10.png"
+                                                alt="" srcset="" height="200px">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -116,27 +121,30 @@
     <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js">
     </script>
 
-    <script>
-        var timeDisplay = document.getElementById("realTimeClock");
-
-
-        function refreshTime() {
-            var dateString = new Date().toLocaleString("id-ID", {
-                timeZone: "Asia/Jakarta"
-            });
-            var formattedString = dateString.replace(", ", " - ");
-            timeDisplay.innerHTML = formattedString;
+    <script type="module">
+        function getDataAntrian(kdDokter) {
+            axios.get("{{ env('API_URL') }}" + '/api/v1/antrian/poli?kd_dokter=' + encodeURIComponent(`${kdDokter}`), {
+                    'headers': {
+                        'Authorization': "Bearer {{ session('token') }}"
+                    }
+                })
+                .then(response => {
+                    console.log(response.data.data_dokter.nm_dokter);
+                    speakDong(response.data.data_dokter.nm_dokter);
+                })
+                .catch(error => {
+                    // Handle errors
+                });
         }
-
-        setInterval(refreshTime, 1000);
-
-
 
         // setInterval(speakDong, 2000);
         function speakDong(namaPasien) {
             if (namaPasien.indexOf("Tn.") !== -1) {
-                namaPasien = namaPasien.replace( 'Tn.', 'tuan');
-                console.log("Blaaaa blaa");
+                namaPasien = namaPasien.replace('Tn.', 'tuan');
+            } else if (namaPasien.indexOf("Ny.") !== -1) {
+                namaPasien = namaPasien.replace('Ny.', 'nyonya');
+            } else if (namaPasien.indexOf("An.") !== -1) {
+                namaPasien = namaPasien.replace('An.', 'anak');
             }
 
             responsiveVoice.speak(
@@ -148,7 +156,22 @@
                 }
             );
         }
+        setInterval(getDataAntrian('2019281291'), 1000);
     </script>
+
+    <script>
+        var timeDisplay = document.getElementById("realTimeClock");
+
+        function refreshTime() {
+            var dateString = new Date().toLocaleString("id-ID", {
+                timeZone: "Asia/Jakarta"
+            });
+            var formattedString = dateString.replace(", ", " - ");
+            timeDisplay.innerHTML = formattedString;
+        }
+    </script>
+
+
 
 </body>
 
