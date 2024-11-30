@@ -11,6 +11,7 @@ use App\Http\Controllers\WasinController;
 use App\Http\Controllers\ClaimRujukanController;
 use App\Exports\AbsensiExport;
 use App\Exports\BulananExport;
+use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\ESurveyController;
 use App\Http\Controllers\LaporanFarmasiController;
 use App\Http\Controllers\LaporanRajalController;
@@ -116,7 +117,8 @@ Route::get('/laporan/farmasi', [LaporanFarmasiController::class, 'index'])->midd
 Route::get('/pasien/cari', [PasienController::class, 'index'])->middleware('authapi');
 Route::get('/pasien/penunjang/operasi/{no_rkm_medis}', [PasienController::class, 'operasi'])->middleware('authapi');
 
-
+// Antrian Poli --------------------- Antrian Poli
+Route::get('/antrian/poli', [AntrianController::class, 'index'])->middleware('authapi');
 
 
 Route::get('/dev', function () {
