@@ -169,7 +169,7 @@
             );
         }
 
-        // setInterval(getDataAntrian, 1000);
+        // setInterval(getDataAntrian, 20000);
     </script>
 
     <script>
