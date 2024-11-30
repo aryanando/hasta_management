@@ -122,19 +122,31 @@
     </script>
 
     <script type="module">
-        function getDataAntrian(kdDokter) {
-            axios.get("{{ env('API_URL') }}" + '/api/v1/antrian/poli?kd_dokter=' + encodeURIComponent(`${kdDokter}`), {
+        function getDataAntrian() {
+            axios.get("{{ env('API_URL') }}" + '/api/v1/antrian/poli?kd_dokter=' + encodeURIComponent('2019281291'), {
                     'headers': {
                         'Authorization': "Bearer {{ session('token') }}"
                     }
                 })
                 .then(response => {
-                    console.log(response.data.data_dokter.nm_dokter);
-                    speakDong(response.data.data_dokter.nm_dokter);
+                    console.log(response.data.data.data_dokter.nm_dokter);
+                    speakDong(capitalizeFirstLetter(response.data.data.data_dokter.nm_dokter));
                 })
                 .catch(error => {
                     // Handle errors
                 });
+        }
+
+        function capitalizeFirstLetter(val) {
+            val = val.toLowerCase();
+            const words = val.split(" ");
+
+            for (let i = 0; i < words.length; i++) {
+                words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+            }
+
+            words.join(" ");
+            return words;
         }
 
         // setInterval(speakDong, 2000);
@@ -156,7 +168,8 @@
                 }
             );
         }
-        setInterval(getDataAntrian('2019281291'), 1000);
+
+        // setInterval(getDataAntrian, 1000);
     </script>
 
     <script>
@@ -169,6 +182,8 @@
             var formattedString = dateString.replace(", ", " - ");
             timeDisplay.innerHTML = formattedString;
         }
+
+        setInterval(refreshTime, 1000);
     </script>
 
 
