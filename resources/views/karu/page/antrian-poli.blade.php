@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-5 p-2">
                                 <div style="background-color: #00014d">
-                                    <button onclick="getDataAntrian('2019281291')">Speak</button>
+                                    {{-- <button onclick="getDataAntrian('2019281291')">Speak</button> --}}
                                     <div class="text-center" id="realTimeClock" style="font-size:56px; color:#d0ff61">
                                         Wait ...
                                     </div>
@@ -129,8 +129,9 @@
                     }
                 })
                 .then(response => {
-                    console.log(response.data.data.data_dokter.nm_dokter);
-                    speakDong(capitalizeFirstLetter(response.data.data.data_dokter.nm_dokter));
+                    // console.log(response.data.data.data_reg_priksa.pasien.nm_pasien);
+                    document.getElementById('namaRead').innerHTML = response.data.data.data_reg_priksa.pasien.nm_pasien;
+                    speakDong(capitalizeFirstLetter(response.data.data.data_reg_priksa.pasien.nm_pasien));
                 })
                 .catch(error => {
                     // Handle errors
@@ -146,11 +147,17 @@
             }
 
             words.join(" ");
-            return words;
+            var name = '';
+            words.forEach(element => {
+                name = name + element;
+            });
+            return name;
         }
 
-        // setInterval(speakDong, 2000);
+        // setInterval(speakDong(''), 5000);
         function speakDong(namaPasien) {
+            console.log(namaPasien);
+
             if (namaPasien.indexOf("Tn.") !== -1) {
                 namaPasien = namaPasien.replace('Tn.', 'tuan');
             } else if (namaPasien.indexOf("Ny.") !== -1) {
