@@ -20,7 +20,12 @@ class LaporanFarmasiController extends Controller
             'active_page' => 'laporan',
             'active_page_child' => 'laporanFarmasi',
         ];
-        $data['data_farmasi'] = (json_decode($response->body())->data);
+        $apiData = json_decode($response->body(), true);
+        $data['data_farmasi'] = json_decode($response->body(), true)['data'] ?? [];
+
+        // dd($data['data_farmasi']);
+        $data['jumlah_tidak_terpakai'] = $apiData['jumlah_tidak_terpakai'] ?? 0;
+        $data['jumlah_terpakai'] = $apiData['jumlah_terpakai'] ?? 0;
         $data['tanggal_laporan'] = Carbon::now()->format('Y-m-d');
         return view('admin.page.laporan-farmasi', $data);
     }
