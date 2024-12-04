@@ -25,6 +25,7 @@
 
 <body>
     <main>
+        {{-- @dd($dataPoli) --}}
         <div id="wrapper" class="vh-100">
             <div id="content-wrapper" class="d-flex flex-column">
                 <div id="content" style="background-color: #8a8a8a">
@@ -33,12 +34,12 @@
                         <div class="row my-2 py-2 bg-success">
                             <div class="col-7">
                                 <div style="color: #ff0000; font-size: 56px;" class="font-weight-bold ">
-                                    Antrian Poli - RS BHAYANGKARA BATU
+                                    {{ $dataPoli->nm_poli }}
                                 </div>
                             </div>
                             <div class="col-5 p-2">
                                 <div style="background-color: #00014d">
-                                    {{-- <button onclick="getDataAntrian('2019281291')">Speak</button> --}}
+                                    {{-- <button onclick="getDataAntrian()">Speak</button> --}}
                                     <div class="text-center" id="realTimeClock" style="font-size:56px; color:#d0ff61">
                                         Wait ...
                                     </div>
@@ -48,16 +49,15 @@
                         <div class="row">
                             <div class="col-5">
                                 <div class="card">
-                                    <div class="card-header">
-                                        POLI OBGYN
+
+                                    <div class="card-body d-flex align-items-center justify-content-center"
+                                        style="height: 160px">
+                                        <span class="font-weight-bold text-center"
+                                            style="font-size: 40px">{{ $dataDokter->nm_dokter }}</span>
                                     </div>
-                                    <div class="card-body">
-                                        <span class="font-weight-bold text-center" style="font-size: 40px">DR. ARIFIAN
-                                            JUARI</span>
-                                    </div>
-                                    <div class="card-footer">
+                                    {{-- <div class="card-footer">
                                         Status Ada
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="card mt-2">
                                     <div class="card-header font-weight-bold">
@@ -66,8 +66,7 @@
                                     <div class="card-body d-flex align-items-center justify-content-center"
                                         style="height: 400px">
                                         <span class="font-weight-bold text-center" style="font-size: 80px"
-                                            id="namaRead">Tn. Dandung
-                                            Satrio Wulang Jiwo</span>
+                                            id="namaRead"> - </span>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +80,7 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-3">
-                                <div class="card" style="height: 240px">
+                                <div class="card" style="height: 300px">
                                     <div class="card-header py-1">
                                         JUMLAH ANTRIAN
                                     </div>
@@ -94,14 +93,24 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <div class="card" style="height: 240px">
+                                <div class="card" style="height: 300px">
                                     <div class="card-header py-1">
                                         LIHAT ANTRIAN LENGKAP :
                                     </div>
                                     <div class="card-body py-1">
                                         <div class="d-flex align-items-center justify-content-center">
                                             <img src="https://pngimg.com/uploads/qr_code/qr_code_PNG10.png"
-                                                alt="" srcset="" height="200px">
+                                                alt="" srcset="" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-7">
+                                <div class="card">
+                                    <div class="card-body" id="listAntrian">
+                                        <div class="row" style="font-size: 50px">
+                                            <div class="col-2">-</div>
+                                            <div class="col-10">MOHON TUNGGU </div>
                                         </div>
                                     </div>
                                 </div>
@@ -123,15 +132,34 @@
 
     <script type="module">
         function getDataAntrian() {
-            axios.get("{{ env('API_URL') }}" + '/api/v1/antrian/poli?kd_dokter=' + encodeURIComponent('2019281291'), {
-                    'headers': {
-                        'Authorization': "Bearer {{ session('token') }}"
-                    }
-                })
+            console.log('getting data ..');
+
+            axios.get("{{ env('API_URL') }}" + '/api/v1/antrian/poli?kd_dokter=' + encodeURIComponent('2019009') +
+                    '&kd_poli=' + encodeURIComponent('U0003'), {
+                        'headers': {
+                            'Authorization': "Bearer {{ session('token') }}"
+                        }
+                    })
                 .then(response => {
-                    // console.log(response.data.data.data_reg_priksa.pasien.nm_pasien);
-                    document.getElementById('namaRead').innerHTML = response.data.data.data_reg_priksa.pasien.nm_pasien;
-                    speakDong(capitalizeFirstLetter(response.data.data.data_reg_priksa.pasien.nm_pasien));
+                    if (response.data.data.panggil != null) {
+                        document.getElementById('namaRead').innerHTML = response.data.data.panggil.data_reg_priksa.pasien
+                            .nm_pasien;
+                    }
+                    var i = 0;
+                    var dataAntrian = response.data.data.antrian
+                    document.getElementById('listAntrian').innerHTML = ``
+                    dataAntrian.forEach(element => {
+                        document.getElementById('listAntrian').innerHTML += `
+                                    <div class="row" style="font-size: 50px">
+                                        <div class="col-2">${element['no_reg']}</div>
+                                        <div class="col-10">${element['pasien']['nm_pasien']}</div>
+                                    </div>
+                                `
+                    });
+
+                    if (response.data.data.panggil.status == 1) {
+                        speakDong(capitalizeFirstLetter(response.data.data.panggil.data_reg_priksa.pasien.nm_pasien));
+                    }
                 })
                 .catch(error => {
                     // Handle errors
@@ -154,7 +182,6 @@
             return name;
         }
 
-        // setInterval(speakDong(''), 5000);
         function speakDong(namaPasien) {
             console.log(namaPasien);
 
@@ -162,21 +189,25 @@
                 namaPasien = namaPasien.replace('Tn.', 'tuan');
             } else if (namaPasien.indexOf("Ny.") !== -1) {
                 namaPasien = namaPasien.replace('Ny.', 'nyonya');
+            } else if (namaPasien.indexOf("Ny,") !== -1) {
+                namaPasien = namaPasien.replace('Ny,', 'nyonya');
             } else if (namaPasien.indexOf("An.") !== -1) {
                 namaPasien = namaPasien.replace('An.', 'anak');
             }
 
             responsiveVoice.speak(
-                `Antrian atas nama ${namaPasien}`,
+                `Antrian atas nama ${namaPasien}, Antrian atas nama ${namaPasien}`,
                 "Indonesian Female", {
                     pitch: 1,
-                    rate: 0.9,
+                    rate: 0.7,
                     volume: 1
                 }
             );
         }
 
-        // setInterval(getDataAntrian, 20000);
+        window.getDataAntrian = getDataAntrian;
+
+        setInterval(getDataAntrian, 3000);
     </script>
 
     <script>
