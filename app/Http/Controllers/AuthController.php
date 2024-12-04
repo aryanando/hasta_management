@@ -14,6 +14,7 @@ class AuthController extends Controller
 
     public function authenticate(Request $request) {
         $response = Http::acceptJson()->post(env('API_URL') . '/api/v1/login', ['email' => $request->post('email'), 'password' => $request->post('password')]);
+        // dd(env('API_URL') . '/api/v1/login');
         $responseData = json_decode($response);
         if ($response->successful()) {
             session(['token' => $responseData->token->token]);

@@ -76,6 +76,8 @@
         $.ajax({
             url: "{{ url('') }}/admin/api/karyawan/noUnit",
             success: function(result) {
+                console.log(result);
+                
                 $("#tags").autocomplete({
                     source: result,
 
