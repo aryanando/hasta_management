@@ -14,7 +14,7 @@ class KaruController extends Controller
         // dd(session('data_user'));
         $data['user_data'] = session('user_data');
 
-        if ($data['user_data']->name == "Administrator") {
+        if ($data['user_data']->name == "Administrator" || $data['user_data']->name == "ARYANANDO") {
             return redirect(url('/admin'));
             # code...
         }
@@ -50,6 +50,13 @@ class KaruController extends Controller
 
     public function shift()
     {
+        $data['user_data'] = session('user_data');
+        if ($data['user_data']->id == 1) {
+            $unit_id = 20;
+        }else{
+            $unit_id = $data['user_data']->unit[0]->id;
+        }
+        $data['unit_id_fix'] = $unit_id;
         $response = Http::acceptJson()
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/shift');
@@ -67,22 +74,33 @@ class KaruController extends Controller
     public function jadwal($month = null)
     {
         $data['user_data'] = session('user_data');
+        if ($data['user_data']->id == 1) {
+            $unit_id = 20;
+        }else{
+            $unit_id = $data['user_data']->unit[0]->id;
+        }
+
         $response = Http::acceptJson()
             ->withToken(session('token'))
-            ->get(env('API_URL') . '/api/v1/unit/'.$data['user_data']->unit[0]->id);
+            ->get(env('API_URL') . '/api/v1/unit/'.$unit_id);
         $data['unit'] = (json_decode($response->body())->data->unit);
 
         $response = Http::acceptJson()
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/shift');
         $data['shift'] = (json_decode($response->body())->data->shift);
+        $shiftMentah = [];
+        foreach ($data['shift'] as $allShift) {
+            $shiftMentah[$allShift->id] = $allShift;
+        }
 
         $response = Http::acceptJson()
             ->withToken(session('token'))
-            ->get(env('API_URL') . '/api/v1/shift-user/'.$data['user_data']->unit[0]->id.'/'.$month);
+            ->get(env('API_URL') . '/api/v1/shift-user/'.$unit_id.'/'.$month);
         $data['shift_user'] = (json_decode($response->body())->data->shift);
         $dataShiftUserUnit = [];
         foreach ($data['shift_user'] as $shiftUser) {
+            $shiftUser->next_day = $shiftMentah[$shiftUser->shift_id]->next_day;
             $dataShiftUserUnit[$shiftUser->user_id][Carbon::createFromFormat('Y-m-d H:i:s', $shiftUser->valid_date_start)->day] = $shiftUser;
         }
         $data['shift_user'] = $dataShiftUserUnit;
@@ -92,6 +110,8 @@ class KaruController extends Controller
             'active_page' => 'absensi',
             'active_page_child' => 'jadwal',
         ];
+
+        $data['unit_id_fix'] = $unit_id;
 
         $data['month'] = $month;
         // dd($data);
@@ -142,6 +162,19 @@ class KaruController extends Controller
             return $response;
         } else {
             return $response;
+        }
+    }
+
+    public function deleteShift($id) {
+        $response = Http::acceptJson()
+            ->withToken(session('token'))
+            ->delete(
+                env('API_URL') . '/api/v1/shift/' . $id,
+            );
+        if ($response->successful()) {
+            return redirect()->back();
+        } else {
+            return redirect()->back();
         }
     }
 

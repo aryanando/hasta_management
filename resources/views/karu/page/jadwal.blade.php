@@ -93,8 +93,10 @@
                                 class="p-0 py-1 text-center ">
                                 <button type="button" id="{{ $member->id }}-{{ $i + 1 }}" onclick=""
                                     class="{{ isPastDay('2024-' . $month . '-' . $i + 1) }} border rounded"
+                                    {{-- @dd(($shift_user[$member->id][$i + 1])) --}}
                                     style="background-color: {{ isset($shift_user[$member->id][$i + 1]) ? $shift_user[$member->id][$i + 1]->shift_color : 'grey' }}"
-                                    {{ isset($shift_user[$member->id][$i + 1]) ? 'data-lastshiftid=' . $shift_user[$member->id][$i + 1]->shift_id : '' }}>
+                                    {{ isset($shift_user[$member->id][$i + 1]) ? 'data-lastshiftid=' . $shift_user[$member->id][$i + 1]->shift_id : '' }}
+                                    {{ isset($shift_user[$member->id][$i + 1]) ? ($shift_user[$member->id][$i + 1]->next_day == 1 ? 'data-nextday= true' : 'data-nextday= false') : '' }}>
                                     <small
                                         class="{{ isset($shift_user[$member->id][$i + 1]) ? isColorLightOrDark($shift_user[$member->id][$i + 1]->shift_color) : 'text-light' }}">
                                         {{ isset($shift_user[$member->id][$i + 1]) ? $shift_user[$member->id][$i + 1]->shift_name : 'Off' }}
@@ -106,6 +108,22 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+
+    <div class="p-3 border rounded bg-white shadow w-25">
+        <ul class="list-group small">
+            @foreach ($shift as $shiftData)
+                @if ($shiftData->unit_id == $unit_id_fix)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ $shiftData->shift_name }} | {{ $shiftData->check_in }} - {{ $shiftData->check_out }}
+                        @if ($shiftData->deleted_at !== null)
+                            <span class="badge bg-secondary">Deleted</span>
+                        @endif
+                        <span class="badge rounded-pill" style="background: {{ $shiftData->color }}">&nbsp&nbsp&nbsp</span>
+                    </li>
+                @endif
+            @endforeach
+        </ul>
     </div>
 @endsection
 
@@ -134,6 +152,19 @@
             z-index: 99;
             /* opacity: 0.2; */
         }
+
+        .fullscreen2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            z-index: 100;
+            opacity: 0.2;
+        }
     </style>
 @endpush
 
@@ -146,15 +177,19 @@
                 var horizontalLoc = event.clientX
                 var shiftOptionSelect = '';
                 var userID = (this.id).split("-")[0];
-                var startDate = (this.id).split("-")[1];
+                var startDate = parseInt((this.id).split("-")[1]);
                 var month = {{ $month }};
+                var nextDayDate = new Date(`2024-${month}-${startDate}`);
+                var timestamp = nextDayDate.setDate(nextDayDate.getDate() + 1);
+                const date = new Date(timestamp);
+                const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
                 if (this.children[0].innerText == "Off") {
                     @foreach ($shift as $shiftData)
-                        @if ($shiftData->unit_id == $user_data->unit['0']->id)
+                        @if ($shiftData->unit_id == $unit_id_fix AND $shiftData->deleted_at == NULL)
                             shiftOptionSelect = shiftOptionSelect + `<div class="row">
                                     <button type="button" onclick="storeShiftUser(${userID},` + {{ $shiftData->id }} +
-                                `,'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}')" class="border rounded" style="background-color: ` +
+                                `,'2024-${month}-${startDate}','{{ $shiftData->next_day == 1 ? '${formattedDate}' : '2024-${month}-${startDate}' }}' , '${this.id}' )" class="border rounded" style="background-color: ` +
                                 '{{ $shiftData->color }}' + `">
                                         <small class="` +
                                 lightOrDark('{{ $shiftData->color }}') + `">` +
@@ -164,16 +199,23 @@
                         @endif
                     @endforeach
                 } else {
+                    endDateFix = startDate
+                    if (this.dataset.nextday == "true") {
+                        endDateFix = endDateFix + 1
+
+                    }
+                    console.log(`${this.dataset.nextday}`);
                     shiftOptionSelect =
-                        `<div class="row"><button type="button" onclick="deleteShiftUser(${userID},${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}')" class="border rounded" style="background-color: grey"><small class="text-light">` +
+                        `<div class="row"><button type="button" onclick="deleteShiftUser(${userID},${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${endDateFix}', '${this.id}')" class="border rounded" style="background-color: grey"><small class="text-light">` +
                         'Off' + `</small>
                                     </button>
                                 </div>`;
                     @foreach ($shift as $shiftData)
-                        @if ($shiftData->unit_id == $user_data->unit['0']->id)
+                        @if ($shiftData->unit_id == $unit_id_fix AND $shiftData->deleted_at == NULL)
+
                             shiftOptionSelect = shiftOptionSelect +
                                 `<div class="row">
-                                    <button type="button" onclick="storeShiftUser(${userID}, ${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${startDate}', '${this.id}', ` +
+                                    <button type="button" onclick="storeShiftUser(${userID}, ${this.dataset.lastshiftid},'2024-${month}-${startDate}','2024-${month}-${endDateFix}', '${this.id}', ` +
                                 {{ $shiftData->id }} +
                                 ` )" class="border rounded" style="background-color: ` +
                                 '{{ $shiftData->color }}' + `">
@@ -193,7 +235,7 @@
                     `</div>`
                 );
                 const fullScrren = document.getElementById('fullscreen');
-                const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
+                const buttonShiftSelect = document.getElementById('buttonShiftSelect');
                 fullScrren.addEventListener('click', remove, false);
 
                 function remove() {
@@ -209,13 +251,23 @@
         }
 
         function storeShiftUser(userID, shiftID, startDate, endDate, dateID, lastShiftId = 'NULL') {
+            const fullScrren = document.getElementById('fullscreen');
+            const buttonShiftSelect = document.getElementById('buttonShiftSelect');
+            removeButton();
+            $('html').append(
+                `<div class="fullscreen2" id="fullscreen2">
+                    <div class="row h-100 justify-content-center align-items-center">
+                    </div>
+                </div>`
+            );
+            const fullScrren2 = document.getElementById('fullscreen2');
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'Authorization': "Bearer {{ session('token') }}"
                 }
             });
 
-            $.post("{{ url('karu/jadwal') }}", {
+            $.post("{{ env('API_URL') . '/api/v1/shift-user' }}", {
                     user_id: userID,
                     shift_id: shiftID,
                     valid_date_start: startDate,
@@ -223,14 +275,14 @@
                     last_shift_id: lastShiftId
                 },
                 function(data, status, response) {
-                    console.log("Data: " + data + "\nStatus: " + status);
-                    data1 = JSON.parse(data)
-                    if (data1.success == true) {
+                    // console.log("Data: " + data + "\nStatus: " + status);
+                    // console.log(data.data);
+                    if (data.success == true) {
                         remove();
-                        $(`#${dateID}`).css("background-color", `${data1.data.shift_data.color}`);
+                        $(`#${dateID}`).css("background-color", `${data.data.shift_data.color}`);
                         $(`#${dateID}`).children('small').removeClass('text-light');
-                        $(`#${dateID}`).children('small').addClass(lightOrDark(`${data1.data.shift_data.color}`));
-                        $(`#${dateID}`).children('small').html(`${data1.data.shift_data.shift_name}`);
+                        $(`#${dateID}`).children('small').addClass(lightOrDark(`${data.data.shift_data.color}`));
+                        $(`#${dateID}`).children('small').html(`${data.data.shift_data.shift_name}`);
                     } else {
                         alert("Gagal!!! Tolong Hubungi Admin");
                         remove();
@@ -238,24 +290,38 @@
                 },
             );
 
-            const fullScrren = document.getElementById('fullscreen');
-            const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
+
 
             function remove() {
                 fullScrren.parentNode.removeChild(fullScrren);
+                fullScrren2.parentNode.removeChild(fullScrren2);
+            }
+
+            function removeButton() {
                 buttonShiftSelect.parentNode.removeChild(buttonShiftSelect);
             }
         }
 
         function deleteShiftUser(userID, shiftID, startDate, endDate, dateID) {
+            const fullScrren = document.getElementById('fullscreen');
+            const buttonShiftSelect = document.getElementById('buttonShiftSelect');
+            removeButton();
+            $('html').append(
+                `<div class="fullscreen2" id="fullscreen2">
+                    <div class="row h-100 justify-content-center align-items-center">
+                    </div>
+                </div>`
+            );
+            const fullScrren2 = document.getElementById('fullscreen2');
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    // 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'Authorization': "Bearer {{ session('token') }}"
                 }
             });
 
             $.ajax({
-                url: "{{ url('karu/jadwal') }}",
+                url: "{{ env('API_URL') . '/api/v1/shift-user' }}",
                 type: 'DELETE',
                 data: {
                     user_id: userID,
@@ -264,8 +330,8 @@
                     valid_date_end: endDate,
                 },
                 success: function(result) {
-                    var resultResponse = (JSON.parse(result));
-                    if (resultResponse.success) {
+                    // var resultResponse = (JSON.parse(result));
+                    if (result.success) {
                         remove();
                         $(`#${dateID}`).css("background-color", `grey`);
                         $(`#${dateID}`).children('small').addClass('text-light');
@@ -277,15 +343,17 @@
                 },
                 error: function(xhr, status, error) {
                     var err = eval("(" + xhr.responseText + ")");
-                    alert("Gagal!!! App Ini Sedang Dalam Pengembangan, Silahkan Hubungi Hubungi Admin, Error Message: " + err.Message);
+                    alert("Gagal!!! App Ini Sedang Dalam Pengembangan, Silahkan Hubungi Hubungi Admin, Error Message: " +
+                        err.Message);
                 }
             });
 
-            const fullScrren = document.getElementById('fullscreen');
-            const buttonShiftSelect = document.getElementById('buttonShiftSelect');;
-
             function remove() {
                 fullScrren.parentNode.removeChild(fullScrren);
+                fullScrren2.parentNode.removeChild(fullScrren2);
+            }
+
+            function removeButton() {
                 buttonShiftSelect.parentNode.removeChild(buttonShiftSelect);
             }
         }

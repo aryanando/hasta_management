@@ -27,4 +27,8 @@ window.DataTables = DataTables;
 import QRCode from "qrcode";
 window.QRCode = QRCode;
 
+import { Chart } from "chart.js/auto";
+window.Chart = Chart;
 
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+window.ChartDataLabels = ChartDataLabels;
