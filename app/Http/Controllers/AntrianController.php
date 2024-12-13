@@ -19,7 +19,10 @@ class AntrianController extends Controller
             // dd($response1);
         $data = array(
             'dataDokter' => json_decode($response1->body())->data,
-            'dataPoli' => json_decode($response2->body())->data
+            'dataPoli' => json_decode($response2->body())->data,
+            'kode_dokter' => $input['kd_dokter'],
+            'kode_poli' => $input['kd_poli'],
+
         );
 
 

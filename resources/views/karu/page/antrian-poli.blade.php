@@ -138,8 +138,8 @@
         function getDataAntrian() {
             console.log('getting data ..');
 
-            axios.get("{{ env('API_URL') }}" + '/api/v1/antrian/poli?kd_dokter=' + encodeURIComponent('2019009') +
-                    '&kd_poli=' + encodeURIComponent('U0003'), {
+            axios.get("{{ env('API_URL') }}" + '/api/v1/antrian/poli?kd_dokter=' + encodeURIComponent('{{ $kode_dokter }}') +
+                    '&kd_poli=' + encodeURIComponent('{{ $kode_poli }}'), {
                         'headers': {
                             'Authorization': "Bearer {{ session('token') }}"
                         }
@@ -150,6 +150,8 @@
                             .pasien
                             .nm_pasien;
                     }
+                    console.log(response.data.data.panggil);
+
                     var i = 0;
                     var dataAntrian = response.data.data.antrian
                     document.getElementById('listAntrian').innerHTML = ``
