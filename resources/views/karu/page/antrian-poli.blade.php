@@ -166,6 +166,8 @@
                     });
                     if (dataAntrian != null){
                         document.getElementById('jumlahAntrian').innerHTML = dataJumlahAntrian;
+                    }else{
+                        document.getElementById('jumlahAntrian').innerHTML = 0;
                     }
 
                     if (response.data.data.panggil.status == 1) {
