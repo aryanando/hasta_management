@@ -43,7 +43,8 @@
                             <div class="col-5 p-2 rounded-3">
                                 <div style="background-color:rgba(0, 56, 53, 0.911);" class="rounded-3">
                                     {{-- <button onclick="getDataAntrian()">Speak</button> --}}
-                                    <div class="text-center" id="realTimeClock" style="font-size:56px; color:#d0ff61; opacity:1">
+                                    <div class="text-center" id="realTimeClock"
+                                        style="font-size:56px; color:#d0ff61; opacity:1">
                                         Wait ...
                                     </div>
                                 </div>
@@ -191,12 +192,16 @@
 
             if (namaPasien.indexOf("Tn.") !== -1) {
                 namaPasien = namaPasien.replace('Tn.', 'tuan');
+            } else if (namaPasien.indexOf("Tn,") !== -1) {
+                namaPasien = namaPasien.replace('Tn,', 'tuan');
             } else if (namaPasien.indexOf("Ny.") !== -1) {
                 namaPasien = namaPasien.replace('Ny.', 'nyonya');
             } else if (namaPasien.indexOf("Ny,") !== -1) {
                 namaPasien = namaPasien.replace('Ny,', 'nyonya');
             } else if (namaPasien.indexOf("An.") !== -1) {
                 namaPasien = namaPasien.replace('An.', 'anak');
+            } else if (namaPasien.indexOf("An,") !== -1) {
+                namaPasien = namaPasien.replace('An,', 'anak');
             }
 
             responsiveVoice.speak(
