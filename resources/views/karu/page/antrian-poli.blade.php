@@ -164,7 +164,9 @@
                                     </div>
                                 `
                     });
-                    if (dataAntrian != undefined){
+                    // console.log(dataAntrian.length == 0);
+
+                    if (dataAntrian.length != 0){
                         document.getElementById('jumlahAntrian').innerHTML = dataJumlahAntrian;
                     }else{
                         document.getElementById('jumlahAntrian').innerHTML = 0;
