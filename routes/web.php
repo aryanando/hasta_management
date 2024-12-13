@@ -118,7 +118,7 @@ Route::get('/pasien/cari', [PasienController::class, 'index'])->middleware('auth
 Route::get('/pasien/penunjang/operasi/{no_rkm_medis}', [PasienController::class, 'operasi'])->middleware('authapi');
 
 // Antrian Poli --------------------- Antrian Poli
-Route::get('/antrian/poli', [AntrianController::class, 'index'])->middleware('authapi');
+Route::get('/antrian/poli', [AntrianController::class, 'index']);
 
 // Coming Soon --------------------- Coming Soon
 Route::get('/comingsoon', function() {
