@@ -120,6 +120,10 @@ Route::get('/pasien/penunjang/operasi/{no_rkm_medis}', [PasienController::class,
 // Antrian Poli --------------------- Antrian Poli
 Route::get('/antrian/poli', [AntrianController::class, 'index'])->middleware('authapi');
 
+// Coming Soon --------------------- Coming Soon
+Route::get('/comingsoon', function() {
+    return view('page.coming-soon');
+});
 
 Route::get('/dev', function () {
     dd(session('key'));

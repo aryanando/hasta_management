@@ -91,7 +91,7 @@
                                     <div class="card-body">
                                         <div class="d-flex align-items-center justify-content-center"
                                             style="height: 100%">
-                                            <span class="font-weight-bold text-center" style="font-size: 90px">30</span>
+                                            <span class="font-weight-bold text-center" style="font-size: 90px" id="jumlahAntrian">0</span>
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@
                                     </div>
                                     <div class="card-body py-1">
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <img src="https://pngimg.com/uploads/qr_code/qr_code_PNG10.png"
+                                            <img src="{{ url('assets/img/TL9H2g_qrcode.png') }}"
                                                 alt="" srcset="" class="img-fluid">
                                         </div>
                                     </div>
@@ -153,7 +153,8 @@
                     console.log(response.data.data.panggil);
 
                     var i = 0;
-                    var dataAntrian = response.data.data.antrian
+                    var dataAntrian = response.data.data.antrian;
+                    var dataJumlahAntrian = response.data.data.jumlahAntrianLengkap;
                     document.getElementById('listAntrian').innerHTML = ``
                     dataAntrian.forEach(element => {
                         document.getElementById('listAntrian').innerHTML += `
@@ -163,6 +164,9 @@
                                     </div>
                                 `
                     });
+                    if (dataAntrian != null){
+                        document.getElementById('jumlahAntrian').innerHTML = dataJumlahAntrian;
+                    }
 
                     if (response.data.data.panggil.status == 1) {
                         speakDong(capitalizeFirstLetter(response.data.data.panggil.data_reg_priksa.pasien.nm_pasien));
