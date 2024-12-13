@@ -16,12 +16,12 @@ class AntrianController extends Controller
         $response2 = Http::acceptJson()
             ->withToken(session('token'))
             ->get(env('API_URL') . '/api/v1/poliklinik/by-id?kd_poli='.urlencode($input['kd_poli']));
+            dd($response1);
         $data = array(
             'dataDokter' => json_decode($response1->body())->data,
             'dataPoli' => json_decode($response2->body())->data
         );
 
-        // dd($data);
 
         return view('karu.page.antrian-poli', $data);
     }
