@@ -28,19 +28,22 @@
         {{-- @dd($dataPoli) --}}
         <div id="wrapper" class="vh-100">
             <div id="content-wrapper" class="d-flex flex-column">
-                <div id="content" style="background-color: #8a8a8a">
+                <div id="content"
+                    style="background-image: url('{{ url('assets/img/bg.png') }}'); background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;">
                     <div class="container-fluid">
                         {{-- Content Here --}}
-                        <div class="row my-2 py-2 bg-success">
+                        <div class="row my-2 mx-1 py-2 rounded-3" style="background-color:rgba(77, 255, 246, 0.5);">
                             <div class="col-7">
                                 <div style="color: #ff0000; font-size: 56px;" class="font-weight-bold ">
                                     {{ $dataPoli->nm_poli }}
                                 </div>
                             </div>
-                            <div class="col-5 p-2">
-                                <div style="background-color: #00014d">
+                            <div class="col-5 p-2 rounded-3">
+                                <div style="background-color:rgba(0, 56, 53, 0.911);" class="rounded-3">
                                     {{-- <button onclick="getDataAntrian()">Speak</button> --}}
-                                    <div class="text-center" id="realTimeClock" style="font-size:56px; color:#d0ff61">
+                                    <div class="text-center" id="realTimeClock" style="font-size:56px; color:#d0ff61; opacity:1">
                                         Wait ...
                                     </div>
                                 </div>
@@ -48,7 +51,7 @@
                         </div>
                         <div class="row">
                             <div class="col-5">
-                                <div class="card">
+                                <div class="card" style="opacity: 0.9;">
 
                                     <div class="card-body d-flex align-items-center justify-content-center"
                                         style="height: 160px">
@@ -59,7 +62,7 @@
                                         Status Ada
                                     </div> --}}
                                 </div>
-                                <div class="card mt-2">
+                                <div class="card mt-2" style="opacity: 0.9;">
                                     <div class="card-header font-weight-bold">
                                         ANTRIAN ATAS NAMA :
                                     </div>
@@ -80,7 +83,7 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-3">
-                                <div class="card" style="height: 300px">
+                                <div class="card" style="height: 300px; opacity: 0.9;">
                                     <div class="card-header py-1">
                                         JUMLAH ANTRIAN
                                     </div>
@@ -93,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                                <div class="card" style="height: 300px">
+                                <div class="card" style="height: 300px; opacity: 0.9;">
                                     <div class="card-header py-1">
                                         LIHAT ANTRIAN LENGKAP :
                                     </div>
@@ -105,7 +108,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-7">
+                            <div class="col-7" style="opacity: 0.9;">
                                 <div class="card">
                                     <div class="card-body" id="listAntrian">
                                         <div class="row" style="font-size: 50px">
@@ -142,7 +145,8 @@
                     })
                 .then(response => {
                     if (response.data.data.panggil != null) {
-                        document.getElementById('namaRead').innerHTML = response.data.data.panggil.data_reg_priksa.pasien
+                        document.getElementById('namaRead').innerHTML = response.data.data.panggil.data_reg_priksa
+                            .pasien
                             .nm_pasien;
                     }
                     var i = 0;
