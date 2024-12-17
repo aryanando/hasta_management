@@ -77,7 +77,7 @@
                             <div class="col-7 border p-1 d-flex align-items-center justify-content-center">
                                 <div class="ratio ratio-16x9">
                                     <iframe
-                                        src="https://www.youtube.com/embed/AdAANcYQKG8?si=cU5FF-TtXeWnREWl&autoplay=1&mute=1"
+                                        src="https://www.youtube.com/embed/AdAANcYQKG8?si=cU5FF-TtXeWnREWl&autoplay=1&mute=1&loop=1"
                                         title="YouTube video"></iframe>
                                 </div>
                             </div>
