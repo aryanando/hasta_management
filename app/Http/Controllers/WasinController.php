@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Exports\AttendanceExport;
+use App\Exports\ShiftTotalExport;
 use App\Exports\BulananExport;
 use App\Exports\AbsensiExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -20,7 +21,11 @@ class WasinController extends Controller
     {
         $month = $request->input('month', date('m')); // Default Bulan
         $day = $request->input('day', date('d')); // Default Hari
+        $year = $request->input('year', date('Y')); // Default Tahun
 
+        $data['month'] = $month;
+        $data['year'] = $year;
+        $data['day'] = $day;
         $data['page_info'] = [
             'title' => 'Wasin - Dashboard',
             'active_page' => 'dashboard',
@@ -61,6 +66,41 @@ class WasinController extends Controller
             ->get();
 
         $data['total_absen'] = $data['absen_shift']->sum('total_checkins');
+
+        // Monthly Shift Report
+        $columns = [];
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); // Total days in the month
+
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $dayDate = sprintf('%s-%s-%02d', $year, $month, $i);
+            $columns[] = "COUNT(CASE WHEN DATE(usif.valid_date_start) = '$dayDate' THEN usif.valid_date_start END) AS `{$i}`";
+        }
+
+        $columnSql = implode(', ', $columns);
+
+        $data['shift_bulanan'] = DB::table('user_shifts as usif')
+            ->select(
+                DB::raw("
+                CASE 
+                    WHEN sf.shift_name LIKE '%Pagi%' OR sf.shift_name LIKE '%Nol%' OR sf.shift_name LIKE '%non%' THEN 'Nol + Pagi'
+                    WHEN sf.shift_name LIKE '%Mid%' OR sf.shift_name LIKE '%extra%' THEN 'Middle'
+                    WHEN sf.shift_name LIKE '%Siang%' OR sf.shift_name LIKE '%Sore%' THEN 'Siang + Sore'
+                    WHEN sf.shift_name LIKE '%Malam%' THEN 'Malam'
+                    WHEN sf.shift_name LIKE '%OC%' OR sf.shift_name LIKE '%On Call%' THEN 'ON CALL (OK) +  ON CALL Lain'
+                    WHEN sf.shift_name LIKE '%Cadangan%' THEN 'Driver Cadangan'
+                    WHEN sf.shift_name LIKE '%Supervisi%' OR sf.shift_name LIKE '%Wasdal%' OR sf.shift_name LIKE '%SP%' THEN 'Wasdal + Supervisi'
+                    ELSE sf.shift_name
+                END AS shift_category,
+                $columnSql
+            ")
+            )
+            ->join('users as us', 'us.id', '=', 'usif.user_id')
+            ->join('shifts as sf', 'sf.id', '=', 'usif.shift_id')
+            ->whereRaw('MONTH(usif.valid_date_start) = ?', [$month])
+            ->groupBy('shift_category')
+            ->orderBy(DB::raw("FIELD(shift_category, 'Nol + Pagi', 'Middle', 'Siang + Sore', 'Malam', 'ON CALL (OK) +  ON CALL Lain', 'Driver Cadangan', 'Wasdal + Supervisi', 'Other')"))
+            ->get();
+
 
         return view('wasin.index', $data);
     }
@@ -270,6 +310,47 @@ class WasinController extends Controller
         $selectedUnit = $request->input('unit');
         $selectedDate = $request->input('date', date('Y-m-d'));
         return Excel::download(new AbsensiExport($selectedUnit, $selectedDate), 'absensi_report.xlsx');
+    }
+    public function exportShiftBulanan(Request $request)
+    {
+        $month = $request->input('month', date('m'));
+        $year = $request->input('year', date('Y'));
+
+        // Retrieve the shift data (you can reuse the logic you already have in index function)
+        $columns = [];
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+
+        for ($i = 1; $i <= $daysInMonth; $i++) {
+            $dayDate = sprintf('%s-%s-%02d', $year, $month, $i);
+            $columns[] = "COUNT(CASE WHEN DATE(usif.valid_date_start) = '$dayDate' THEN usif.valid_date_start END) AS `{$i}`";
+        }
+
+        $columnSql = implode(', ', $columns);
+
+        $shiftData = DB::table('user_shifts as usif')
+            ->select(
+                DB::raw("
+                CASE 
+                    WHEN sf.shift_name LIKE '%Pagi%' OR sf.shift_name LIKE '%Nol%' OR sf.shift_name LIKE '%non%' THEN 'Nol + Pagi'
+                    WHEN sf.shift_name LIKE '%Mid%' OR sf.shift_name LIKE '%extra%' THEN 'Middle'
+                    WHEN sf.shift_name LIKE '%Siang%' OR sf.shift_name LIKE '%Sore%' THEN 'Siang + Sore'
+                    WHEN sf.shift_name LIKE '%Malam%' THEN 'Malam'
+                    WHEN sf.shift_name LIKE '%OC%' OR sf.shift_name LIKE '%On Call%' THEN 'ON CALL (OK) +  ON CALL Lain'
+                    WHEN sf.shift_name LIKE '%Cadangan%' THEN 'Driver Cadangan'
+                    WHEN sf.shift_name LIKE '%Supervisi%' OR sf.shift_name LIKE '%Wasdal%' OR sf.shift_name LIKE '%SP%' THEN 'Wasdal + Supervisi'
+                    ELSE sf.shift_name
+                END AS shift_category,
+                $columnSql
+            ")
+            )
+            ->join('users as us', 'us.id', '=', 'usif.user_id')
+            ->join('shifts as sf', 'sf.id', '=', 'usif.shift_id')
+            ->whereRaw('MONTH(usif.valid_date_start) = ?', [$month])
+            ->groupBy('shift_category')
+            ->orderBy(DB::raw("FIELD(shift_category, 'Nol + Pagi', 'Middle', 'Siang + Sore', 'Malam', 'ON CALL (OK) +  ON CALL Lain', 'Driver Cadangan', 'Wasdal + Supervisi', 'Other')"))
+            ->get();
+
+        return Excel::download(new ShiftTotalExport($shiftData, $month, $year), 'shift_Bulan-'. $month .'.xlsx');
     }
 
 

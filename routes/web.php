@@ -80,6 +80,7 @@ Route::get('/wasinexport', [WasinController::class, 'exportLaporan'])->middlewar
 Route::get('/wasin/harian', [WasinController::class, 'absensi_harian'])->middleware('authapi');
 Route::get('/change', [WasinController::class, 'index'])->name('change')->middleware('authapi');
 Route::get('/absen_unit', [WasinController::class, 'absensi_harian'])->name('absen_unit')->middleware('authapi');
+Route::get('/export-shift-total', [WasinController::class, 'exportShiftBulanan'])->name('export_shift_total');
 Route::get('/export-absensi', [WasinController::class, 'exportHarian'])->name('export_absensi')->middleware('authapi');
 Route::get('/absensi-laporan', [WasinController::class, 'absensi_laporan'])->name('absensi_laporan')->middleware('authapi');
 Route::get('/absensi-export', [WasinController::class, 'exportLaporan'])->name('absensi_export');

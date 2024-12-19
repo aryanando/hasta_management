@@ -62,6 +62,57 @@
     </table>
 
     <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            Total Shift Bulan Ini
+            <form action="{{ route('export_shift_total') }}" method="GET" class="mb-0">
+                <button type="submit" class="btn btn-success">Export to Excel</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id='dataTable'>
+                <thead>
+                    <tr>
+                        <th>Shift</th>
+                        @for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++)
+                            <th>{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</th>
+                        @endfor
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($shift_bulanan as $report)
+                        <tr>
+                            <td>{{ $report->shift_category }}</td>
+                            @for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++)
+                                <td>{{ $report->{$i} ?? 0 }}</td>
+                            @endfor
+                            <td>{{ collect(range(1, cal_days_in_month(CAL_GREGORIAN, $month, $year)))->sum(fn($day) => $report->{$day} ?? 0) }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        @for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN, $month, $year); $i++)
+                            <th>{{ $shift_bulanan->sum(fn($report) => $report->{$i} ?? 0) }}</th>
+                        @endfor
+                        <th>{{ collect($shift_bulanan)->sum(function ($report) use ($month, $year) {
+                            return collect(range(1, cal_days_in_month(CAL_GREGORIAN, $month, $year)))->sum(function ($day) use ($report) {
+                                return $report->{$day} ?? 0;
+                            });
+                        }) }}
+
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div class="card">
         <div class="card-header">
             Export Laporan Kehadiran
         </div>
@@ -143,6 +194,18 @@
                 var baseUrl = '{{ route('absensi_export') }}';
                 exportButton.href = baseUrl + '?export=1&month=' + selectedMonth;
             });
+        });
+    </script>
+    <script type="module">
+        var DataTabless = new DataTables('#dataTable', {
+            responsive: true,
+            paging: false,
+            retrieve: true,
+            buttons: [{
+                extend: 'excelHtml5',
+                text: 'Export to Excel',
+                className: 'btn btn-success'
+            }]
         });
     </script>
 @endpush

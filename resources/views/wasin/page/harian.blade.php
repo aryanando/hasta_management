@@ -8,7 +8,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <!-- Filter Form -->
                 <form id="filterForm" class="d-flex">
-                    <div class="form-group mb-0 me-2">
+                    <div class="form-gr oup mb-0 me-2">
                         <label for="unitSelect" class="form-label sr-only">Select Unit</label>
                         <select class="form-control form-control-solid" id="unitSelect" name="unit">
                             <option value="">All Units</option>
